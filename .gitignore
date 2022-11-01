@@ -34,3 +34,11 @@ hdrLibraries/
 romf/richter.motion/yamlist.exe
 
 romf/richter.motion/Labels.txt
+
+*.prc
+
+*.prcx
+
+romf/ui/param/database/notes.txt
+
+*.msbt

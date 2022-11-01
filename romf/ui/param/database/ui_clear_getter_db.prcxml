@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <struct>
-  <list hash="fighter_param_table">
+  <list hash="db_root">
     <hash40 index="0">dummy</hash40>
     <hash40 index="1">dummy</hash40>
     <hash40 index="2">dummy</hash40>
@@ -37,7 +37,10 @@
     <hash40 index="33">dummy</hash40>
     <hash40 index="34">dummy</hash40>
     <hash40 index="35">dummy</hash40>
-    <hash40 index="36">dummy</hash40>
+    <struct index="36">
+      <hash40 hash="ui_chara_id">ui_chara_simon</hash40>
+      <byte hash="chara_color">1</byte>
+    </struct>
     <hash40 index="37">dummy</hash40>
     <hash40 index="38">dummy</hash40>
     <hash40 index="39">dummy</hash40>
@@ -90,52 +93,50 @@
     <hash40 index="86">dummy</hash40>
     <hash40 index="87">dummy</hash40>
     <hash40 index="88">dummy</hash40>
-    <struct index="89">
-      <float hash="walk_accel_mul">0.3</float>
-      <float hash="walk_accel_add">0.1</float>
-      <float hash="walk_speed_max">0.96</float>
-      <float hash="run_speed_max">1.7</float>
-      <float hash="dash_speed">1.9</float>
-
-      <float hash="jump_speed_x">0.8</float>
-      <float hash="jump_speed_x_mul">0.8</float>
-      <float hash="jump_speed_x_max">1.1</float>
-      <float hash="jump_aerial_speed_x_mul">0.8</float>
-
-      <float hash="jump_initial_y">17.0</float>
-      <float hash="jump_y">34.0</float>
-      <float hash="mini_jump_y">16.0</float>
-      <float hash="jump_aerial_y">34.0</float>
-
-      <float hash="air_accel_x_mul">0.05</float>
-      <float hash="air_accel_x_add">0.01</float>
-      <float hash="air_speed_x_stable">1.01</float>
-      <float hash="air_brake_x">0.02</float>
-
-      <float hash="air_accel_y">0.075</float>
-      <float hash="air_speed_y_stable">1.45</float>
-      <float hash="air_brake_y">0.01</float>
-      <float hash="dive_speed_y">2.75</float>
-
-      <float hash="weight">80</float>
-      <float hash="landing_attack_air_frame_n">14</float>
-      <float hash="landing_attack_air_frame_f">10</float>
-      <float hash="landing_attack_air_frame_b">10</float>
-      <float hash="landing_attack_air_frame_hi">10</float>
-      <float hash="landing_attack_air_frame_lw">26</float>
-		<!-- 1.08 for Belmont posture -->
-      <float hash="scale">1.03</float>	  
-      <float hash="shield_radius">1.03</float>	 
-
-      <bool hash="squat_walk_type">false</bool>
-      <float hash="height">18</float>
-      <float hash="expand_height">22</float>
-
-      <float hash="passive_wall_jump_y_speed">2.4</float>
-    </struct>
+    <hash40 index="89">dummy</hash40>
     <hash40 index="90">dummy</hash40>
     <hash40 index="91">dummy</hash40>
     <hash40 index="92">dummy</hash40>
     <hash40 index="93">dummy</hash40>
+    <hash40 index="94">dummy</hash40>
+    <hash40 index="95">dummy</hash40>
+    <hash40 index="96">dummy</hash40>
+    <hash40 index="97">dummy</hash40>
+    <hash40 index="98">dummy</hash40>
+    <hash40 index="99">dummy</hash40>
+    <hash40 index="100">dummy</hash40>
+    <hash40 index="101">dummy</hash40>
+    <hash40 index="102">dummy</hash40>
+    <hash40 index="103">dummy</hash40>
+    <hash40 index="104">dummy</hash40>
+    <hash40 index="105">dummy</hash40>
+    <hash40 index="106">dummy</hash40>
+    <hash40 index="107">dummy</hash40>
+    <hash40 index="108">dummy</hash40>
+    <hash40 index="109">dummy</hash40>
+    <hash40 index="110">dummy</hash40>
+    <hash40 index="111">dummy</hash40>
+    <hash40 index="112">dummy</hash40>
+    <hash40 index="113">dummy</hash40>
+    <hash40 index="114">dummy</hash40>
+    <hash40 index="115">dummy</hash40>
+    <hash40 index="116">dummy</hash40>
+    <hash40 index="117">dummy</hash40>
+    <hash40 index="118">dummy</hash40>
+    <hash40 index="119">dummy</hash40>
+    <hash40 index="120">dummy</hash40>
+    <hash40 index="121">dummy</hash40>
+    <hash40 index="122">dummy</hash40>
+    <hash40 index="123">dummy</hash40>
+  </list>
+  <list hash="complte_prize">
+    <hash40 index="0">dummy</hash40>
+    <hash40 index="1">dummy</hash40>
+    <hash40 index="2">dummy</hash40>
+    <hash40 index="3">dummy</hash40>
+    <hash40 index="4">dummy</hash40>
+    <hash40 index="5">dummy</hash40>
+    <hash40 index="6">dummy</hash40>
+    <hash40 index="7">dummy</hash40>
   </list>
 </struct>

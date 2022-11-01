@@ -125,7 +125,7 @@
       <float hash="landing_attack_air_frame_lw">26</float>
 		<!-- 1.08 for Belmont posture -->
       <float hash="scale">1.03</float>	  
-      <float hash="shield_radius">1.03</float>	 
+      <float hash="shield_radius">12.2</float>	 
 
       <bool hash="squat_walk_type">false</bool>
       <float hash="height">18</float>

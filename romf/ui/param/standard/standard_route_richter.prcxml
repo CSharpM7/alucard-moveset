@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<struct>
+  <list hash="route">
+    <struct index="0">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_zelda</hash40>
+          <int hash="cpu_rank_adjust">0</int>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_zelda_hyrule</hash40>
+          <hash40 hash="bgm_id">ui_bgm_c09_tno_medley</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_noasisst</hash40>
+    </struct>
+    <struct index="1">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_peach</hash40>
+          <int hash="cpu_rank_adjust">5</int>
+          <hash40 hash="cpu_tag">cpu_gp_normal</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_mario_castledx</hash40>
+          <hash40 hash="bgm_id">ui_bgm_a69_sm64_maintheme</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_few2</hash40>
+    </struct>
+    <struct index="2">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_chrom</hash40>
+          <int hash="cpu_rank_adjust">7</int>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_lucina</hash40>
+          <int hash="chara_color">0</int>
+          <hash40 hash="color_type">standard_color_fix</hash40>
+          <hash40 hash="team_kind">team_blue</hash40>
+          <int hash="cpu_rank_adjust">7</int>
+          <hash40 hash="handicap">level_0</hash40>
+          <hash40 hash="special_tag">special_default</hash40>
+          <hash40 hash="mii_tag">mii_default</hash40>
+          <hash40 hash="cpu_tag">cpu_gp_normal</hash40>
+          <bool hash="only_2p">false</bool>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_fe_arena</hash40>
+          <hash40 hash="form_type">form_normal</hash40>
+          <hash40 hash="bgm_id">ui_bgm_j39_ksi_i_i</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_normal2</hash40>
+    </struct>
+    <struct index="3">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_dedede</hash40>
+          <int hash="cpu_rank_adjust">15</int>
+          <hash40 hash="cpu_tag">cpu_gp_at_sm_sp</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_kirby_greens</hash40>
+          <bool hash="gimmick">false</bool>
+          <hash40 hash="bgm_id">ui_bgm_f02_kby_dededeounotheme</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_many</hash40>
+    </struct>
+    <struct index="4">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_krool</hash40>
+          <int hash="cpu_rank_adjust">20</int>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_dk_lodge</hash40>
+          <hash40 hash="form_type">form_battle</hash40>
+          <hash40 hash="bgm_id">ui_bgm_b24_spr_thepirateship</hash40>
+        </struct>
+      </list>
+    </struct>
+    <struct index="5">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_koopa</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_mario_newbros2</hash40>
+          <bool hash="gimmick">false</bool>
+          <hash40 hash="bgm_id">ui_bgm_a84_smb3_maoukuppa</hash40>
+        </struct>
+      </list>
+    </struct>
+    <struct index="6">
+      <list hash="fighter">
+        <hash40 index="0">dummy</hash40>
+      </list>
+      <list hash="stage">
+        <hash40 index="0">dummy</hash40>
+      </list>
+    </struct>
+    <struct index="7">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_simon</hash40>
+          <int hash="chara_color">1</int>
+          <int hash="cpu_rank_adjust">10</int>
+          <hash40 hash="cpu_tag">cpu_gp_at_sm_sp</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_mewtwo_masterhand</hash40>
+          <int hash="chara_color">0</int>
+          <hash40 hash="color_type">standard_color_fix</hash40>
+          <hash40 hash="team_kind">team_blue</hash40>
+          <int hash="cpu_rank_adjust">10</int>
+          <hash40 hash="handicap">level_0</hash40>
+          <hash40 hash="special_tag">special_default</hash40>
+          <hash40 hash="mii_tag">mii_default</hash40>
+          <hash40 hash="cpu_tag"></hash40>
+          <bool hash="only_2p">false</bool>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="bgm_id">ui_bgm_ad14_gl_keishou_kekkonnoketsuzoku</hash40>
+          <hash40 hash="bgm2_id">ui_bgm_ad19_ju_danceofillusions</hash40>
+        </struct>
+      </list>
+    </struct>
+  </list>
+  <list hash="route_2p">
+    <struct index="0">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_zelda</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_zelda</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_zelda_hyrule</hash40>
+          <hash40 hash="bgm_id">ui_bgm_c09_tno_medley</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_noasisst</hash40>
+    </struct>
+    <struct index="1">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_peach</hash40>
+          <hash40 hash="cpu_tag">cpu_gp_normal</hash40>
+        </struct>
+        <struct index="1">
+          <int hash="chara_color">0</int>
+          <hash40 hash="cpu_tag">cpu_gp_normal</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_mario_castledx</hash40>
+          <hash40 hash="bgm_id">ui_bgm_a69_sm64_maintheme</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_few2</hash40>
+    </struct>
+    <struct index="2">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_chrom</hash40>
+        </struct>
+        <struct index="1">
+          <int hash="chara_color">0</int>
+          <bool hash="only_2p">false</bool>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_fe_arena</hash40>
+          <hash40 hash="form_type">form_normal</hash40>
+          <hash40 hash="bgm_id">ui_bgm_j39_ksi_i_i</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_normal2</hash40>
+    </struct>
+    <struct index="3">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_dedede</hash40>
+          <hash40 hash="cpu_tag">cpu_gp_at_sm_sp</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_dedede</hash40>
+          <hash40 hash="cpu_tag">cpu_gp_at_sm_sp</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_kirby_greens</hash40>
+          <bool hash="gimmick">false</bool>
+          <hash40 hash="bgm_id">ui_bgm_f02_kby_dededeounotheme</hash40>
+        </struct>
+      </list>
+      <hash40 hash="item_tag">item_standard_many</hash40>
+    </struct>
+    <struct index="4">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_krool</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_krool</hash40>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_dk_lodge</hash40>
+          <hash40 hash="form_type">form_battle</hash40>
+          <hash40 hash="bgm_id">ui_bgm_b24_spr_thepirateship</hash40>
+        </struct>
+      </list>
+    </struct>
+    <struct index="5">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_koopa</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_koopa</hash40>
+          <bool hash="only_2p">false</bool>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="stage_id">ui_stage_mario_newbros2</hash40>
+          <bool hash="gimmick">false</bool>
+          <hash40 hash="bgm_id">ui_bgm_a84_smb3_maoukuppa</hash40>
+        </struct>
+      </list>
+    </struct>
+    <struct index="6">
+      <list hash="fighter">
+        <hash40 index="0">dummy</hash40>
+      </list>
+      <list hash="stage">
+        <hash40 index="0">dummy</hash40>
+      </list>
+    </struct>
+    <struct index="7">
+      <list hash="fighter">
+        <struct index="0">
+          <hash40 hash="chara_id">ui_chara_simon</hash40>
+          <int hash="chara_color">1</int>
+          <int hash="cpu_rank_adjust">10</int>
+          <hash40 hash="cpu_tag">cpu_gp_at_sm_sp</hash40>
+        </struct>
+        <struct index="1">
+          <hash40 hash="chara_id">ui_chara_mewtwo_masterhand</hash40>
+          <int hash="chara_color">0</int>
+          <hash40 hash="color_type">standard_color_fix</hash40>
+          <hash40 hash="team_kind">team_blue</hash40>
+          <int hash="cpu_rank_adjust">10</int>
+          <hash40 hash="handicap">level_0</hash40>
+          <hash40 hash="special_tag">special_default</hash40>
+          <hash40 hash="mii_tag">mii_default</hash40>
+          <hash40 hash="cpu_tag"></hash40>
+          <bool hash="only_2p">false</bool>
+        </struct>
+      </list>
+      <list hash="stage">
+        <struct index="0">
+          <hash40 hash="bgm_id">ui_bgm_ad14_gl_keishou_kekkonnoketsuzoku</hash40>
+          <hash40 hash="bgm2_id">ui_bgm_ad19_ju_danceofillusions</hash40>
+        </struct>
+      </list>
+    </struct>
+  </list>
+</struct>

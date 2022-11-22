@@ -447,7 +447,7 @@ list:
       unk_100: false
       unk_200: false
       unk_400: false
-    blend_frames: 3
+    blend_frames: 1
     animations:
       - name: a02run.nuanmb
         unk: 0

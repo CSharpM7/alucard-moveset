@@ -41,6 +41,7 @@ use smashline::*;
 
 #[skyline::main(name = "smashline_alucard")]
 pub fn main() {
+    println!("[smashline_alucard::main] Who calls me?");
     richter::install();
     unsafe{
 	skyline::nn::ro::LookupSymbol(&mut FIGHTER_CUTIN_MANAGER_ADDR, c_str!("_ZN3lib9SingletonIN3app19FighterCutInManagerEE9instance_E"));

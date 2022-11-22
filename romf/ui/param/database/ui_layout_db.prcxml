@@ -139,6 +139,8 @@
       <float hash="chara_3_6_offset_y">-200</float>
       <float hash="chara_3_7_offset_x">0</float>
       <float hash="chara_3_7_offset_y">-153</float>
+	  
+      <float hash="chara_7_1_offset_y">-10</float>
     </struct>
     <hash40 index="94">dummy</hash40>
     <hash40 index="95">dummy</hash40>

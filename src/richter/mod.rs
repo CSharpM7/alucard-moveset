@@ -5,6 +5,7 @@ mod upair;
 mod forwardtilt;
 mod forwardair;
 mod forwardsmash;
+mod throws;
 mod opff;
 mod status;
 
@@ -15,6 +16,7 @@ pub fn install() {
     forwardair::install();
     backair::install();
     upair::install();
+    throws::install();
     opff::install();
     status::install();
 }

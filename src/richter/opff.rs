@@ -125,33 +125,26 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
             //sys_aura_dark!!!
             //sys_damage_curse?
             //sys_damage_purple?
-            /*
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                println!("!");
                 app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_assist_steam_max"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_damage_fire"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                println!("!");
                 app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_aura_dark"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 5.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_flame"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                println!("!");
                 app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_attack_smoke"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 5.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_misfire"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-                println!("!");
                 app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_damage_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_bomb_main"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                println!("!");
                 app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_piyo"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_hit_purples"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
-            */
         }         
     }
 }

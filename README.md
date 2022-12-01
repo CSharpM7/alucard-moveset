@@ -53,7 +53,9 @@
 - [X] DownThrow (Hitbox adjustment)
 
 ### Specials
-- [ ] Hellfire Functionality
+- [X] Hellfire Functionality
+- [ ] Aerial Hellfire?
+- [ ] Hellfire Anims
 - [ ] Aerial Hellfire
 - [ ] Dark Dive Grab
 - [ ] Soul of Bat

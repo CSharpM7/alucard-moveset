@@ -9,7 +9,7 @@ unsafe fn richter_throw_lw_game(fighter: &mut L2CAgentBase) {
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH, 0, 3.0, 361, 105, 0, 40, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);
     }
     frame(lua_state, 10.0);
-    FT_MOTION_RATE(fighter, 1.5);
+    FT_MOTION_RATE(fighter, 1.25);
     frame(lua_state, 19.0);
     FT_MOTION_RATE(fighter, 0.5);
     frame(lua_state, 21.0);

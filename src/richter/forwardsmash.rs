@@ -20,6 +20,8 @@ unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
         FT_MOTION_RATE(fighter, 1.0);
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_START_SMASH_HOLD);
     }
+    frame(lua_state, 7.0);
+    FT_MOTION_RATE(fighter, 1.0);
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         
@@ -50,12 +52,8 @@ unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
         FT_MOTION_RATE(fighter, 1.0);
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_START_SMASH_HOLD);
     }
-    /*
-    frame(lua_state, 22.0);
-    if is_excute(fighter) {
-        SEARCH(fighter, 0, 0, Hash40::new("top"), 3.0, 0.0, 7.0, 17.0, 0.0, 7.0, 45.5, *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
-    }
-    */
+    frame(lua_state, 7.0);
+    FT_MOTION_RATE(fighter, 1.0);
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         
@@ -86,6 +84,8 @@ unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
         FT_MOTION_RATE(fighter, 1.0);
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_START_SMASH_HOLD);
     }
+    frame(lua_state, 7.0);
+    FT_MOTION_RATE(fighter, 1.0);
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         

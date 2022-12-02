@@ -10,8 +10,9 @@
 
 ### Model
 
-- [ ] Expressions 😭 / Steal from Marth/Byleth/Corrin
-- [ ] Rig fingers / Steal from Sephiroth 
+- [X] Expressions
+- [ ] Rig fingers 😭 / Steal from Sephiroth 
+- [ ] Steal wings from Kazuya
 
 ### Article Models
 
@@ -26,14 +27,14 @@
 ### Tilts
 - [X] Ftilt Hitboxes
 - [ ] Ftilt Anims
-- [ ] Angled Ftilts
+- [ ] Angled Ftilts?
 - [ ] Uptilt
-- [ ] Downtilt
+- [X] Downtilt
 - [ ] Dash attacks
 - [ ] Sounds/Effects
 
 ### Smashes
-- [X] Fsmashs
+- [X] Fsmashes
 - [ ] UpSmash summon article / anim
 - [ ] UpSmash 
 - [ ] DownSmash Effects
@@ -42,12 +43,12 @@
 
 ### Aerials
 - [X] Fair Hitboxes
-- [ ] Bair
+- [X] Bair
 - [ ] Upair
 - [X] Dair...is just Belmont Dair
 
 ### Throws
-- [ ] FThrow
+- [X] FThrow
 - [ ] BThrow
 - [ ] UpThrow (Effect)
 - [X] DownThrow (Hitbox adjustment)
@@ -56,7 +57,6 @@
 - [X] Hellfire Functionality
 - [ ] Aerial Hellfire?
 - [ ] Hellfire Anims
-- [ ] Aerial Hellfire
 - [ ] Dark Dive Grab
 - [ ] Soul of Bat
 - [X] Holy Water

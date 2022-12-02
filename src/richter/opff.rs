@@ -61,7 +61,7 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
             }
             */
             println!("{}",damageDealt);
-            if (damageDealt<=3.0){return; }
+            if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
             META_HEALED[entry]=true;
             DamageModule::heal(boma,damageDealt/-5.0,0);
         }

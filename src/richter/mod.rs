@@ -3,6 +3,7 @@ mod jab;
 mod backair;
 mod upair;
 mod downair;
+mod downtilt;
 mod forwardtilt;
 mod forwardair;
 mod forwardsmash;
@@ -19,6 +20,7 @@ pub fn install() {
     backair::install();
     upair::install();
     downair::install();
+    downtilt::install();
     neutralspecial::install();
     throws::install();
     opff::install();

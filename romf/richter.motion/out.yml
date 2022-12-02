@@ -2267,7 +2267,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 45
+      cancel_frame: 28
       no_stop_intp: true
   attack_lw32:
     game_script: game_attacklw32

@@ -505,28 +505,6 @@ list:
       - sound_attacks3
       - effect_attacks3
     extra: ~
-  attack_hi3:
-    game_script: game_attackhi3
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c02attackhi3.nuanmb
-        unk: 0
-    scripts:
-      - sound_attackhi3
-      - effect_attackhi3
-    extra: ~
   attack_lw3:
     game_script: game_attacklw3
     flags:

@@ -133,7 +133,7 @@
       <float hash="rot_speed">0.0</float>
       <float hash="throw_angle_stick_back">0.0</float>
       <float hash="throw_angle_stick_front">0.0</float>
-      <float hash="throw_speed_stick_back">20.0</float>
+      <float hash="throw_speed_stick_back">10.0</float>
       <float hash="throw_speed_stick_front">20.0</float>
       <int hash="life">90</int>
       <int hash="hop_life">1</int>

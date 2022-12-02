@@ -1164,10 +1164,7 @@
     <hash40 index="1160">dummy</hash40>
     <hash40 index="1161">dummy</hash40>
     <hash40 index="1162">dummy</hash40>
-    <struct index="1163">
-      <uint hash="disp_order">3707</uint>
-      <hash40 hash="key_0">ui_chara_richter</hash40>
-    </struct>
+    <hash40 index="1163">dummy</hash40>
     <hash40 index="1164">dummy</hash40>
     <hash40 index="1165">dummy</hash40>
     <hash40 index="1166">dummy</hash40>

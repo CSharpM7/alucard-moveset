@@ -8,6 +8,7 @@ mod forwardtilt;
 mod forwardair;
 mod forwardsmash;
 mod neutralspecial;
+mod neutralair;
 mod throws;
 mod opff;
 mod status;
@@ -22,6 +23,7 @@ pub fn install() {
     downair::install();
     downtilt::install();
     neutralspecial::install();
+    neutralair::install();
     throws::install();
     opff::install();
     status::install();

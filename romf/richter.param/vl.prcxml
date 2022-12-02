@@ -193,9 +193,9 @@
   </list>
   <list hash="param_special_lw">
     <struct index="0">
-      <float hash="throw_angle_ground">-20.0</float>
+      <float hash="throw_angle_ground">-21.0</float>
       <float hash="throw_speed_ground">3.0</float>
-      <float hash="throw_angle_air">-20.0</float>
+      <float hash="throw_angle_air">-52.0</float>
       <float hash="throw_speed_air">3.0</float>
     </struct>
     <hash40 index="1">dummy</hash40>

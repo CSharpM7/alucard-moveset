@@ -45,10 +45,33 @@ unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
         AttackModule::clear_all(boma);
     }
 }
+#[acmd_script( agent = "richter", script = "effect_throwf" , category = ACMD_EFFECT , low_priority)]
+unsafe fn richter_throw_f_effect(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    frame(lua_state, 13.0);
+    FT_MOTION_RATE(fighter, 1.0);
+    if is_excute(fighter) {
+        EFFECT_FOLLOW_NO_STOP(fighter, Hash40::new("sys_attack_speedline"), Hash40::new("top"), 0, 10.0, 3.5, 0, 5, 0, 0.625, true);
+    }
+}
+#[acmd_script( agent = "richter", script = "expression_throwf" , category = ACMD_EXPRESSION , low_priority)]
+unsafe fn richter_throw_f_expression(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    if is_excute(fighter) {
+        slope!(fighter,*MA_MSC_CMD_SLOPE_SLOPE, *SLOPE_STATUS_LR);
+        }
+    frame(lua_state, 15.0);
+    if is_excute(fighter) {
+        QUAKE(fighter, *CAMERA_QUAKE_KIND_S);
+        ControlModule::set_rumble(fighter.module_accessor,Hash40::new("rbkind_attackm"), 0, false, 0);
+    }
+}
 
 pub fn install() {
     install_acmd_scripts!(
         richter_throw_lw_game,
-        richter_throw_f_game
+        richter_throw_f_game,
+        richter_throw_f_effect,
+        richter_throw_f_expression
     );
 }

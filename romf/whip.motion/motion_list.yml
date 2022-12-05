@@ -785,11 +785,11 @@ list:
       unk_400: false
     blend_frames: 0
     animations:
-      - name: c05attackairbhi.nuanmb
+      - name: c05attackairb.nuanmb
         unk: 0
     scripts:
-      - sound_attackairbhi
-      - effect_attackairbhi
+      - sound_attackairb
+      - effect_attackairb
     extra: ~
   attack_air_b:
     game_script: game_attackairb
@@ -829,11 +829,11 @@ list:
       unk_400: false
     blend_frames: 0
     animations:
-      - name: c05attackairblw.nuanmb
+      - name: c05attackairb.nuanmb
         unk: 0
     scripts:
-      - sound_attackairblw
-      - effect_attackairblw
+      - sound_attackairb
+      - effect_attackairb
     extra: ~
   attack_air_hi:
     game_script: game_attackairhi

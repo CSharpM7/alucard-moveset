@@ -9,8 +9,6 @@ Cargo.lock
 
 Script.md
 
-release/OldBearNewTricks.7z
-
 release/plugin.nro
 
 .devcontainer/
@@ -29,12 +27,6 @@ hdrLibraries/
 
 *.ps1
 
-*.stprmxml
-
-romf/richter.motion/yamlist.exe
-
-romf/richter.motion/Labels.txt
-
 *.prc
 
 *.prcx
@@ -43,11 +35,3 @@ romf/ui/param/database/notes.txt
 
 *.msbt
 
-romf/whip.motion/yamlist.pdb
-
-romf/whip.motion/yamlist.exe
-
-romf/whip.motion/Labels.txt
-
-
-romf/whip.motion/_motion_list.bin

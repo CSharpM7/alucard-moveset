@@ -208,8 +208,8 @@
       <float hash="pos_offset_y">-0.4</float>
       <int hash="fire_pillar_life_frame">45</int>
       <float hash="fire_pillar_speed_y">0.1</float>
-      <float hash="fire_pillar_gravity_accel">0.06</float>
-      <float hash="fire_pillar_gravity_accel_max">0.8</float>
+      <float hash="fire_pillar_gravity_accel">0.25</float>
+      <float hash="fire_pillar_gravity_accel_max">1.0</float>
       <float hash="fire_pillar_scale_min">0.0</float>
     </struct>
     <hash40 index="1">dummy</hash40>

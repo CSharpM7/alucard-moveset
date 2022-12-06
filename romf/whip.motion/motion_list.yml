@@ -835,28 +835,6 @@ list:
       - sound_attackairb
       - effect_attackairb
     extra: ~
-  attack_air_hi:
-    game_script: game_attackairhi
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c05attackairhi.nuanmb
-        unk: 0
-    scripts:
-      - sound_attackairhi
-      - effect_attackairhi
-    extra: ~
   landing_air_n:
     game_script: game_landingairn
     flags:
@@ -922,28 +900,6 @@ list:
     scripts:
       - sound_landingairb
       - effect_landingairb
-    extra: ~
-  landing_air_hi:
-    game_script: game_landingairhi
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c05landingairhi.nuanmb
-        unk: 0
-    scripts:
-      - sound_landingairhi
-      - effect_landingairhi
     extra: ~
   special_hi:
     game_script: game_specialhi

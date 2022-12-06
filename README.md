@@ -12,7 +12,8 @@
 
 - [X] Expressions
 - [ ] Rig fingers 😭 / Steal from Sephiroth 
-- [ ] Steal wings from Kazuya
+- [ ] Rexture Wings
+- [ ] Match Wing UVs with Bat UVs?
 
 ### Article Models
 
@@ -20,7 +21,7 @@
 
 ### Jab
 - [ ] Jab 1 and 2 Animation
-- [ ] Gentlemen / Rapid Jab Animation
+- [ ] Gentleman / Rapid Jab Animation
 - [ ] Hitboxes
 - [ ] Effects
 
@@ -30,7 +31,7 @@
 - [ ] Angled Ftilts?
 - [ ] Uptilt
 - [X] Downtilt
-- [ ] Dash attacks
+- [ ] Dash attack
 - [ ] Sounds/Effects
 
 ### Smashes
@@ -44,12 +45,12 @@
 ### Aerials
 - [X] Fair Hitboxes
 - [X] Bair
-- [ ] Upair
+- [X] Upair
 - [X] Dair...is just Belmont Dair
 
 ### Throws
 - [X] FThrow
-- [ ] BThrow
+- [ ] BThrow?
 - [ ] UpThrow (Effect)
 - [X] DownThrow (Hitbox adjustment)
 

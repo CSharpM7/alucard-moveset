@@ -15,14 +15,16 @@ unsafe fn richter_attack_s3_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
     frame(lua_state, 1.0);
-    FT_MOTION_RATE(fighter, 0.5);
-    frame(lua_state, 8.0);
     FT_MOTION_RATE(fighter, 1.0);
-    frame(lua_state, 12.0);
+    frame(lua_state, 3.0);
+    FT_MOTION_RATE(fighter, 1.0);
+    /*
+    frame(lua_state, 7.0);
     if is_excute(fighter) {
         SEARCH(fighter, 0, 0, Hash40::new("top"), 2.3, 0.0, ORIGIN_Y, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y), Some(LENGTH+ORIGIN_X), *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
     }
-    frame(lua_state, 13.0);
+    */
+    frame(lua_state, 8.0);
     if is_excute(fighter) {
         ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, 2.3, 0.0, ORIGIN_Y, LENGTH+ORIGIN_X, None, None, None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 

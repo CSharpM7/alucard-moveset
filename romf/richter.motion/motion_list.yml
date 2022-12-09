@@ -1842,7 +1842,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -1862,7 +1862,34 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 30
+      cancel_frame: 32
+      no_stop_intp: false
+  attack_13:
+    game_script: game_attack13
+    flags:
+      turn: false
+      loop: false
+      move: true
+      fix_trans: false
+      fix_rot: false
+      fix_scale: false
+      unk_40: false
+      unk_80: true
+      unk_100: false
+      unk_200: false
+      unk_400: false
+    blend_frames: 0
+    animations:
+      - name: c00attack13.nuanmb
+        unk: 0
+    scripts:
+      - expression_attack13
+      - sound_attack13
+      - effect_attack13
+    extra:
+      xlu_start: 0
+      xlu_end: 0
+      cancel_frame: 35
       no_stop_intp: false
   attack_100_start:
     game_script: game_attack100start
@@ -2186,7 +2213,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 55
+      cancel_frame: 44
       no_stop_intp: true
   attack_s3_s:
     game_script: game_attacks3
@@ -2240,7 +2267,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 38
+      cancel_frame: 34
       no_stop_intp: false
   attack_lw3:
     game_script: game_attacklw3
@@ -3084,7 +3111,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -3111,7 +3138,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -3138,7 +3165,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -3165,7 +3192,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -3192,7 +3219,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false
@@ -3219,7 +3246,7 @@ list:
     flags:
       turn: false
       loop: false
-      move: false
+      move: true
       fix_trans: false
       fix_rot: false
       fix_scale: false

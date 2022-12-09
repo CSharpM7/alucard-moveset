@@ -72,6 +72,7 @@
     <struct index="68">
       <hash40 hash="fighter_type">fighter_type_normal</hash40>
       <hash40 hash="alt_chara_id"></hash40>
+      <byte hash="color_num">1</byte>
     </struct>
     <hash40 index="69">dummy</hash40>
     <hash40 index="70">dummy</hash40>

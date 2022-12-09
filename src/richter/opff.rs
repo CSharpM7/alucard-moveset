@@ -14,19 +14,25 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         *FIGHTER_STATUS_KIND_ATTACK_S3,
         *FIGHTER_STATUS_KIND_ATTACK_S4,
         *FIGHTER_STATUS_KIND_ATTACK_LW3,
-        *FIGHTER_STATUS_KIND_ATTACK_DASH,
-        *FIGHTER_STATUS_KIND_ATTACK_100
+        *FIGHTER_STATUS_KIND_ATTACK_LW4,
+        *FIGHTER_STATUS_KIND_ATTACK_DASH
     ].contains(&status);
     if (!swordAttack)
     {
         let motion = MotionModule::motion_kind(boma);
         if (status == *FIGHTER_STATUS_KIND_ATTACK_AIR)
         {
-            swordAttack = fighter.is_motion(Hash40::new("attack_air_hi"))
+            swordAttack = fighter.is_motion(Hash40::new("attack_air_b"))
             || fighter.is_motion(Hash40::new("attack_air_f"))
             || fighter.is_motion(Hash40::new("attack_air_f_hi"))
             || fighter.is_motion(Hash40::new("attack_air_f_lw"));
         }
+        else
+        {
+            swordAttack = fighter.is_motion(Hash40::new("attack_13")) ||
+            fighter.is_motion(Hash40::new("attack_100_end"));
+        }
+        
     }
     if (!swordAttack)
     {
@@ -34,7 +40,7 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         {
             let mut frameloss = META_PUNISH;
             META_FRAME[entry]=0.max(META_FRAME[entry]-frameloss);
-            EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.0, true, 0, 0, 0, 0, 0, false, false);
+            EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.25, true, 0, 0, 0, 0, 0, false, false);
         }
         META_HEALED[entry]=false;
     }
@@ -63,7 +69,7 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
             println!("{}",damageDealt);
             if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
             META_HEALED[entry]=true;
-            DamageModule::heal(boma,damageDealt/-5.0,0);
+            DamageModule::heal(boma,damageDealt/-7.5,0);
         }
     }
 }
@@ -114,37 +120,39 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
     if true {
         let status_kind = StatusModule::status_kind(fighter.module_accessor);
         if status_kind == *FIGHTER_STATUS_KIND_APPEAL {
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                if META_FRAME[entry] == 0 { 
-                    META_FRAME[entry]=META_MAX;
-                    DamageModule::add_damage(boma, 50.0,0);
-                }
-            }
             //sys_attack_smoke
             //sys_hit_curse
             //sys_aura_dark!!!
             //sys_damage_curse?
             //sys_damage_purple?
+            //sys_deathscythe_trace_smash
+
+            //sys_greenshell_trace
+            //sys_assist_out
+            if true && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                if META_FRAME[entry] == 0 { 
+                    META_FRAME[entry]=META_MAX;
+                    DamageModule::add_damage(boma, 50.0,0);
+                }
+            }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_damage_fire"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_aura"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_flame"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_shadow"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_misfire"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
-            }
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-                app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_bomb_main"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball"), Hash40::new("top"), &Vector3f::zero(), &Vector3f{x: 0.0, y: 0.0, z: 270.0}, 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                app::FighterUtil::flash_eye_info(boma);
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_hit_purples"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball_attack"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
+
+            if false && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball_set"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+            }
+
+
         }         
     }
 }

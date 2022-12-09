@@ -175,8 +175,8 @@ list:
       - sound_rebound
       - effect_rebound
     extra: ~
-  attack_11:
-    game_script: game_attack11
+  attack_13:
+    game_script: game_attack13
     flags:
       turn: false
       loop: false
@@ -196,28 +196,6 @@ list:
     scripts:
       - sound_attack11
       - effect_attack11
-    extra: ~
-  attack_12:
-    game_script: game_attack12
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c00attack12.nuanmb
-        unk: 0
-    scripts:
-      - sound_attack12
-      - effect_attack12
     extra: ~
   attack_100_start:
     game_script: game_attack100start
@@ -240,28 +218,6 @@ list:
     scripts:
       - sound_attack100start
       - effect_attack100start
-    extra: ~
-  attack_100:
-    game_script: game_attack100
-    flags:
-      turn: false
-      loop: true
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c00attack100.nuanmb
-        unk: 0
-    scripts:
-      - sound_attack100
-      - effect_attack100
     extra: ~
   attack_100_end:
     game_script: game_attack100end
@@ -521,7 +477,7 @@ list:
       unk_400: false
     blend_frames: 0
     animations:
-      - name: c02attacklw3.nuanmb
+      - name: c01attacks3s.nuanmb
         unk: 0
     scripts:
       - sound_attacklw3
@@ -614,50 +570,6 @@ list:
     scripts:
       - sound_attacks4charge
       - effect_attacks4charge
-    extra: ~
-  attack_hi4:
-    game_script: game_attackhi4
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c04attackhi4.nuanmb
-        unk: 0
-    scripts:
-      - sound_attackhi4
-      - effect_attackhi4
-    extra: ~
-  attack_hi4_hold:
-    game_script: game_attackhi4charge
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: c04attackhi4charge.nuanmb
-        unk: 0
-    scripts:
-      - sound_attackhi4charge
-      - effect_attackhi4charge
     extra: ~
   attack_lw4:
     game_script: game_attacklw4

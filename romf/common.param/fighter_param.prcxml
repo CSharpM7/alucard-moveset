@@ -91,6 +91,8 @@
     <hash40 index="87">dummy</hash40>
     <hash40 index="88">dummy</hash40>
     <struct index="89">
+      <int hash="attack_combo_max">3</int>
+
       <float hash="walk_accel_mul">0.3</float>
       <float hash="walk_accel_add">0.1</float>
       <float hash="walk_speed_max">0.96</float>

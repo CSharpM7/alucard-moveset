@@ -26,7 +26,7 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     let fkb=135;
     let z=6.5;
     let angle=15;
-    let damage=4.0;
+    let damage=6.0;
     let shield_damage=10;
     //frame(lua_state, FRAME_SPAWN);
     if is_excute(fighter) {
@@ -49,7 +49,7 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, FRAME_ATTACK);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
-        ATTACK(fighter, 0, 0, Hash40::new("throw"), 15.0, 86, 91, 0, 40, 3.5, 0.0, LENGTH/1.5, 0.0, Some(0.0), Some(LENGTH+1.0), Some(0.0), 1.3, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("throw"), 14.0, 86, 90, 0, 45, 3.5, 0.0, LENGTH/1.5, 0.0, Some(0.0), Some(LENGTH+1.0), Some(0.0), 1.3, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
     }
     wait(lua_state, 6.0);
     if is_excute(fighter) {

@@ -37,6 +37,7 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
         ATK_SET_SHIELD_SETOFF_MUL(fighter,0, 3.0);
         ATK_SET_SHIELD_SETOFF_MUL(fighter,1, 3.0);
         ATK_SET_SHIELD_SETOFF_MUL(fighter,2, 3.0);
+        AttackModule::set_no_damage_fly_smoke_all(fighter.module_accessor, true, false);
     }
     wait(lua_state, 2.0);
     if is_excute(fighter) {
@@ -48,13 +49,13 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, FRAME_ATTACK);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
-        ATTACK(fighter, 1, 0, Hash40::new("throw"), 15.0, 86, 91, 0, 40, 3.5, 0.0, LENGTH/1.5, 0.0, Some(0.0), Some(LENGTH+1.0), Some(0.0), 1.4, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("throw"), 15.0, 86, 91, 0, 40, 3.5, 0.0, LENGTH/1.5, 0.0, Some(0.0), Some(LENGTH+1.0), Some(0.0), 1.3, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
     }
     wait(lua_state, 6.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 1, 0, Hash40::new("throw"), 10.0, 86, 60, 0, 60, 3.25, 0.0, LENGTH, 0.0, None,None,None, 1.0, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("throw"), 9.0, 90, 60, 0, 60, 3.25, 0.0, LENGTH, 0.0, None,None,None, 1.0, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
     }
-    wait(lua_state, 5.0);
+    wait(lua_state, 7.0);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
     }

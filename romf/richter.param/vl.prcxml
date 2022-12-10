@@ -168,14 +168,14 @@
   <list hash="param_cross">
     <struct index="0">
       <float hash="rot_speed">0.0</float>
-      <int hash="life">1</int>
-      <int hash="life_flick">1</int>
+      <int hash="life">115</int>
+      <int hash="life_flick">115</int>
       <float hash="rot_speed_flick">0.0</float>
-      <float hash="speed">2.0</float>
-      <float hash="speed_flick">2.0</float>
+      <float hash="speed">0.0</float>
+      <float hash="speed_flick">0.0</float>
       <float hash="attack_mul_flick">1.0</float>
-      <int hash="turn_frame">100</int>
-      <int hash="turn_frame_flick">100</int>
+      <int hash="turn_frame">3</int>
+      <int hash="turn_frame_flick">3</int>
       <int hash="turn_stay_frame">1</int>
       <int hash="speed_comp_frame">1</int>
       <int hash="turn_speed_comp_frame">1</int>
@@ -185,6 +185,12 @@
     <hash40 index="2">dummy</hash40>
     <hash40 index="3">dummy</hash40>
   </list>
+  <struct hash="map_collision_cross">
+    <hash40 hash="shape_type">grcorrect_shape_rhombus</hash40>
+    <float hash="up">1</float>
+    <float hash="down">-1</float>
+    <float hash="half_width">1</float>
+  </struct>
   <list hash="param_special_hi">
     <hash40 index="0">dummy</hash40>
     <hash40 index="1">dummy</hash40>

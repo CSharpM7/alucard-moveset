@@ -14,7 +14,6 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         *FIGHTER_STATUS_KIND_ATTACK_S3,
         *FIGHTER_STATUS_KIND_ATTACK_S4,
         *FIGHTER_STATUS_KIND_ATTACK_LW3,
-        *FIGHTER_STATUS_KIND_ATTACK_LW4,
         *FIGHTER_STATUS_KIND_ATTACK_DASH
     ].contains(&status);
     if (!swordAttack)
@@ -79,17 +78,20 @@ unsafe fn metamorphosis_update(fighter: &mut L2CFighterCommon, boma: &mut Battle
         META_FRAME[entry]=(META_FRAME[entry]-1).max(0);
         metamorphosis_check_heal(fighter,boma,entry);
     }
-    metamorphosis_effects(boma,entry);
+    metamorphosis_effects(fighter,boma,entry);
 }
 
-unsafe fn metamorphosis_effects(boma: &mut BattleObjectModuleAccessor,entry: usize) {
+unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
     if META_FRAME[entry] > 0 && META_EFFECT[entry] == -1 {
         app::FighterUtil::flash_eye_info(boma);
         let handle = EffectModule::req_follow(boma, Hash40::new("sys_aura_dark"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 4.0, true, 0, 0, 0, 0, 0, false, false) as u32;
         META_EFFECT[entry] = handle as i32;
 		EffectModule::set_rgb(boma,handle, 1.0, 0.0, 0.0);
         
-        EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+        //EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+        //EffectModule::req_follow(boma, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 0.75, true, 0, 0, 0, 0, 0, false, false);
+        EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+        LAST_EFFECT_SET_RATE(fighter,1.75);
         //PLAY_SE(get_fighter_common_from_accessor(boma), Hash40::new("vc_pichu_final01"));
         //PLAY_SE(get_fighter_common_from_accessor(boma), Hash40::new("se_pichu_final02"));
     }
@@ -126,6 +128,8 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
             //sys_damage_curse?
             //sys_damage_purple?
             //sys_deathscythe_trace_smash
+            //richter_final_coffin_vacuum
+            //richter_final_coffin_start
 
             //sys_greenshell_trace
             //sys_assist_out
@@ -136,20 +140,20 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
                 }
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_aura"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_cross_hit"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_shadow"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_cross_hit2"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball"), Hash40::new("top"), &Vector3f::zero(), &Vector3f{x: 0.0, y: 0.0, z: 270.0}, 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball_attack"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_bg"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
 
             if false && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_blackball_set"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_coffin_start"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
 
 

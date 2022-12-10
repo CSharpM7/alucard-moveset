@@ -10,7 +10,7 @@ const DAMAGE: f32 = 10.0;
 const BKB: i32 = 65;
 const KBG: i32 = 65;
 
-#[acmd_script( agent = "richter", script = "game_attacks3" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attacks3" , category = ACMD_GAME )]
 unsafe fn richter_attack_s3_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

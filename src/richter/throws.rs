@@ -1,6 +1,6 @@
 use super::*;
 
-#[acmd_script( agent = "richter", script = "game_catch" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_catch" , category = ACMD_GAME )]
 unsafe fn richter_catch_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -31,7 +31,7 @@ unsafe fn richter_catch_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_catchdash" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_catchdash" , category = ACMD_GAME )]
 unsafe fn richter_catch_dash_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -62,7 +62,7 @@ unsafe fn richter_catch_dash_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_catchturn" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_catchturn" , category = ACMD_GAME )]
 unsafe fn richter_catch_turn_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -95,7 +95,7 @@ unsafe fn richter_catch_turn_game(fighter: &mut L2CAgentBase) {
 
 
 
-#[acmd_script( agent = "richter", script = "game_throwlw" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_throwlw" , category = ACMD_GAME )]
 unsafe fn richter_throw_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -120,7 +120,7 @@ unsafe fn richter_throw_lw_game(fighter: &mut L2CAgentBase) {
     }
 }
 /*
-#[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME )]
 unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -141,7 +141,7 @@ unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     }
 }
 */
-#[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME )]
 unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -167,7 +167,7 @@ unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_throwf" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_throwf" , category = ACMD_EFFECT )]
 unsafe fn richter_throw_f_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     frame(lua_state, 13.0);
@@ -176,7 +176,7 @@ unsafe fn richter_throw_f_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW_NO_STOP(fighter, Hash40::new("sys_attack_speedline"), Hash40::new("top"), 0, 10.0, 3.5, 0, 5, 0, 0.625, true);
     }
 }
-#[acmd_script( agent = "richter", script = "expression_throwf" , category = ACMD_EXPRESSION , low_priority)]
+#[acmd_script( agent = "richter", script = "expression_throwf" , category = ACMD_EXPRESSION )]
 unsafe fn richter_throw_f_expression(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     if is_excute(fighter) {
@@ -189,7 +189,7 @@ unsafe fn richter_throw_f_expression(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_throwhi" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_throwhi" , category = ACMD_GAME )]
 unsafe fn richter_throw_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

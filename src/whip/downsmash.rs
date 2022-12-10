@@ -1,10 +1,10 @@
 use super::*;
 
-#[acmd_script( agent = "richter_whip", script = "game_attacklw4" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter_whip", script = "game_attacklw4" , category = ACMD_GAME )]
 unsafe fn whip_attack_lw4_game(fighter: &mut L2CAgentBase) {
 
 }
-#[acmd_script( agent = "richter_whip", script = "effect_attacklw4" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter_whip", script = "effect_attacklw4" , category = ACMD_EFFECT )]
 unsafe fn whip_attack_lw4_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     
@@ -24,7 +24,7 @@ unsafe fn whip_attack_lw4_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_purple"), Hash40::new("top"), 0.0, 3.0, 30.0, 0, 0, 0, 1, true);
     }
 }
-#[acmd_script( agent = "richter_whip", script = "effect_attacklw4charge" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter_whip", script = "effect_attacklw4charge" , category = ACMD_EFFECT )]
 unsafe fn whip_attack_lw4_charge_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 

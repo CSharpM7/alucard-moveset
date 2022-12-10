@@ -1,7 +1,7 @@
 
 use super::*;
 
-#[acmd_script( agent = "richter", script = "game_specials1" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_specials1" , category = ACMD_GAME )]
 unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -32,7 +32,7 @@ unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
         FighterAreaModuleImpl::enable_fix_jostle_area_xy(boma, 7.0, 7.0, 7.5, 7.5);
     }
 }
-#[acmd_script( agent = "richter", script = "game_specialairs1" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_specialairs1" , category = ACMD_GAME )]
 unsafe fn richter_special_air_s_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

@@ -1,10 +1,10 @@
 use super::*;
 
-#[acmd_script( agent = "richter_whip", script = "game_throwhi" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter_whip", script = "game_throwhi" , category = ACMD_GAME )]
 unsafe fn whip_throw_hi_game(fighter: &mut L2CAgentBase) {
 
 }
-#[acmd_script( agent = "richter_whip", script = "effect_throwhi" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter_whip", script = "effect_throwhi" , category = ACMD_EFFECT )]
 unsafe fn whip_throw_hi_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

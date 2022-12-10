@@ -1,6 +1,6 @@
 use super::*;
 
-#[acmd_script( agent = "richter", script = "effect_appeallwl" , category = ACMD_EFFECT, low_priority)]
+#[acmd_script( agent = "richter", script = "effect_appeallwl" , category = ACMD_EFFECT)]
 unsafe fn richter_tauntlw_l_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -12,7 +12,7 @@ unsafe fn richter_tauntlw_l_effect(fighter: &mut L2CAgentBase) {
         LAST_EFFECT_SET_RATE(fighter, 0.75);
     }
 }
-#[acmd_script( agent = "richter", script = "effect_appeallwr" , category = ACMD_EFFECT, low_priority)]
+#[acmd_script( agent = "richter", script = "effect_appeallwr" , category = ACMD_EFFECT)]
 unsafe fn richter_tauntlw_r_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

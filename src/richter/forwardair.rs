@@ -10,7 +10,7 @@ const DAMAGE: f32 = 10.0;
 const BKB: i32 = 55;
 const KBG: i32 = 80;
 
-#[acmd_script( agent = "richter", script = "game_attackairfhi" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attackairfhi" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_f_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -45,7 +45,7 @@ unsafe fn richter_attack_air_f_hi_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_attackairf" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attackairf" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_f_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -80,7 +80,7 @@ unsafe fn richter_attack_air_f_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_attackairflw" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attackairflw" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_f_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

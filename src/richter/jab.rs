@@ -1,7 +1,7 @@
 use super::*;
 const LENGTH: f32 = 15.0;
 
-#[acmd_script( agent = "richter", script = "game_attack11" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attack11" , category = ACMD_GAME )]
 unsafe fn richter_attack_11_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();frame(lua_state, 5.0);
@@ -28,12 +28,12 @@ unsafe fn richter_attack_11_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "sound_attack11" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attack11" , category = ACMD_SOUND )]
 unsafe fn richter_attack_11_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
 }
-#[acmd_script( agent = "richter", script = "effect_attack11" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attack11" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_11_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -48,7 +48,7 @@ unsafe fn richter_attack_11_effect(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_attack12" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attack12" , category = ACMD_GAME )]
 unsafe fn richter_attack_12_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();frame(lua_state, 5.0);
@@ -67,12 +67,12 @@ unsafe fn richter_attack_12_game(fighter: &mut L2CAgentBase) {
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_ENABLE_100);
     }
 }
-#[acmd_script( agent = "richter", script = "sound_attack12" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attack12" , category = ACMD_SOUND )]
 unsafe fn richter_attack_12_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
 }
-#[acmd_script( agent = "richter", script = "effect_attack12" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attack12" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_12_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -94,7 +94,7 @@ unsafe fn richter_attack_12_effect(fighter: &mut L2CAgentBase) {
 }
 
 
-#[acmd_script( agent = "richter", script = "game_attack13" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attack13" , category = ACMD_GAME )]
 unsafe fn richter_attack_13_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();frame(lua_state, 5.0);
@@ -108,7 +108,7 @@ unsafe fn richter_attack_13_game(fighter: &mut L2CAgentBase) {
         AttackModule::clear_all(boma);
     }
 }
-#[acmd_script( agent = "richter", script = "sound_attack13" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attack13" , category = ACMD_SOUND )]
 unsafe fn richter_attack_13_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -125,7 +125,7 @@ unsafe fn richter_attack_13_sound(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_attack13" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attack13" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_13_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -150,7 +150,7 @@ unsafe fn richter_attack_13_effect(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "expression_attack13" , category = ACMD_EXPRESSION , low_priority)]
+#[acmd_script( agent = "richter", script = "expression_attack13" , category = ACMD_EXPRESSION )]
 unsafe fn richter_attack_13_expression(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -176,7 +176,7 @@ unsafe fn richter_attack_13_expression(fighter: &mut L2CAgentBase) {
 
 
 
-#[acmd_script( agent = "richter", script = "game_attack100" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attack100" , category = ACMD_GAME )]
 unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -225,13 +225,13 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
 		}
 	});
 }
-#[acmd_script( agent = "richter", script = "sound_attack100" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attack100" , category = ACMD_SOUND )]
 unsafe fn richter_attack_100_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     
 }
 
-#[acmd_script( agent = "richter", script = "effect_attack100" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attack100" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_100_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -239,7 +239,7 @@ unsafe fn richter_attack_100_effect(fighter: &mut L2CAgentBase) {
 
 
 
-#[acmd_script( agent = "richter", script = "game_attack100end" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attack100end" , category = ACMD_GAME )]
 unsafe fn richter_attack_100end_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();frame(lua_state, 5.0);

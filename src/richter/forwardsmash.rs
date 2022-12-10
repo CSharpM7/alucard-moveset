@@ -8,7 +8,7 @@ const DAMAGE: f32 = 15.0;
 const BKB: i32 = 60;
 const KBG: i32 = 80;
 
-#[acmd_script( agent = "richter", script = "game_attacks4hi" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attacks4hi" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -40,7 +40,7 @@ unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_attacks4" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attacks4" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -72,7 +72,7 @@ unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_attacks4lw" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attacks4lw" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -104,7 +104,7 @@ unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "sound_attacks4hi" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attacks4hi" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_hi_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -123,7 +123,7 @@ unsafe fn richter_attack_s4_hi_sound(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "sound_attacks4" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attacks4" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -142,7 +142,7 @@ unsafe fn richter_attack_s4_sound(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "sound_attacks4lw" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attacks4lw" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_lw_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -161,7 +161,7 @@ unsafe fn richter_attack_s4_lw_sound(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_attacks4hi" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attacks4hi" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_hi_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -179,7 +179,7 @@ unsafe fn richter_attack_s4_hi_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW(fighter, Hash40::new("richter_whip_straight"), Hash40::new("haver"), 0, 0, 0, 0, 65, 0, 1.3, true);
     }
 }
-#[acmd_script( agent = "richter", script = "effect_attacks4" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attacks4" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -197,7 +197,7 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW(fighter, Hash40::new("richter_whip_straight"), Hash40::new("haver"), 0, 0, 0, 0, 65, 0, 1.3, true);
     }
 }
-#[acmd_script( agent = "richter", script = "effect_attacks4lw" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attacks4lw" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_lw_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

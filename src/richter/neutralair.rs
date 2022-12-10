@@ -6,7 +6,7 @@ const KBG:[i32;2] =  [85,80];
 const ANGLE:u64 = 361;
 const STARTUP: f32 = 7.0;
 
-#[acmd_script( agent = "richter", script = "game_attackairn" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attackairn" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_n_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -39,7 +39,7 @@ unsafe fn richter_attack_air_n_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "sound_attackairn" , category = ACMD_SOUND , low_priority)]
+#[acmd_script( agent = "richter", script = "sound_attackairn" , category = ACMD_SOUND )]
 unsafe fn richter_attack_air_n_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     /*
@@ -53,7 +53,7 @@ unsafe fn richter_attack_air_n_sound(fighter: &mut L2CAgentBase) {
         PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"));
     }
 }
-#[acmd_script( agent = "richter", script = "effect_attackairn" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attackairn" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_air_n_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();

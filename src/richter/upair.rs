@@ -1,6 +1,6 @@
 use super::*;
 
-#[acmd_script( agent = "richter", script = "game_attackairhi" , category = ACMD_GAME , low_priority)]
+#[acmd_script( agent = "richter", script = "game_attackairhi" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.boma();
@@ -49,7 +49,7 @@ unsafe fn richter_attack_air_hi_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_attackairhi" , category = ACMD_EFFECT , low_priority)]
+#[acmd_script( agent = "richter", script = "effect_attackairhi" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_air_hi_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     frame(lua_state, 8.0);

@@ -15,54 +15,54 @@
 - [ ] Rexture Wings
 - [ ] Match Wing UVs with Bat UVs?
 
-### Article Models
-
-- [ ] Sword Familiar
+- [ ] Shield Model
 
 ### Jab
 - [ ] Jab 1 and 2 Animation
 - [ ] Gentleman / Rapid Jab Animation
-- [ ] Hitboxes
 - [ ] Effects
+- [ ] Sounds
 
 ### Tilts
 - [X] Ftilt Hitboxes
 - [ ] Ftilt Anims
 - [ ] Angled Ftilts?
-- [ ] Uptilt
+- [X] Uptilt
 - [X] Downtilt
 - [ ] Dash attack
 - [ ] Sounds/Effects
 
 ### Smashes
 - [X] Fsmashes
-- [ ] UpSmash summon article / anim
-- [ ] UpSmash 
-- [ ] DownSmash Effects
-- [ ] DownSmash
+- [X] UpSmash 
+- [X] DownSmash
 - [ ] Sounds/Effects
 
 ### Aerials
-- [X] Fair Hitboxes
+- [X] Fair
 - [X] Bair
 - [X] Upair
 - [X] Dair...is just Belmont Dair
+- [ ] Sounds/Effects
 
 ### Throws
 - [X] FThrow
 - [ ] BThrow?
-- [ ] UpThrow (Effect)
+- [X] UpThrow (Effect)
 - [X] DownThrow (Hitbox adjustment)
 
 ### Specials
 - [X] Hellfire Functionality
 - [ ] Aerial Hellfire?
+- [ ] Inferno?
 - [ ] Hellfire Anims
 - [ ] Dark Dive Grab
 - [ ] Soul of Bat
 - [X] Holy Water
+- [ ] Holy Water Moving
 
 ### Misc
 - [ ] Final Smash
 - [ ] Entry
 - [ ] Idle Animations
+- [ ] Shield Animations

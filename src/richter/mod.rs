@@ -1,5 +1,6 @@
 use super::*;
 mod jab;
+mod dashattack;
 mod backair;
 mod upair;
 mod downair;
@@ -20,6 +21,7 @@ mod status;
 
 pub fn install() {
     jab::install();
+    dashattack::install();
     forwardtilt::install();
     forwardsmash::install();
     forwardair::install();

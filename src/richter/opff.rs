@@ -8,6 +8,9 @@ static mut META_EFFECT:[i32;8] = [-1; 8];
 const META_MAX: i32 = 1800;
 const META_PUNISH: i32 = 60;
 
+static mut BAT_INPUT_X:[f32;8] = [0.0; 8];
+static mut BAT_INPUT_Y:[f32;8] = [0.0; 8];
+
 unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
     let status = StatusModule::status_kind(fighter.module_accessor);
     let mut swordAttack = [
@@ -54,17 +57,6 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         if (swordAttack)
         {
             let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
-            //Why do these have to be hardcoded...
-            /*
-            if (status == *FIGHTER_STATUS_KIND_ATTACK_DASH)
-            {
-                damageDealt=6.0;
-            }
-            else if (status == *FIGHTER_STATUS_KIND_ATTACK_LW3)
-            {
-                damageDealt=6.0;
-            }
-            */
             println!("{}",damageDealt);
             if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
             META_HEALED[entry]=true;
@@ -105,6 +97,41 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
     }
 }
 
+
+unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
+    if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {return;}
+    
+    let currentFrame = fighter.motion_frame();
+    if (currentFrame < 5.0)
+    {
+        app::FighterUtil::flash_eye_info(fighter.module_accessor);
+    }
+    if (currentFrame < 20.0)
+    {
+        BAT_INPUT_X[entry] = ControlModule::get_stick_x(boma);
+        BAT_INPUT_Y[entry] = ControlModule::get_stick_y(boma);
+    }
+    else if (currentFrame < 30.0)
+    {
+        GroundModule::attach_ground(boma, false);
+        fighter.set_situation(SITUATION_KIND_AIR.into());
+        let mut stick_x: f32 = ControlModule::get_stick_x(boma);
+        let mut stick_y: f32 = ControlModule::get_stick_y(boma);
+        if (stick_x.abs() < 0.1 && stick_y.abs() < 0.1)
+        {
+            stick_x = 0.0;
+            stick_y = 1.0;
+        }
+        let normalized = sv_math::vec2_normalize(stick_x, stick_y);
+        let lr = PostureModule::lr(boma);
+        let motion_factor = 1.0;
+
+        //ControlModule::get_stick_angle(module_accessor)
+        SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
+    }
+}
+
+
 unsafe fn on_rebirth(fighter: &mut L2CFighterCommon,entry: usize)
 {
     META_FRAME[entry]=0;
@@ -140,16 +167,18 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
                 }
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_cross_hit"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_deathscythe_shadow"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                LAST_EFFECT_SET_COLOR(fighter,1,0,0);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_cross_hit2"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_trace_smash"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
                 EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_bg"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_start"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                LAST_EFFECT_SET_RATE(fighter,1.75);
             }
 
             if false && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
@@ -170,6 +199,7 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
         
         metamorphosis_update(fighter,boma,entry);
         training_cheat(fighter,boma,entry);
+        bat_control(fighter,boma,entry);
 
         if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
         {

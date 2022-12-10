@@ -14,6 +14,7 @@ mod forwardsmash;
 mod neutralair;
 mod neutralspecial;
 mod sidespecial;
+mod upspecial;
 mod throws;
 mod taunts;
 mod opff;
@@ -34,6 +35,7 @@ pub fn install() {
     uptilt::install();
     neutralspecial::install();
     sidespecial::install();
+    upspecial::install();
     neutralair::install();
     taunts::install();
     throws::install();

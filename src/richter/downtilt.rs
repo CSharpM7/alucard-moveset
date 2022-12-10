@@ -1,7 +1,7 @@
 use super::*;
 const LENGTH: f32 = 15.0;
 const ORIGIN_X: f32 = 8.0;
-const ORIGIN_Y: f32 = 0.0;
+const ORIGIN_Y: f32 = 1.0;
 const ORIGIN_Y_OFFSET: f32 = 3.0;
 const ANGLE_OFFSET: f32 = 4.0;
 

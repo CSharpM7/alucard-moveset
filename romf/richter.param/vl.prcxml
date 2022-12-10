@@ -186,7 +186,19 @@
     <hash40 index="3">dummy</hash40>
   </list>
   <list hash="param_special_hi">
-    <hash40 index="0">dummy</hash40>
+    <struct index="0">
+      <float hash="start_x_mul_ground">0.0</float>
+      <float hash="start_x_mul_air">0.0</float>
+      <float hash="start_y_mul_air">0.0</float>
+      <float hash="accel_y_air">0.0</float>
+      <float hash="limit_speed_y_air">1.0</float>
+      <float hash="lr_stick_x">0.0</float>
+      <float hash="dir_x_mul">0.0</float>
+      <float hash="dir_mul">0.0</float>
+      <float hash="fall_accel_x_mul">0.02</float>
+      <float hash="fall_x_mul">1.0</float>
+      <int hash="landing_frame">26</int>
+    </struct>
     <hash40 index="1">dummy</hash40>
     <hash40 index="2">dummy</hash40>
     <hash40 index="3">dummy</hash40>

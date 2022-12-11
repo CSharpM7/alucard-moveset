@@ -10,8 +10,13 @@ const META_PUNISH: i32 = 60;
 
 static mut BAT_INPUT_X:[f32;8] = [0.0; 8];
 static mut BAT_INPUT_Y:[f32;8] = [0.0; 8];
+static mut BAT_DEGREE:[f32;8] = [0.0; 8];
 static mut BAT_EXIT:[bool;8] = [false; 8];
 static mut BAT_EXIT_FRAME:[i32;8] = [0; 8];
+
+pub unsafe fn get_degree(entry: usize) -> f32 {
+    return BAT_DEGREE[entry];
+}
 
 unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
     let status = StatusModule::status_kind(fighter.module_accessor);
@@ -101,17 +106,11 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
 
 
 unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
-    if (BAT_EXIT_FRAME[entry]>0)
-    {
-        //EFFECT_FOLLOW(fighter, Hash40::new("sys_deathscythe_trace"), Hash40::new("top"), 0, 7.5, 0, 0, 0, 0, 1.5, true);
-        //EFFECT_FOLLOW(fighter, Hash40::new("sys_deathscythe_trace"), Hash40::new("top"), 0, 15, 0, 0, 0, 0, 1.5, true);
-        //EFFECT_OFF_KIND(fighter, Hash40::new("sys_deathscythe_shadow"),false,false);
-        BAT_EXIT_FRAME[entry] -= 1;
-    }
     if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
             if BAT_EXIT[entry] == false {
+
                 BAT_EXIT[entry] = true;
                 BAT_EXIT_FRAME[entry] = 10;
                 EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 0, 0, 0, 0, 1.5, true);
@@ -122,6 +121,12 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
                     &Vector3f{x: 0.0, y: 0.0, z: 0.0},
                     0
                 ); 
+
+                let stick_x: f32 = BAT_INPUT_X[entry];
+                let stick_y: f32 = BAT_INPUT_Y[entry];
+                let lr = PostureModule::lr(boma);
+                let motion_factor = 1.5;
+                SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
             }
         }
         else
@@ -166,16 +171,6 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
 
         BAT_INPUT_X[entry] = stick_x;
         BAT_INPUT_Y[entry] = stick_y;
-    }
-    else
-    {
-        let mut stick_x: f32 = BAT_INPUT_X[entry];
-        let mut stick_y: f32 = BAT_INPUT_Y[entry];
-        if (stick_x.abs() >=0.1){
-            PostureModule::set_lr(boma, stick_x.signum());
-        }
-        PostureModule::update_rot_y_lr(boma);
-        let mut lr = PostureModule::lr(boma);
 
         let normalized = sv_math::vec2_normalize(stick_x, stick_y);
         let arctangent = normalized.y.atan2(normalized.x.abs());
@@ -186,16 +181,19 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
             degree=(degree-180.0);
             flip = 180.0;
         }
-        //println!("{}",degree);
-        PostureModule::set_rot(
-            fighter.module_accessor,
-            &Vector3f{x: -degree, y: 0.0, z: 0.0},
-            0
-        ); 
+        BAT_DEGREE[entry] = degree;
+    }
+    else
+    {
+        let stick_x: f32 = BAT_INPUT_X[entry];
+        let stick_y: f32 = BAT_INPUT_Y[entry];
+        if (stick_x.abs() >=0.1){
+            PostureModule::set_lr(boma, stick_x.signum());
+        }
+        PostureModule::update_rot_y_lr(boma);
+        let lr = PostureModule::lr(boma);
+        let motion_factor = 3.0;
 
-        let motion_factor = 2.5;
-
-        //ControlModule::get_stick_angle(module_accessor)
         SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     }
 }
@@ -203,7 +201,6 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
 
 unsafe fn on_rebirth(fighter: &mut L2CFighterCommon,entry: usize)
 {
-    println!("!");
     META_FRAME[entry]=0;
     META_WHIFF[entry]=false;
     META_HEALED[entry]=false;

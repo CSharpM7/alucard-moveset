@@ -139,7 +139,7 @@
       <float hash="throw_speed_stick_back">10.0</float>
       <float hash="throw_speed_stick_front">20.0</float>
       <int hash="life">90</int>
-      <int hash="hop_life">1</int>
+      <int hash="hop_life">20</int>
     </struct>
     <hash40 index="1">dummy</hash40>
     <hash40 index="2">dummy</hash40>
@@ -170,19 +170,19 @@
   </list>
   <list hash="param_cross">
     <struct index="0">
-      <float hash="rot_speed">16.0</float>
-      <int hash="life">115</int>
-      <int hash="life_flick">110</int>
-      <float hash="rot_speed_flick">17.0</float>
-      <float hash="rot_speed_turn_mul">1.6</float>
+      <float hash="rot_speed">0.0</float>
+      <int hash="life">1</int>
+      <int hash="life_flick">1</int>
+      <float hash="rot_speed_flick">0.0</float>
+      <float hash="rot_speed_turn_mul">0.0</float>
       <float hash="speed">2.0</float>
-      <float hash="speed_flick">2.5</float>
-      <float hash="attack_mul_flick">1.34</float>
-      <int hash="turn_frame">46</int>
-      <int hash="turn_frame_flick">56</int>
+      <float hash="speed_flick">2.25</float>
+      <float hash="attack_mul_flick">1.0</float>
+      <int hash="turn_frame">90</int>
+      <int hash="turn_frame_flick">85</int>
       <int hash="turn_stay_frame">2</int>
-      <int hash="speed_comp_frame">33</int>
-      <int hash="turn_speed_comp_frame">38</int>
+      <int hash="speed_comp_frame">1</int>
+      <int hash="turn_speed_comp_frame">1</int>
     </struct>
     <hash40 index="1">dummy</hash40>
     <hash40 index="2">dummy</hash40>

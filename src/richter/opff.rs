@@ -159,7 +159,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         //If in deadzone, go up
         if (stick_x.abs() < 0.1 && (stick_y.abs() < 0.1 || isGrounded))
         {
-            stick_x = 0.0;
+            stick_x = if isGrounded {PostureModule::lr(boma)} else {0.0};
             stick_y = 1.0;
         }
         //If on ground, and aiming the stick towards the ground, limit y to 0

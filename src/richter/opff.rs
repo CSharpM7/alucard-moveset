@@ -154,19 +154,19 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         GroundModule::set_attach_ground(boma, false);
         let mut stick_x: f32 = ControlModule::get_stick_x(boma);
         let mut stick_y: f32 = ControlModule::get_stick_y(boma);
+        let isGrounded = fighter.is_situation(*SITUATION_KIND_GROUND) || fighter.is_motion(Hash40::new("special_hi"));
 
         //If in deadzone, go up
-        if (stick_x.abs() < 0.1 && stick_y.abs() < 0.1)
+        if (stick_x.abs() < 0.1 && (stick_y.abs() < 0.1) || isGrounded)
         {
             stick_x = 0.0;
             stick_y = 1.0;
         }
-        //If on ground, and aiming the stick towards the ground, set y to 0
-        if (fighter.is_situation(*SITUATION_KIND_GROUND) || fighter.is_motion(Hash40::new("special_hi"))
-        && stick_y < 0.0)
+        //If on ground, and aiming the stick towards the ground, limit y 
+        else if (isGrounded && stick_y < -0.5)
         {
-            stick_x =PostureModule::lr(boma);
-            stick_y = 0.0;
+            stick_y = -0.5;
+            stick_x = sv_math::vec2_normalize(stick_x, stick_y).x;
         }
 
         BAT_INPUT_X[entry] = stick_x;

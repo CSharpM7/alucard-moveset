@@ -130,16 +130,19 @@
     <struct index="0">
       <float hash="gravity">0.0</float>
       <float hash="pivot_y">1.0</float>
+      <float hash="brake_x">0.0</float>
       <float hash="throw_angle">0.0</float>
-      <float hash="throw_speed">2.0</float>
+      <float hash="throw_speed">1.5</float>
       <float hash="limit_gravity">0.0</float>
       <float hash="rot_speed">0.0</float>
       <float hash="throw_angle_stick_back">0.0</float>
       <float hash="throw_angle_stick_front">0.0</float>
-      <float hash="throw_speed_stick_back">10.0</float>
-      <float hash="throw_speed_stick_front">20.0</float>
+      <float hash="throw_speed_stick_back">5.0</float>
+      <float hash="throw_speed_stick_front">10.0</float>
       <int hash="life">90</int>
       <int hash="hop_life">20</int>
+      <float hash="hop_angle">90</float>
+      <float hash="hop_random_angle">1</float>
     </struct>
     <hash40 index="1">dummy</hash40>
     <hash40 index="2">dummy</hash40>
@@ -175,8 +178,8 @@
       <int hash="life_flick">1</int>
       <float hash="rot_speed_flick">0.0</float>
       <float hash="rot_speed_turn_mul">0.0</float>
-      <float hash="speed">2.0</float>
-      <float hash="speed_flick">2.25</float>
+      <float hash="speed">1.5</float>
+      <float hash="speed_flick">1.75</float>
       <float hash="attack_mul_flick">1.0</float>
       <int hash="turn_frame">90</int>
       <int hash="turn_frame_flick">85</int>

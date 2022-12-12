@@ -188,7 +188,7 @@
       <float hash="attack_mul_flick">1.0</float>
       <int hash="turn_frame">90</int>
       <int hash="turn_frame_flick">85</int>
-      <int hash="turn_stay_frame">2</int>
+      <int hash="turn_stay_frame">15</int>
       <int hash="speed_comp_frame">1</int>
       <int hash="turn_speed_comp_frame">1</int>
     </struct>

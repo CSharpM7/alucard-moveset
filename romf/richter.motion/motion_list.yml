@@ -3152,9 +3152,9 @@ list:
       - name: d01specials1.nuanmb
         unk: 0
     scripts:
-      - expression_specials1blank
-      - sound_specials1blank
-      - effect_specials1blank
+      - expression_specials1
+      - sound_specials1
+      - effect_specials1
     extra:
       xlu_start: 0
       xlu_end: 0
@@ -3233,9 +3233,9 @@ list:
       - name: d01specialairs1.nuanmb
         unk: 0
     scripts:
-      - expression_specialairs1blank
-      - sound_specialairs1blank
-      - effect_specialairs1blank
+      - expression_specialairs1
+      - sound_specialairs1
+      - effect_specialairs1
     extra:
       xlu_start: 0
       xlu_end: 0

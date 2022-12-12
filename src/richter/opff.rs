@@ -113,7 +113,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
 
                 BAT_EXIT[entry] = true;
                 BAT_EXIT_FRAME[entry] = 10;
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 0, 0, 0, 0, 1.5, true);
+                EFFECT(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 2, 0, 0, 0, 1.5, 0,0,0,0,0,0,true);
                 LAST_EFFECT_SET_COLOR(fighter,1,0,1);
 
                 PostureModule:: set_rot(
@@ -157,15 +157,16 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         let isGrounded = fighter.is_situation(*SITUATION_KIND_GROUND) || fighter.is_motion(Hash40::new("special_hi"));
 
         //If in deadzone, go up
-        if (stick_x.abs() < 0.1 && (stick_y.abs() < 0.1 || isGrounded))
+        if (stick_x.abs() < 0.1 && stick_y.abs() < 0.1)
         {
-            stick_x = if isGrounded {PostureModule::lr(boma)} else {0.0};
+            stick_x = 0.0; //if isGrounded {PostureModule::lr(boma)} else {0.0};
             stick_y = 1.0;
         }
         //If on ground, and aiming the stick towards the ground, limit y to 0
         if (isGrounded && stick_y < -0.5)
         {
             stick_y = -0.5;
+            if (stick_x.abs() <0.1) {stick_x = PostureModule::lr(boma);}
             stick_x = sv_math::vec2_normalize(stick_x, stick_y).x;
         }
 

@@ -1,5 +1,5 @@
 use super::*;
-utils::import_noreturn!(common::opff::fighter_common_opff);
+//utils::import_noreturn!(common::opff::fighter_common_opff);
 
 static mut META_HEALED:[bool;8] = [false; 8];
 static mut META_WHIFF:[bool;8] = [false; 8];
@@ -149,7 +149,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         PostureModule::set_pos(fighter.module_accessor, &pos);
         PostureModule::init_pos(fighter.module_accessor, &pos, false, false);
     }
-    if (!fighter.is_flag(*FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE))
+    if (!WorkModule::is_flag(boma,*FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE))
     {
         GroundModule::set_attach_ground(boma, false);
         let mut stick_x: f32 = ControlModule::get_stick_x(boma);

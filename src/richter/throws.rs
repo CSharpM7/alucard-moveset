@@ -3,7 +3,7 @@ use super::*;
 #[acmd_script( agent = "richter", script = "game_catch" , category = ACMD_GAME )]
 unsafe fn richter_catch_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     if is_excute(fighter) {
         FighterAreaModuleImpl::enable_fix_jostle_area(boma, 4.0, 6.0);
@@ -34,7 +34,7 @@ unsafe fn richter_catch_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_catchdash" , category = ACMD_GAME )]
 unsafe fn richter_catch_dash_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     if is_excute(fighter) {
         FighterAreaModuleImpl::enable_fix_jostle_area(boma, 6.0, 4.0);
@@ -65,7 +65,7 @@ unsafe fn richter_catch_dash_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_catchturn" , category = ACMD_GAME )]
 unsafe fn richter_catch_turn_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     if is_excute(fighter) {
         FighterAreaModuleImpl::enable_fix_jostle_area(boma, 6.5, 6.0);
@@ -98,7 +98,7 @@ unsafe fn richter_catch_turn_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_throwlw" , category = ACMD_GAME )]
 unsafe fn richter_throw_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     if is_excute(fighter) {
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 8.0, 74, 112, 0, 40, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_CATCH, 0, 3.0, 361, 100, 0, 40, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);
@@ -123,7 +123,7 @@ unsafe fn richter_throw_lw_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME )]
 unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 3.0, 28, 68, 0, 70, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);
@@ -144,7 +144,7 @@ unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_throwf" , category = ACMD_GAME )]
 unsafe fn richter_throw_f_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 5.0, 20, 55, 0, 75, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);
@@ -192,7 +192,7 @@ unsafe fn richter_throw_f_expression(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_throwhi" , category = ACMD_GAME )]
 unsafe fn richter_throw_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 4.0, 90, 82, 0, 70, 0.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_THROW);

@@ -3,7 +3,7 @@ use super::*;
 #[acmd_script( agent = "richter", script = "game_attackdash" , category = ACMD_GAME )]
 unsafe fn richter_attack_dash_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter, 0.6);

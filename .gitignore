@@ -15,14 +15,6 @@ release/plugin.nro
 
 .vs/
 
-hdrLibraries/.github/workflows/
-
-hdrLibraries/dynamic/
-
-hdrLibraries/hdr-macros/
-
-hdrLibraries/
-
 *.bat
 
 *.ps1
@@ -35,3 +27,4 @@ romf/ui/param/database/notes.txt
 
 *.msbt
 
+**/SharpSmashlineSuite

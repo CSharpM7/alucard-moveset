@@ -7,7 +7,7 @@ unsafe fn whip_attack_lw3_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter_whip", script = "effect_attacklw3" , category = ACMD_EFFECT )]
 unsafe fn whip_attack_lw3_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 6.0);
     if is_excute(fighter) {

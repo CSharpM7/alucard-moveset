@@ -13,7 +13,7 @@ const ANGLE_MAX: f32 = 60.0;
 #[acmd_script( agent = "richter", script = "game_specialhi" , category = ACMD_GAME )]
 unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 2.0);
     if is_excute(fighter) {
@@ -88,7 +88,7 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_specialairhi" , category = ACMD_GAME )]
 unsafe fn richter_special_air_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter,0.5);

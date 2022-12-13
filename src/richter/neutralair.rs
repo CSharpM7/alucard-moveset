@@ -9,7 +9,7 @@ const STARTUP: f32 = 7.0;
 #[acmd_script( agent = "richter", script = "game_attackairn" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_n_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 3.0);
     FT_MOTION_RATE(fighter, 0.625);
@@ -56,7 +56,7 @@ unsafe fn richter_attack_air_n_sound(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "effect_attackairn" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_air_n_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     frame(lua_state, STARTUP-1.0);
     if is_excute(fighter) {
         EFFECT_FOLLOW_NO_STOP(fighter, Hash40::new("sys_attack_speedline"), Hash40::new("top"), 0, 10.0, 3.5, 45, 5, 0, 0.625, true);

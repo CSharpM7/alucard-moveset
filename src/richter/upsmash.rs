@@ -8,7 +8,7 @@ const FRAME_ATTACK: f32 = 23.0;
 #[acmd_script( agent = "richter", script = "game_attackhi4" , category = ACMD_GAME )]
 unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter, 0.75);

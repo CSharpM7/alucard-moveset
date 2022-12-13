@@ -8,13 +8,17 @@ pub mod richter;
 pub mod whip;
 pub mod axe;
 pub mod cross;
-pub static mut FIGHTER_CUTIN_MANAGER_ADDR: usize = 0;
+pub mod update;
+
+use skyline_web::*;
 
 use smash::{
     lib::{
         L2CValue,
         LuaConst,
+        lua_const::*
     },
+    //lib::,
     app::{
         *,
         self,
@@ -25,7 +29,6 @@ use smash::{
         lua_bind::*
     },
     hash40,
-    lib::lua_const::*,
     lua2cpp::*,
     phx::*
 };
@@ -33,11 +36,10 @@ use smash_script::{
     *,
     macros::*
 };
-use utils::{
+use sharpsmashlinesuite::{
     *,
     util::*,
-    ext::*,
-    consts::*,
+    ext::*
 };
 use smashline::*;
 
@@ -45,11 +47,9 @@ use smashline::*;
 #[skyline::main(name = "smashline_alucard")]
 pub fn main() {
     println!("[smashline_alucard::main] Who calls me?");
+    update::install();
     richter::install();
     whip::install();
     axe::install();
     cross::install();
-    unsafe{
-	skyline::nn::ro::LookupSymbol(&mut FIGHTER_CUTIN_MANAGER_ADDR, c_str!("_ZN3lib9SingletonIN3app19FighterCutInManagerEE9instance_E"));
-    }
 }

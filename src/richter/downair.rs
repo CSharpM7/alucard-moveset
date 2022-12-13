@@ -3,7 +3,7 @@ use super::*;
 #[acmd_script( agent = "richter", script = "game_attackairlw" , category = ACMD_GAME )]
 unsafe fn richter_attack_air_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
 
     if is_excute(fighter) {
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_INSTANCE_WORK_ID_FLAG_NO_SPEED_OPERATION_CHK);

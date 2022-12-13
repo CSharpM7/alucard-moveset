@@ -11,7 +11,7 @@ const KBG: i32 = 80;
 #[acmd_script( agent = "richter", script = "game_attacks4hi" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter, 1.5);
@@ -43,7 +43,7 @@ unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_attacks4" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter, 1.5);
@@ -75,7 +75,7 @@ unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_attacks4lw" , category = ACMD_GAME )]
 unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter, 1.5);
@@ -107,7 +107,7 @@ unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "sound_attacks4hi" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_hi_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 7.0);
     if is_excute(fighter) {
@@ -126,7 +126,7 @@ unsafe fn richter_attack_s4_hi_sound(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "sound_attacks4" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 7.0);
     if is_excute(fighter) {
@@ -145,7 +145,7 @@ unsafe fn richter_attack_s4_sound(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "sound_attacks4lw" , category = ACMD_SOUND )]
 unsafe fn richter_attack_s4_lw_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 7.0);
     if is_excute(fighter) {
@@ -164,7 +164,7 @@ unsafe fn richter_attack_s4_lw_sound(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "effect_attacks4hi" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_hi_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         EFFECT(fighter, Hash40::new("sys_smash_flash"), Hash40::new("haver"), -2, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
@@ -182,7 +182,7 @@ unsafe fn richter_attack_s4_hi_effect(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "effect_attacks4" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         EFFECT(fighter, Hash40::new("sys_smash_flash"), Hash40::new("haver"), -2, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
@@ -200,7 +200,7 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "effect_attacks4lw" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_s4_lw_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     if is_excute(fighter) {
         EFFECT(fighter, Hash40::new("sys_smash_flash"), Hash40::new("haver"), -2, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);

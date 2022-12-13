@@ -3,7 +3,7 @@ use super::*;
 #[acmd_script( agent = "richter", script = "effect_appeallwl" , category = ACMD_EFFECT)]
 unsafe fn richter_tauntlw_l_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     if is_excute(fighter) {
@@ -15,7 +15,7 @@ unsafe fn richter_tauntlw_l_effect(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "effect_appeallwr" , category = ACMD_EFFECT)]
 unsafe fn richter_tauntlw_r_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.boma();
+    let boma = fighter.module_accessor;
     
     frame(lua_state, 1.0);
     if is_excute(fighter) {

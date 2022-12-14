@@ -1693,7 +1693,13 @@
     <hash40 index="1676">dummy</hash40>
     <hash40 index="1677">dummy</hash40>
     <hash40 index="1678">dummy</hash40>
-    <hash40 index="1679">dummy</hash40>
+    <struct index="1679">
+      <hash40 hash="level">level_beginner</hash40>
+      <hash40 hash="topic">topic_technic</hash40>
+      <uint hash="disp_order">3708</uint>
+      <hash40 hash="type_0">relation_chara</hash40>
+      <hash40 hash="key_0">ui_chara_richter</hash40>
+    </struct>
     <hash40 index="1680">dummy</hash40>
     <hash40 index="1681">dummy</hash40>
     <hash40 index="1682">dummy</hash40>

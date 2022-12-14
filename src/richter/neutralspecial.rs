@@ -7,7 +7,8 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
     let boma = fighter.module_accessor;
 
     frame(lua_state, 20.0);
-    let projectile = if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) 
+    let projectile = //if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL)
+    if true
     {*FIGHTER_SIMON_GENERATE_ARTICLE_AXE} else {*FIGHTER_SIMON_GENERATE_ARTICLE_CROSS};
     let canspawn = projectile == *FIGHTER_SIMON_GENERATE_ARTICLE_AXE
     || !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS);
@@ -41,7 +42,7 @@ unsafe fn richter_special_n_effect(fighter: &mut L2CAgentBase) {
         let canspawn = ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) 
         || !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS);
         let effect = if canspawn {Hash40::new("sys_smash_flash_s")} else {Hash40::new("richter_bottle_blank")};
-        EFFECT(fighter, effect, Hash40::new("haver"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
+        EFFECT(fighter, effect, Hash40::new("top"), 0, 6, 6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
     }
 }
 pub fn install() {

@@ -14,8 +14,17 @@ static mut BAT_DEGREE:[f32;8] = [0.0; 8];
 static mut BAT_EXIT:[bool;8] = [false; 8];
 static mut BAT_EXIT_FRAME:[i32;8] = [0; 8];
 
+static mut DIVE_TARGET:[u32;8] = [0; 8];
+
 pub unsafe fn get_degree(entry: usize) -> f32 {
     return BAT_DEGREE[entry];
+}
+
+pub unsafe fn get_dive_target(entry: usize) -> u32 {
+    return DIVE_TARGET[entry];
+}
+pub unsafe fn set_dive_target(entry: usize, value: u32){
+    DIVE_TARGET[entry] = value;
 }
 
 unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
@@ -107,6 +116,11 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
 
 unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
     if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {
+        
+        ModelModule::set_mesh_visibility(boma, 
+            Hash40::new("bat"), 
+            false
+        );
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
             if BAT_EXIT[entry] == false {
@@ -127,6 +141,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
                 let lr = PostureModule::lr(boma);
                 let motion_factor = 1.5;
                 SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
+                
             }
         }
         else

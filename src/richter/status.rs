@@ -1,4 +1,5 @@
 use super::*;
+
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_HI, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn richter_special_hi_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     
@@ -34,9 +35,6 @@ pub unsafe fn richter_special_hi_main(fighter: &mut L2CFighterCommon) -> L2CValu
     fighter.sub_shift_status_main(L2CValue::Ptr(richter_specialhi_main_loop as *const () as _))
 }
 
-
-const FRAME_LAST: f32 = 23.0;
-
 unsafe extern "C" fn richter_specialhi_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 0, 0, 0, 0, 1.5, true);
@@ -71,10 +69,52 @@ unsafe extern "C" fn richter_specialhi_main_loop(fighter: &mut L2CFighterCommon)
     return 0.into()
 }
 
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
+    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+    opff::set_dive_target(entry, 0);
+
+
+    return original!(fighter);
+}
+
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_special_s_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+
+    let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
+    let has_hit = AttackModule::is_infliction_status(fighter.module_accessor, *COLLISION_KIND_MASK_HIT)
+    || in_Hitstop;
+    if (has_hit)
+    {
+        println!("!");
+        let opponent = AttackModule::indirect_object_id(fighter.module_accessor);
+        let opponent2 = AttackModule::get_inflict(fighter.module_accessor);
+
+        let boma2 = sv_battle_object::module_accessor(Fighter::get_id_from_entry_id(1));
+        let boma2entry = sv_battle_object::module_accessor(Fighter::get_id_from_entry_id(1));
+
+        println!("{}",opponent);
+        println!("{}",opponent2);
+        println!("{}",(*boma2).battle_object_id);
+        fighter.change_status(FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2.into(), true.into());
+        return false.into();
+    }
+
+    
+    return 0.into()
+}
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    
+    return 0.into()
+}
 
 pub fn install() {
     install_status_scripts!(
-        richter_special_hi_main
-        //special_hi_exec
+        richter_special_hi_main,
+        richter_special_s_pre,
+        richter_special_s_exec,
+        richter_special_s2_exec
     );
+    
 }

@@ -8,9 +8,12 @@ pub mod richter;
 pub mod whip;
 pub mod axe;
 pub mod cross;
+
+#[cfg(feature = "updater")]
+use skyline_web::*;
+#[cfg(feature = "updater")]
 pub mod update;
 
-use skyline_web::*;
 
 use smash::{
     lib::{
@@ -47,9 +50,12 @@ use smashline::*;
 #[skyline::main(name = "smashline_alucard")]
 pub fn main() {
     println!("[smashline_alucard::main] Who calls me?");
-    update::install();
+    println!("");
     richter::install();
     whip::install();
     axe::install();
     cross::install();
+    
+    #[cfg(feature = "updater")]
+    update::install();
 }

@@ -19,6 +19,7 @@ mod throws;
 mod taunts;
 mod opff;
 mod status;
+mod hook;
 
 pub fn install() {
     jab::install();
@@ -41,4 +42,5 @@ pub fn install() {
     throws::install();
     opff::install();
     status::install();
+    hook::install();
 }

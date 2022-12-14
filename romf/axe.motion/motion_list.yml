@@ -42,7 +42,7 @@ list:
       - effect_fly
     extra: ~
   hop_h:
-    game_script: game_hopv
+    game_script: game_hoph
     flags:
       turn: false
       loop: true
@@ -60,11 +60,11 @@ list:
       - name: d00specialnhoph.nuanmb
         unk: 0
     scripts:
-      - sound_hopv
-      - effect_hopv
+      - sound_hoph
+      - effect_hoph
     extra: ~
   hop_v:
-    game_script: game_hopv
+    game_script: game_hoph
     flags:
       turn: false
       loop: true
@@ -79,11 +79,11 @@ list:
       unk_400: false
     blend_frames: 0
     animations:
-      - name: d00specialnhopv.nuanmb
+      - name: d00specialnhoph.nuanmb
         unk: 0
     scripts:
-      - sound_hopv
-      - effect_hopv
+      - sound_hoph
+      - effect_hoph
     extra: ~
   landing:
     game_script: game_landing

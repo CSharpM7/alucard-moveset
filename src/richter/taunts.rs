@@ -31,9 +31,30 @@ unsafe fn richter_tauntlw_r_effect(fighter: &mut L2CAgentBase) {
     }
 }
 
+#[acmd_script( agent = "richter", script = "game_appeallwr" , category = ACMD_GAME)]
+unsafe fn richter_tauntlw_r_game(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    let boma = fighter.module_accessor;
+    
+    frame(lua_state, 1.0);
+    if is_excute(fighter) {
+        ArticleModule::generate_article(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN,false,0);
+        //ArticleModule::set_visibility_whole(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+        let pos = smash::phx::Vector3f { x: PostureModule::pos_x(boma), y: PostureModule::pos_y(boma)+3.0, z: 0.0 };
+        println!("{}",PostureModule::pos_x(boma));
+        ArticleModule::set_pos(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, pos);
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, Hash40::new("appeal_lw_r"), false, 0.0);
+    }
+    frame(lua_state, 21.0);
+    if is_excute(fighter) {
+        ArticleModule::remove_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+    }
+}
+
 pub fn install() {
     install_acmd_scripts!(
-        richter_tauntlw_l_effect,
-        richter_tauntlw_r_effect
+        richter_tauntlw_r_game
+        //richter_tauntlw_l_effect,
+        //richter_tauntlw_r_effect
     );
 }

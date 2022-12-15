@@ -8,14 +8,18 @@ unsafe fn axe_hoph_game(weapon: &mut L2CAgentBase) {
     let maxFrame =  WorkModule::get_param_int(weapon.module_accessor, hash40("param_axe"), hash40("hop_life")) as f32;
     
     if is_excute(weapon) {
-        ATTACK(weapon, 0, 0, Hash40::new("axe"), 1.0, 82, 15, 0, 55, 5.0, 0.0, -1.0, 0.0, None, None, None, 0.5, 0.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, -3, 0.0, 0, true, false, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_none"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_MAGIC);
+        ATTACK(weapon, 0, 0, Hash40::new("axe"), 1.0, 60, 15, 0, 35, 5.0, 0.0, -1.0, 0.0, None, None, None, 0.5, 0.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, -3, 0.0, 0, true, false, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_none"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_MAGIC);
         
         ATK_SET_SHIELD_SETOFF_MUL(weapon, 0, 1.25);
+        AttackModule::set_add_reaction_frame_revised(weapon.module_accessor,  0, 3.0, false);
+    }
+    frame(lua_state, maxFrame-3.0);
+    if is_excute(weapon) {
+        AttackModule::clear_all(weapon.module_accessor);
     }
     frame(lua_state, maxFrame-2.0);
     if is_excute(weapon) {
-        AttackModule::clear_all(weapon.module_accessor);
-        ATTACK(weapon, 0, 0, Hash40::new("top"), 13.0, 62, 64, 0, 77, 14.0, 0.0, 6.0, 0.0, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, -4, 0.0, 0, false, true, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_MAGIC);
+        ATTACK(weapon, 0, 0, Hash40::new("top"), 13.0, 62, 68, 0, 82, 15.0, 0.0, 6.0, 0.0, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, -4, 0.0, 0, false, true, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_MAGIC);
         
         ATK_SET_SHIELD_SETOFF_MUL(weapon, 0, 1.1);
     }

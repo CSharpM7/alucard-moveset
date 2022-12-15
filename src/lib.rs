@@ -8,6 +8,7 @@ pub mod richter;
 pub mod whip;
 pub mod axe;
 pub mod cross;
+pub mod coffin;
 
 #[cfg(feature = "updater")]
 use skyline_web::*;
@@ -55,6 +56,7 @@ pub fn main() {
     whip::install();
     axe::install();
     cross::install();
+    coffin::install();
     
     #[cfg(feature = "updater")]
     update::install();

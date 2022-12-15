@@ -26,6 +26,9 @@ pub unsafe fn get_dive_target(entry: usize) -> u32 {
 pub unsafe fn set_dive_target(entry: usize, value: u32){
     DIVE_TARGET[entry] = value;
 }
+pub unsafe fn meta_start(entry:usize) {
+    META_FRAME[entry]=META_MAX;
+}
 
 unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
     let status = StatusModule::status_kind(fighter.module_accessor);
@@ -253,23 +256,22 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
                 }
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_deathscythe_shadow"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                LAST_EFFECT_SET_COLOR(fighter,1,0,0);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_bomb_c"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                //LAST_EFFECT_SET_COLOR(fighter,1,0,0);
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_lay"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_HEAVY, *ATTACK_REGION_MAGIC);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("sys_deathscythe_trace_smash"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_cross_bomb"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                //LAST_EFFECT_SET_COLOR(fighter,1,0.5,0.5);
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_MAGIC, *ATTACK_REGION_MAGIC);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_bomb_b"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_leviathan_wave"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_MAGIC);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_start"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                LAST_EFFECT_SET_RATE(fighter,1.75);
-                LAST_EFFECT_SET_COLOR(fighter,1,0,4);
-            }
-
-            if false && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                EffectModule::req_follow(fighter.module_accessor, Hash40::new("richter_final_coffin_start"), Hash40::new("top"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_impact"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_jack_final"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
             }
 
 

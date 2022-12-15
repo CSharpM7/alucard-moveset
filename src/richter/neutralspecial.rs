@@ -7,8 +7,7 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
     let boma = fighter.module_accessor;
 
     frame(lua_state, 20.0);
-    let projectile = //if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL)
-    if true
+    let projectile = if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL)
     {*FIGHTER_SIMON_GENERATE_ARTICLE_AXE} else {*FIGHTER_SIMON_GENERATE_ARTICLE_CROSS};
     let canspawn = projectile == *FIGHTER_SIMON_GENERATE_ARTICLE_AXE
     || !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS);

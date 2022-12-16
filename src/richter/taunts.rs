@@ -52,9 +52,9 @@ unsafe fn richter_tauntlw_r_game(fighter: &mut L2CAgentBase) {
 }
 
 pub fn install() {
-    install_acmd_scripts!(
-        richter_tauntlw_r_game
+    //install_acmd_scripts!(
+        //richter_tauntlw_r_game
         //richter_tauntlw_l_effect,
         //richter_tauntlw_r_effect
-    );
+    //);
 }

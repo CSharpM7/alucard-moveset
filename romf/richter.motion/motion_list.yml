@@ -447,7 +447,7 @@ list:
       unk_100: false
       unk_200: false
       unk_400: false
-    blend_frames: 1
+    blend_frames: 0
     animations:
       - name: a02run.nuanmb
         unk: 0
@@ -555,7 +555,7 @@ list:
       unk_100: false
       unk_200: false
       unk_400: false
-    blend_frames: 0
+    blend_frames: 2
     animations:
       - name: a02turnrunbrake.nuanmb
         unk: 0
@@ -3131,7 +3131,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 42
+      cancel_frame: 50
       no_stop_intp: false
   special_s1_blank:
     game_script: game_specials1blank
@@ -3212,7 +3212,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 42
+      cancel_frame: 50
       no_stop_intp: false
   special_air_s1_blank:
     game_script: game_specialairs1blank

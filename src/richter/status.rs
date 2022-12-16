@@ -81,31 +81,76 @@ pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
 unsafe extern "C" fn richter_special_s_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
 
+    KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_CLIFF_ROBBED);
+    sv_kinetic_energy!(
+        set_speed_mul,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+        0.5
+    );
+    //Motion_Air
+    //Motion_Fal (but makes him zoom)
+    /*
+    let currentFrame = fighter.motion_frame();
+    if (currentFrame>10.0)
+    {
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_ATTACK) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_IGNORE_NORMAL);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_SPECIAL) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_CLIFF_GROUND);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_JUMP) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_CLIFF);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_GUARD) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_FALL);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_HI) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_LADDER);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_RUN_STOP);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_CLIFF_MOVE);
+        }
+        if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_LW) {
+            KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_MOTION_CLIFF_ROBBED);
+        }
+    }
+    */
     let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
     let has_hit = AttackModule::is_infliction_status(fighter.module_accessor, *COLLISION_KIND_MASK_HIT)
     || in_Hitstop;
     if (has_hit)
     {
-        println!("!");
-        let opponent = AttackModule::indirect_object_id(fighter.module_accessor);
-        let opponent2 = AttackModule::get_inflict(fighter.module_accessor);
-
-        let boma2 = sv_battle_object::module_accessor(Fighter::get_id_from_entry_id(1));
-        let boma2entry = sv_battle_object::module_accessor(Fighter::get_id_from_entry_id(1));
-
-        println!("{}",opponent);
-        println!("{}",opponent2);
-        println!("{}",(*boma2).battle_object_id);
         fighter.change_status(FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2.into(), true.into());
         return false.into();
     }
 
     
-    return 0.into()
+    return false.into();
 }
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
 unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
-    
+    KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
+    sv_kinetic_energy!(
+        clear_speed,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_STOP
+      );
+      sv_kinetic_energy!(
+        clear_speed,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_GRAVITY
+      );
+      sv_kinetic_energy!(
+        set_accel,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+        0.0
+      );
     return 0.into()
 }
 

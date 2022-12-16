@@ -6,40 +6,62 @@ unsafe fn richter_special_air_s_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
 
-    frame(lua_state, 10.0);
+    frame(lua_state, 14.0);
     if is_excute(fighter) {
         /*
         CATCH(fighter, 0, Hash40::new("top"), 3.3, 0.0, 6.6, 4.0, Some(0.0), Some(6.6), Some(8.7), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_G);
         CATCH(fighter, 1, Hash40::new("top"), 1.65, 0.0, 6.6, 2.35, Some(0.0), Some(6.6), Some(10.35), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_A);
         macros::game_CaptureCutCommon(fighter);*/
-        CATCH(fighter, 0, Hash40::new("top"), 3.3, 0.0, 6.6, 4.0, Some(0.0), Some(6.6), Some(18.7), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_G);
-        CATCH(fighter, 1, Hash40::new("top"), 1.65, 0.0, 6.6, 2.35, Some(0.0), Some(6.6), Some(16.35), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_A);
+        CATCH(fighter, 0, Hash40::new("top"), 3.3, 0.0, 8.6, 4.0, Some(0.0), Some(8.6), Some(18.7), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_G);
+        CATCH(fighter, 1, Hash40::new("top"), 1.65, 0.0, 8.6, 2.35, Some(0.0), Some(8.6), Some(16.35), *FIGHTER_STATUS_KIND_CAPTURE_PULLED, *COLLISION_SITUATION_MASK_A);
         macros::game_CaptureCutCommon(fighter);
     }
-    wait(lua_state, 6.0);
+    wait(lua_state, 16.0);
     if is_excute(fighter) {
         grab!(fighter, MA_MSC_CMD_GRAB_CLEAR_ALL);
     }
 }
 
-#[acmd_script( agent = "richter", script = "game_specials1" , category = ACMD_GAME )]
+#[acmd_script( agent = "richter", scripts = ["game_specials1","game_specialairs1"] , category = ACMD_GAME )]
 unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
     
-    frame(lua_state, 10.0);
+    frame(lua_state, 1.0);
+    if is_excute(fighter) {
+        sv_kinetic_energy!(
+            set_limit_speed,
+            fighter,
+            FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+            0.5
+        );
+        let speed_y = KineticModule::get_sum_speed_y(boma, 1);
+        println!("{}",speed_y);
+        if (speed_y < 0.0)
+        {
+        sv_kinetic_energy!(
+            clear_speed,
+            fighter,
+            FIGHTER_KINETIC_ENERGY_ID_GRAVITY
+        );
+        }
+    }
+    frame(lua_state, 17.0);
     if is_excute(fighter) {
 
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_S_FLAG_FALL);
         let offset = smash::phx::Vector2f { x: 8.0, y: -6.6 };
 
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 0.5, 368, 100, 0, 0, 2.6, 0.0, 6.6, 8.0, Some(0.0), Some(6.6), Some(13.5), 0.0, 0.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, f32::NAN, -1.0, 1, false, false, false, true, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_NONE);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 0.5, 368, 100, 0, 0, 3.0, 0.0, 6.6, 6.0, Some(0.0), Some(6.6), Some(11.5), 0.0, 0.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, f32::NAN, -1.0, 1, false, false, false, true, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_NONE);
+        AttackModule::set_no_dead_all(fighter.module_accessor, true, false);
+
+        ATTACK(fighter, 1, 0, Hash40::new("top"), 0.5, 368, 100, 0, 0, 5.0, 0.0, 6.0, 6.0, Some(0.0), Some(6.0), Some(11.5), 0.0, 0.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, f32::NAN, -1.0, 1, false, false, false, true, true, *COLLISION_SITUATION_MASK_A, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_NONE);
         AttackModule::set_no_dead_all(fighter.module_accessor, true, false);
 
         AttackModule::set_vec_target_pos(fighter.module_accessor, 0, Hash40::new("rot"), &offset, 0, false);
         
     }
-    wait(lua_state, 4.0);
+    wait(lua_state, 15.0);
     if is_excute(fighter) {
         WorkModule::off_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_S_FLAG_FALL);
         AttackModule::clear_all(boma);
@@ -47,7 +69,7 @@ unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
 }
 
 
-#[acmd_script( agent = "richter", script = "game_specials2" , category = ACMD_GAME )]
+#[acmd_script( agent = "richter", scripts = ["game_specials2","game_specialairs2"] , category = ACMD_GAME )]
 unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
@@ -101,13 +123,13 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_specials2" , category = ACMD_EFFECT )]
+#[acmd_script( agent = "richter", scripts = ["effect_specials2","effect_specialairs2"] , category = ACMD_EFFECT )]
 unsafe fn richter_special_s2_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     if is_excute(fighter) {
         //EFFECT_FOLLOW(fighter, Hash40::new("sys_sscope_bullet"), Hash40::new("throw"), 0,0,0,0,0,0, 4.0, true);
         //LAST_EFFECT_SET_COLOR(fighter,1,0.1,0.5);
-        EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+        EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("throw"), 0,0,0,0,0,0, 0.625, true);
         LAST_EFFECT_SET_RATE(fighter,4.5);
         LAST_EFFECT_SET_COLOR(fighter,1,0,4);
     }
@@ -122,7 +144,7 @@ unsafe fn richter_special_s2_effect(fighter: &mut L2CAgentBase) {
 pub fn install() {
     install_acmd_scripts!(
         richter_special_s_game,
-        richter_special_air_s_game,
+//        richter_special_air_s_game,
 
         richter_special_s2_game,
         richter_special_s2_effect

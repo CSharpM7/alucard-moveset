@@ -159,7 +159,6 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
     && (fighter.is_situation(*SITUATION_KIND_GROUND) || fighter.is_motion(Hash40::new("special_hi")))
     && false)
     {
-        app::FighterUtil::flash_eye_info(fighter.module_accessor);
         GroundModule::set_attach_ground(boma, false);
         let mut delta = 7.0-currentFrame;
         if currentFrame < 2.0 {delta = 4.0;}
@@ -261,7 +260,7 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
                 ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_lay"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_HEAVY, *ATTACK_REGION_MAGIC);
             }
             if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_cross_bomb"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                //EFFECT_FOLLOW(fighter, Hash40::new("sys_cross_bomb"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
                 //LAST_EFFECT_SET_COLOR(fighter,1,0.5,0.5);
                 ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_MAGIC, *ATTACK_REGION_MAGIC);
             }

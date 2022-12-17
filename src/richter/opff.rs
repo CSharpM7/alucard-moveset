@@ -14,16 +14,16 @@ static mut BAT_DEGREE:[f32;8] = [0.0; 8];
 static mut BAT_EXIT:[bool;8] = [false; 8];
 static mut BAT_EXIT_FRAME:[i32;8] = [0; 8];
 
-static mut DIVE_TARGET:[u32;8] = [0; 8];
+static mut DIVE_TARGET:[usize;8] = [0; 8];
 
 pub unsafe fn get_degree(entry: usize) -> f32 {
     return BAT_DEGREE[entry];
 }
 
-pub unsafe fn get_dive_target(entry: usize) -> u32 {
+pub unsafe fn get_dive_target(entry: usize) -> usize {
     return DIVE_TARGET[entry];
 }
-pub unsafe fn set_dive_target(entry: usize, value: u32){
+pub unsafe fn set_dive_target(entry: usize, value: usize){
     DIVE_TARGET[entry] = value;
 }
 pub unsafe fn meta_start(entry:usize) {
@@ -99,12 +99,11 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
         META_EFFECT[entry] = handle as i32;
 		EffectModule::set_rgb(boma,handle, 1.0, 0.0, 0.0);
         
-        //EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
-        //EffectModule::req_follow(boma, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 0.75, true, 0, 0, 0, 0, 0, false, false);
         EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
         LAST_EFFECT_SET_RATE(fighter,1.75);
-        //PLAY_SE(get_fighter_common_from_accessor(boma), Hash40::new("vc_pichu_final01"));
-        //PLAY_SE(get_fighter_common_from_accessor(boma), Hash40::new("se_pichu_final02"));
+        
+        PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_special_s"));
+        //PLAY_SE(fighter, Hash40::new("vc_richter_special_s02"));
     }
     else if META_FRAME[entry] <= 0 && META_EFFECT[entry] != -1 {
         let handle = META_EFFECT[entry] as u32;

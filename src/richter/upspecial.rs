@@ -118,6 +118,24 @@ unsafe fn richter_special_hi_effect(fighter: &mut L2CAgentBase) {
     }
 }
 
+#[acmd_script( agent = "richter", scripts = ["sound_specialhi","sound_specialairhi"] , category = ACMD_SOUND )]
+unsafe fn richter_special_hi_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+
+    frame(lua_state, 3.0);
+    if is_excute(fighter) {
+        PLAY_VC(fighter, Hash40::new("vc_richter_special_h01"),2);
+    }
+    frame(lua_state, 10.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_appear01"));
+    }
+    frame(lua_state, FRAME_ATTACK);
+    if is_excute(fighter) {
+        PLAY_STATUS(fighter, Hash40::new("se_richter_special_h01"));
+    }
+}
+
 
 #[acmd_script( agent = "richter", script = "game_attacklw32landing" , category = ACMD_GAME )]
 unsafe fn richter_special_hi_landing_game(fighter: &mut L2CAgentBase) {
@@ -138,6 +156,7 @@ pub fn install() {
         richter_special_hi_game,
         richter_special_hi_landing_game,
 
-        richter_special_hi_effect
+        richter_special_hi_effect,
+        richter_special_hi_sound
     );
 }

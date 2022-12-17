@@ -28,6 +28,12 @@ unsafe fn cross_fly_effect(weapon: &mut L2CAgentBase) {
         wait(lua_state, 5.0);
     }
 }
+#[acmd_script( agent = "richter_cross", script = "sound_fly" , category = ACMD_SOUND )]
+unsafe fn cross_fly_sound(weapon: &mut L2CAgentBase) {
+    if is_excute(weapon) {
+        PLAY_STATUS(weapon, Hash40::new("se_richter_special_s01"));
+    }
+}
 
 #[acmd_script( agent = "richter_cross", script = "game_turn" , category = ACMD_GAME )]
 unsafe fn cross_turn_game(weapon: &mut L2CAgentBase) {
@@ -41,15 +47,23 @@ unsafe fn cross_turn_effect(weapon: &mut L2CAgentBase) {
         EFFECT(weapon, Hash40::new("sys_damage_fire"), Hash40::new("top"), 0, y, 0, 0, 0, 0, 1.0, 0,0,0,0,0,0,true);
     }
 }
+#[acmd_script( agent = "richter_cross", script = "sound_turn" , category = ACMD_SOUND )]
+unsafe fn cross_turn_sound(weapon: &mut L2CAgentBase) {
+    if is_excute(weapon) {
+        PLAY_SE_REMAIN(weapon, Hash40::new("se_richter_special_s02_smash"));
+    }
+}
 
 
 pub fn install() {
     install_acmd_scripts!(
         cross_fly_game,
         cross_fly_effect,
+        cross_fly_sound,
 
         cross_turn_game,
-        cross_turn_effect
+        cross_turn_effect,
+        cross_turn_sound
     );
 }
 

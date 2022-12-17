@@ -38,10 +38,21 @@ unsafe fn axe_hoph_effect(weapon: &mut L2CAgentBase) {
     }
 }
 
+#[acmd_script( agent = "richter_axe", script = "sound_hoph" , category = ACMD_SOUND )]
+unsafe fn axe_hoph_sound(weapon: &mut L2CAgentBase) {
+    let lua_state = weapon.lua_state_agent;
+    let maxFrame =  WorkModule::get_param_int(weapon.module_accessor, hash40("param_axe"), hash40("hop_life")) as f32;
+    frame(lua_state, maxFrame-2.0);
+    if is_excute(weapon) {
+        PLAY_SE(weapon, Hash40::new("se_richter_special_s02_smash"));
+    }
+}
+
 pub fn install() {
     install_acmd_scripts!(
         axe_hoph_game,
-        axe_hoph_effect
+        axe_hoph_effect,
+        axe_hoph_sound
     );
 }
 

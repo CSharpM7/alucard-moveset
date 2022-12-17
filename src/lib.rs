@@ -41,7 +41,10 @@ use smash_script::{
 };
 use sharpsmashlinesuite::{
     *,
-    util::*,
+    util::{
+        *,
+        self
+    },
     ext::*
 };
 use smashline::*;

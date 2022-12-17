@@ -133,6 +133,8 @@ unsafe fn richter_special_s2_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
 unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+
     KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
     sv_kinetic_energy!(
         clear_speed,
@@ -150,19 +152,50 @@ unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> 
         FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
         0.0
       );
-      if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_ATTACK) {
-        fighter.change_status(*FIGHTER_STATUS_KIND_DEAD, false);
-      }
+    let mut defenderTest = get_fighter_common_from_entry_id(opff::get_dive_target(entry));
+    if (defenderTest.is_none()){
+        fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
+        return 0.into();
+    }
+    let defender = defenderTest.unwrap();
+    if (defender.is_status(*FIGHTER_STATUS_KIND_DEAD)){
+        fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
+        return 0.into();
+    }
+/* 
+    if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_HI) {
+        fighter.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
+    }
+    if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_LW) {
+        defender.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
+    }
+*/
     return 0.into()
 }
 
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXIT_STATUS)]
+unsafe extern "C" fn richter_special_s2_exit(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+
+    if (opff::get_dive_target(entry) > 0)
+    {
+        let defender = get_fighter_common_from_entry_id(opff::get_dive_target(entry));
+        if (!defender.is_none()){
+            (defender.unwrap()).change_status(FIGHTER_STATUS_KIND_CAPTURE_CUT.into(), false.into());
+        }
+        opff::set_dive_target(entry, 0);
+    }
+
+    return 0.into()
+}
 pub fn install() {
     install_status_scripts!(
         richter_special_hi_main,
         richter_special_s_pre,
         richter_special_s_exec,
         richter_special_s2_pre,
-        richter_special_s2_exec
+        richter_special_s2_exec,
+        richter_special_s2_exit
     );
     
 }

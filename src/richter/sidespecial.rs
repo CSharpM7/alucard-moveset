@@ -100,7 +100,7 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
 
     let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
     let target = opff::get_dive_target(entry);
-    let defender_boma = get_active_battle_object_id_from_entry_id(opff::get_dive_target(entry) as i32);
+    let defender_boma = get_boma_from_entry_id(opff::get_dive_target(entry));
     
     let offset = smash::phx::Vector2f { x: 0.0, y: -8.0 };
     if is_excute(fighter) {
@@ -143,34 +143,10 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
             let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("throw")}, &mut pos);        
             let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z}; //Set by the attacker
 
-            println!("{}",newPos.x);
-            println!("{}",newPos.y);
-            println!("{}",newPos.z);
-            println!("?");
             GroundModule::set_attach_ground(defender_boma, false);
+            KineticModule::change_kinetic(&mut *defender_boma, *FIGHTER_KINETIC_TYPE_CAPTURE);
             PostureModule::set_pos(defender_boma, &newPos);
-            ModelModule::set_joint_translate(defender_boma, Hash40::new("hip"), &newPos, true,false);
-
-            WorkModule::set_float(defender_boma, newPos.x,*FIGHTER_STATUS_CAPTURE_BLACKHOLE_WORK_ID_FLOAT_CATCH_POS_X) ;
-            WorkModule::set_float(defender_boma, newPos.y,*FIGHTER_STATUS_CAPTURE_BLACKHOLE_WORK_ID_FLOAT_CATCH_POS_Y) ;
-            WorkModule::set_float(defender_boma, newPos.z,*FIGHTER_STATUS_CAPTURE_BLACKHOLE_WORK_ID_FLOAT_CATCH_POS_Z) ;
-/*
-            WorkModule::set_int(defender_boma, hash40("throw") as i32,*FIGHTER_STATUS_CAPTURE_BLACKHOLE_WORK_ID_INT_CATCH_NODE) ;
-            WorkModule::set_int(boma, hash40("throw") as i32,*FIGHTER_STATUS_CAPTURE_BLACKHOLE_WORK_ID_INT_CATCH_NODE) ;
-            WorkModule::set_int(defender_boma, hash40("throw") as i32,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO) ;
-            WorkModule::set_int(boma, hash40("throw") as i32,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO) ;
-            */
-            
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                KineticModule::change_kinetic(&mut *defender_boma, *FIGHTER_KINETIC_TYPE_AIR_ESCAPE);
-            }
-            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                KineticModule::change_kinetic(&mut *defender_boma, *FIGHTER_KINETIC_TYPE_AIR_STOP);
-            }
-            else
-            {
-                KineticModule::change_kinetic(&mut *defender_boma, *FIGHTER_KINETIC_TYPE_CAPTURE);
-            }
+            //ModelModule::set_joint_translate(defender_boma, Hash40::new("hip"), &newPos, true,false);
         }
         else
         {
@@ -179,40 +155,11 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 29.0);
     if is_excute(fighter) {
-       // AttackModule::clear_all(boma);
-       
         ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 10.0, 60, 50, 0, 90, 1.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_sting_flash"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_MAGIC);
     }
     wait(lua_state, 1.0);
     if is_excute(fighter) {
-        if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_THROWN, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_JUMP, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_JUMP, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY_ROLL, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_THROWN, false);
-        }
-        else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_CUT, false);
-        }
-        else {
-            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_WAIT, false);
-        }
-        //deathball?
-        /* 
-        ATTACK(fighter, 0, 0, Hash40::new("throw"), 10.0, 60, 50, 0, 90, 7.0, 0.0, 0.0, 0.0, None,None,None, 1.0, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting_flash"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_MAGIC);
-        */
+        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_WAIT, false);
         
         ATK_HIT_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, Hash40::new("throw"), (*defender_boma).battle_object_id as u64, WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_GROUP), WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO));
 
@@ -228,10 +175,7 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     }
     wait(lua_state, 1.0);
     {
-        if (AttackModule::is_infliction_status(boma, *COLLISION_KIND_MASK_HIT)){
-            let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-            opff::meta_start(entry);
-        }
+        opff::set_dive_target(entry, 0);
         AttackModule::clear_all(boma);
         for i in 0..11{
             HIT_NO(fighter, i as u64, *HIT_STATUS_XLU);

@@ -60,10 +60,29 @@ unsafe fn richter_attack_air_hi_effect(fighter: &mut L2CAgentBase) {
         //LAST_PARTICLE_SET_COLOR(fighter, 0.254, 0.024, 0.104);
     }
 }
+#[acmd_script( agent = "richter", script = "sound_attackairhi" , category = ACMD_SOUND )]
+unsafe fn richter_attack_air_hi_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    
+    frame(fighter.lua_state_agent, 7.0);
+        if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_attackair_h01"));
+    }
+    frame(fighter.lua_state_agent, 9.0);
+    if is_excute(fighter) {
+        PLAY_VC_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"),0.5);
+    }
+    frame(fighter.lua_state_agent, 10.0);
+    if is_excute(fighter) {
+        //STOP_SE(fighter, Hash40::new("se_richter_attackair_h01"));
+        PLAY_SE(fighter, Hash40::new("se_richter_attackair_h02"));
+    }
+}
 
 pub fn install() {
     install_acmd_scripts!(
         richter_attack_air_hi_game,
-        richter_attack_air_hi_effect
+        richter_attack_air_hi_effect,
+        richter_attack_air_hi_sound
     );
 }

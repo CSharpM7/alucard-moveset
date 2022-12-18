@@ -44,8 +44,9 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     wait(lua_state, 1.0);
     let mut angle = 361.0;
     if is_excute(fighter) {
-		let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-        let degree = opff::get_degree(entry);
+		let entry = get_entry(fighter);
+        let degree = GetVar::get_float(boma, &mut vars::BAT_DEGREE);
+        
         angle = degree.clamp(ANGLE_MIN,ANGLE_MAX);
         if (degree<0.0) {angle+= degree/ANGLE_NEGATIVE_FACTOR;}
         PostureModule:: set_rot(
@@ -122,9 +123,13 @@ unsafe fn richter_special_hi_effect(fighter: &mut L2CAgentBase) {
 unsafe fn richter_special_hi_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
-    frame(lua_state, 3.0);
+    frame(lua_state, 1.0);
     if is_excute(fighter) {
-        PLAY_VC(fighter, Hash40::new("vc_richter_special_h01"),2);
+        PLAY_SE(fighter, Hash40::new("se_richter_jump03"));
+    }
+    frame(lua_state, 5.0);
+    if is_excute(fighter) {
+        PLAY_VC(fighter, Hash40::new("vc_richter_special_h01"),0.5);
     }
     frame(lua_state, 10.0);
     if is_excute(fighter) {

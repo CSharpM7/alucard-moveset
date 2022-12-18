@@ -10,32 +10,8 @@ use skyline::nn::ro::LookupSymbol;
 use skyline::hooks::{Region,getRegionAddress};
 use skyline::libc::*;
 
-//this is the flag you'll be using to recognise when the search box hits properly, you can call it whatever (i think)
-const FIGHTER_ZELDA_INSTANCE_WORK_ID_FLAG_SEARCH_HIT : i32 = 0x200000eb; //I'm not sure if you need this exact i32 or not, but I keep it just to make sure it works right
 //this is to define the hook
 static mut NOTIFY_LOG_EVENT_COLLISION_HIT_OFFSET : usize = 0x675A20; //yes you need this usize
-
-#[acmd_script( agent = "zelda", script = "game_speciallw", category = ACMD_GAME )] //this isn't character-specific or anything like that
-unsafe fn zelda_downb(fighter: &mut L2CAgentBase) {
-    let lua_state = fighter.lua_state_agent;
-    acmd!(lua_state, {
-    frame(Frame=4)
-    if(is_excute){
-        //this turns the flag we defined on
-        WorkModule::on_flag(FIGHTER_ZELDA_INSTANCE_WORK_ID_FLAG_SEARCH_HIT);
-        //this is the searchbox itself, use "collision_attr_none" to make it look seamless, 
-        //but for testing I'd set it to like, literally anything else so you know when the searchbox does and doesn't hit
-        //also, the hitbox I used is rather small and just covers in front of zelda, so you can change the size if you want
-        ATTACK(ID=0, Part=0, Bone=hash40("top"), Damage=0.0, Angle=361, KBG=0, FKB=0, BKB=0, Size=2.8, X=0.0, Y=4.5, Z=1.0, X2=0.0, Y2=4.0, Z2=5.5, Hitlag=0.0, SDI=0.0, Clang_Rebound=ATTACK_SETOFF_KIND_OFF, FacingRestrict=ATTACK_LR_CHECK_POS, SetWeight=false, ShieldDamage=0, Trip=0.0, Rehit=0, Reflectable=false, Absorbable=false, Flinchless=false, DisableHitlag=false, Direct_Hitbox=false, Ground_or_Air=COLLISION_SITUATION_MASK_GA, Hitbits=COLLISION_CATEGORY_MASK_FIGHTER, CollisionPart=COLLISION_PART_MASK_ALL, FriendlyFire=false, Effect=hash40("collision_attr_none"), SFXLevel=ATTACK_SOUND_LEVEL_S, SFXType=COLLISION_SOUND_ATTR_NONE, Type=ATTACK_REGION_NONE)
-}
-frame(Frame=6)
-if(is_excute){
-	//this turns the flag we defined back off
-    WorkModule::off_flag(FIGHTER_ZELDA_INSTANCE_WORK_ID_FLAG_SEARCH_HIT);
-    AttackModule::clear_all();
-}
-    });
-}
 
 #[skyline::hook(offset = NOTIFY_LOG_EVENT_COLLISION_HIT_OFFSET)]
 pub unsafe fn notify_log_event_collision_hit_replace(fighter_manager: *mut smash::app::FighterManager, attacker_id: u32, defender_id: u32, move_type: f32, arg5: i32, move_type_again: bool) -> u64 {
@@ -53,11 +29,11 @@ pub unsafe fn notify_log_event_collision_hit_replace(fighter_manager: *mut smash
                 //in here, put the action you want to happen, whether it's a hitbox or an effect or have_item or whatever
                 //just make sure to use attacker_boma if it freaks out, here's my example (gives zelda a banana)
                 //ItemModule::have_item(attacker_boma, smash::app::ItemKind(*ITEM_KIND_BANANA), 0, 0, false, false);
-                let attacker_entry = WorkModule::get_int(&mut *attacker_boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+                let attacker_entry = get_entry_from_boma(attacker_boma);
 
-                if opff::get_dive_target(attacker_entry) == 0{
-                    let defender_entry = WorkModule::get_int(&mut *defender_boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-                    opff::set_dive_target(attacker_entry, defender_entry);
+                if GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0{
+                    let defender_entry = get_entry_from_boma(defender_boma) as i32;
+                    GetVar::set_int(attacker_boma, &mut vars::DIVE_TARGET,defender_entry);
 
                     //CatchModule::set_catch(&mut *defender_boma, 0);
 
@@ -125,11 +101,5 @@ pub fn install() {
             NOTIFY_LOG_EVENT_COLLISION_HIT_OFFSET = offset;
         }
     }
-    /* 
-    install_acmd_scripts!(
-	//you can rename this tho
-		zelda_downb,
-    );
-    */
 	skyline::install_hook!(notify_log_event_collision_hit_replace);
 }

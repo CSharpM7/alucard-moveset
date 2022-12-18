@@ -32,10 +32,10 @@ pub unsafe fn richter_special_hi_main(fighter: &mut L2CFighterCommon) -> L2CValu
     WorkModule::set_int(fighter.module_accessor, *FIGHTER_STATUS_KIND_FALL_SPECIAL, *FIGHTER_STATUS_SUPER_JUMP_PUNCH_WORK_INT_STATUS_KIND_END);
     let main_sum_speed = KineticModule::get_sum_speed(fighter.module_accessor, *KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     fighter.super_jump_punch(L2CValue::Void());
-    fighter.sub_shift_status_main(L2CValue::Ptr(richter_specialhi_main_loop as *const () as _))
+    fighter.sub_shift_status_main(L2CValue::Ptr(richter_special_hi_main_loop as *const () as _))
 }
 
-unsafe extern "C" fn richter_specialhi_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn richter_special_hi_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 0, 0, 0, 0, 1.5, true);
         LAST_EFFECT_SET_COLOR(fighter,1,0,1);
@@ -71,8 +71,9 @@ unsafe extern "C" fn richter_specialhi_main_loop(fighter: &mut L2CFighterCommon)
 
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
 pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
-    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-    opff::set_dive_target(entry, 0);
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
+    GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
 
 
     return original!(fighter);
@@ -133,7 +134,8 @@ unsafe fn richter_special_s2_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
 unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
 
     KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
     sv_kinetic_energy!(
@@ -152,7 +154,7 @@ unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> 
         FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
         0.0
       );
-    let mut defenderTest = get_fighter_common_from_entry_id(opff::get_dive_target(entry));
+    let mut defenderTest = get_fighter_common_from_entry_id(GetVar::get_int(boma, &mut vars::DIVE_TARGET) as u32);
     if (defenderTest.is_none()){
         fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
         return 0.into();
@@ -175,21 +177,71 @@ unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> 
 
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXIT_STATUS)]
 unsafe extern "C" fn richter_special_s2_exit(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let entry = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
 
-    if (opff::get_dive_target(entry) > 0)
+    if (GetVar::get_int(boma, &mut vars::DIVE_TARGET) > 0)
     {
-        let defender = get_fighter_common_from_entry_id(opff::get_dive_target(entry));
+        let defender = get_fighter_common_from_entry_id(GetVar::get_int(boma, &mut vars::DIVE_TARGET) as u32);
         if (!defender.is_none()){
             (defender.unwrap()).change_status(FIGHTER_STATUS_KIND_CAPTURE_CUT.into(), false.into());
         }
-        opff::set_dive_target(entry, 0);
+        GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
     }
 
     return 0.into()
 }
+
+
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+unsafe extern "C" fn richter_special_n_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
+    GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,0);
+
+    return original!(fighter)
+}
+
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
+    let currentFrame = MotionModule::frame(fighter.module_accessor);
+    let spawnFrame = neutralspecial::SPAWN_FRAME;
+
+    if currentFrame >= neutralspecial::CHECK_FRAME && GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN)==0 {
+        let mut startSpawn = false;
+        if currentFrame >= spawnFrame-3.0 {
+            startSpawn = true;
+            //if vars::meta_is_active(boma){
+            if true{
+                GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,neutralspecial::SPAWN_TYPE_INFERNO);
+                MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,true,false);
+                return 0.into()
+            }
+        }
+        if ControlModule::check_button_off(boma, *CONTROL_PAD_BUTTON_SPECIAL) ||
+        (startSpawn == true && GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN) == 0)
+        {
+            startSpawn = true;
+            let spawnType = if !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS)
+            {neutralspecial::SPAWN_TYPE_HELLFIRE} else {-1};
+            GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,spawnType);
+        }
+
+        if startSpawn {
+            MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,true,false);
+            return 0.into()
+        }
+    }
+
+    return 0.into()
+}
+
 pub fn install() {
     install_status_scripts!(
+        richter_special_n_pre,
+        richter_special_n_exec,
         richter_special_hi_main,
         richter_special_s_pre,
         richter_special_s_exec,
@@ -197,5 +249,4 @@ pub fn install() {
         richter_special_s2_exec,
         richter_special_s2_exit
     );
-    
 }

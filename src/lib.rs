@@ -8,6 +8,9 @@ pub mod richter;
 pub mod whip;
 pub mod axe;
 pub mod cross;
+pub mod vars;
+pub use vars::*;
+pub mod hook;
 
 #[cfg(feature = "updater")]
 use skyline_web::*;
@@ -58,7 +61,7 @@ pub fn main() {
     whip::install();
     axe::install();
     cross::install();
-    
+    hook::install();
     #[cfg(feature = "updater")]
     update::install();
 }

@@ -1,36 +1,7 @@
 use super::*;
-//utils::import_noreturn!(common::opff::fighter_common_opff);
 
-static mut META_HEALED:[bool;8] = [false; 8];
-static mut META_WHIFF:[bool;8] = [false; 8];
-static mut META_FRAME:[i32;8] = [0; 8];
-static mut META_EFFECT:[i32;8] = [-1; 8];
-const META_MAX: i32 = 1800;
-const META_PUNISH: i32 = 60;
 
-static mut BAT_INPUT_X:[f32;8] = [0.0; 8];
-static mut BAT_INPUT_Y:[f32;8] = [0.0; 8];
-static mut BAT_DEGREE:[f32;8] = [0.0; 8];
-static mut BAT_EXIT:[bool;8] = [false; 8];
-static mut BAT_EXIT_FRAME:[i32;8] = [0; 8];
-
-static mut DIVE_TARGET:[usize;8] = [0; 8];
-
-pub unsafe fn get_degree(entry: usize) -> f32 {
-    return BAT_DEGREE[entry];
-}
-
-pub unsafe fn get_dive_target(entry: usize) -> usize {
-    return DIVE_TARGET[entry];
-}
-pub unsafe fn set_dive_target(entry: usize, value: usize){
-    DIVE_TARGET[entry] = value;
-}
-pub unsafe fn meta_start(entry:usize) {
-    META_FRAME[entry]=META_MAX;
-}
-
-unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
+unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
     let status = StatusModule::status_kind(fighter.module_accessor);
     let mut swordAttack = [
         *FIGHTER_STATUS_KIND_ATTACK_S3,
@@ -57,46 +28,47 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
     }
     if (!swordAttack)
     {
-        if (META_WHIFF[entry] && !META_HEALED[entry])
+        if (GetVar::is_bool(boma, &mut vars::META_WHIFF) && !GetVar::is_bool(boma, &mut vars::META_HEALED))
         {
             let mut frameloss = META_PUNISH;
-            META_FRAME[entry]=0.max(META_FRAME[entry]-frameloss);
+            GetVar::add_int(boma,&mut vars::META_FRAME,frameloss);
             EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.25, true, 0, 0, 0, 0, 0, false, false);
         }
-        META_HEALED[entry]=false;
+        GetVar::set_bool(boma, &mut vars::META_HEALED,false);
     }
-    META_WHIFF[entry] = swordAttack;
+    GetVar::set_bool(boma, &mut vars::META_WHIFF,swordAttack);
 
 
     let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
     if (AttackModule::is_infliction_status(boma, *COLLISION_KIND_MASK_HIT) 
     //&& in_Hitstop) 
     ){
-        if (META_HEALED[entry]) {return;}
+        if (GetVar::is_bool(boma, &mut vars::META_HEALED)) {return;}
         if (swordAttack)
         {
             let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
             println!("{}",damageDealt);
             if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
-            META_HEALED[entry]=true;
+            GetVar::set_bool(boma, &mut vars::META_HEALED,true);
             DamageModule::heal(boma,damageDealt/-7.5,0);
         }
     }
 }
 
-unsafe fn metamorphosis_update(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize){
-    if META_FRAME[entry] > 0 {
-        META_FRAME[entry]=(META_FRAME[entry]-1).max(0);
-        metamorphosis_check_heal(fighter,boma,entry);
+unsafe fn metamorphosis_update(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
+    if GetVar::get_int(boma,&mut vars::META_FRAME) > 0 {
+        GetVar::add_int(boma,&mut vars::META_FRAME,-1);
+        metamorphosis_check_heal(fighter,boma);
     }
-    metamorphosis_effects(fighter,boma,entry);
+    metamorphosis_effects(fighter,boma);
 }
 
-unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
-    if META_FRAME[entry] > 0 && META_EFFECT[entry] == -1 {
+unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
+    if GetVar::get_int(boma,&mut vars::META_FRAME) > 0 && GetVar::get_int(boma,&mut vars::META_EFFECT) == -1 {
         app::FighterUtil::flash_eye_info(boma);
+
         let handle = EffectModule::req_follow(boma, Hash40::new("sys_aura_dark"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 4.0, true, 0, 0, 0, 0, 0, false, false) as u32;
-        META_EFFECT[entry] = handle as i32;
+        GetVar::set_int(boma,&mut vars::META_EFFECT,handle as i32);
 		EffectModule::set_rgb(boma,handle, 1.0, 0.0, 0.0);
         
         EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
@@ -105,18 +77,23 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
         PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_special_s"));
         //PLAY_SE(fighter, Hash40::new("vc_richter_special_s02"));
     }
-    else if META_FRAME[entry] <= 0 && META_EFFECT[entry] != -1 {
-        let handle = META_EFFECT[entry] as u32;
+    else if GetVar::get_int(boma,&mut vars::META_FRAME) <= 0 && GetVar::get_int(boma,&mut vars::META_EFFECT) != -1 {
+        app::FighterUtil::flash_eye_info(boma);
+        
+        let handle = GetVar::get_int(boma,&mut vars::META_EFFECT) as u32;
         EffectModule::kill_kind(boma,Hash40::new("sys_aura_dark"), false,true);
         EffectModule::kill(boma, handle, false, false);
-        META_EFFECT[entry] = -1;
+        GetVar::set_int(boma,&mut vars::META_EFFECT, -1);
         
         EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 2.0, true, 0, 0, 0, 0, 0, false, false);
+
+        
+        PLAY_SE(fighter, Hash40::new("se_richter_appear02"));
     }
 }
 
 
-unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor,entry: usize) {
+unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
     if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {
         
         ModelModule::set_mesh_visibility(boma, 
@@ -125,10 +102,10 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         );
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
-            if BAT_EXIT[entry] == false {
+            if GetVar::is_bool(boma, &mut vars::BAT_EXIT) {
 
-                BAT_EXIT[entry] = true;
-                BAT_EXIT_FRAME[entry] = 10;
+                GetVar::set_bool(boma, &mut vars::BAT_EXIT,true);
+                GetVar::set_int(boma,&mut vars::BAT_EXIT_FRAME,10);
                 EFFECT(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 2, 0, 0, 0, 1.5, 0,0,0,0,0,0,true);
                 LAST_EFFECT_SET_COLOR(fighter,1,0,1);
 
@@ -138,8 +115,8 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
                     0
                 ); 
 
-                let stick_x: f32 = BAT_INPUT_X[entry];
-                let stick_y: f32 = BAT_INPUT_Y[entry];
+                let stick_x: f32 = GetVar::get_float(boma,&mut vars::BAT_INPUT_X);
+                let stick_y: f32 = GetVar::get_float(boma,&mut vars::BAT_INPUT_Y);
                 let lr = PostureModule::lr(boma);
                 let motion_factor = 1.5;
                 SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
@@ -148,7 +125,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         }
         else
         {
-            BAT_EXIT[entry] = false;
+            GetVar::set_bool(boma, &mut vars::BAT_EXIT,false);
         }
         return;
     }
@@ -186,8 +163,8 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
             stick_x = sv_math::vec2_normalize(stick_x, stick_y).x;
         }
 
-        BAT_INPUT_X[entry] = stick_x;
-        BAT_INPUT_Y[entry] = stick_y;
+        GetVar::set_float(boma,&mut vars::BAT_INPUT_X,stick_x);
+        GetVar::set_float(boma,&mut vars::BAT_INPUT_Y,stick_y);
 
         let normalized = sv_math::vec2_normalize(stick_x, stick_y);
         let arctangent = normalized.y.atan2(normalized.x.abs());
@@ -198,12 +175,12 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
             degree=(degree-180.0);
             flip = 180.0;
         }
-        BAT_DEGREE[entry] = degree;
+        GetVar::set_float(boma,&mut vars::BAT_DEGREE,degree);
     }
     else
     {
-        let stick_x: f32 = BAT_INPUT_X[entry];
-        let stick_y: f32 = BAT_INPUT_Y[entry];
+        let stick_x: f32 = GetVar::get_float(boma,&mut vars::BAT_INPUT_X);
+        let stick_y: f32 = GetVar::get_float(boma,&mut vars::BAT_INPUT_Y);
         if (stick_x.abs() >=0.1){
             PostureModule::set_lr(boma, stick_x.signum());
         }
@@ -216,60 +193,56 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
 }
 
 
-unsafe fn on_rebirth(fighter: &mut L2CFighterCommon,entry: usize)
+unsafe fn on_rebirth(fighter: &mut L2CFighterCommon)
 {
-    META_FRAME[entry]=0;
-    META_WHIFF[entry]=false;
-    META_HEALED[entry]=false;
-    META_EFFECT[entry] = -1;
+    vars::reset(fighter.module_accessor);
+    /* 
+    GetVar::get_int(boma,&mut vars::META_FRAME)=0;
+    GetVar::is_bool(boma, &mut vars::META_WHIFF)=false;
+    GetVar::is_bool(boma, &mut vars::META_HEALED)=false;
+    GetVar::get_int(boma,&mut vars::META_EFFECT) = -1;
 
-    BAT_EXIT[entry]=false;
-    BAT_EXIT_FRAME[entry] = 0;
+    GetVar::is_bool(boma, &mut vars::BAT_EXIT)=false;
+    GetVar::get_int(boma,&mut vars::BAT_EXIT_FRAME) = 0;
+    */
 }
 
 
 // TRAINING MODE
 // Full Meter Gain/Drain via shield during up/down taunt
-unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor,entry: usize) {
+unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
     let mut agent_base = fighter.fighter_base.agent_base;
     //if is_training_mode() {
     if true {
         let status_kind = StatusModule::status_kind(fighter.module_accessor);
         if status_kind == *FIGHTER_STATUS_KIND_APPEAL {
-            //sys_attack_smoke
-            //sys_hit_curse
-            //sys_aura_dark!!!
-            //sys_damage_curse?
-            //sys_damage_purple?
-            //sys_deathscythe_trace_smash
-            //richter_final_coffin_vacuum
-            //richter_final_coffin_start
-
-            //sys_greenshell_trace
-            //sys_assist_out
-            if true && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                if META_FRAME[entry] == 0 { 
-                    META_FRAME[entry]=META_MAX;
-                    DamageModule::add_damage(boma, 50.0,0);
+            if fighter.is_motion(Hash40::new("appeal_hi_l")) || fighter.is_motion(Hash40::new("appeal_hi_r")) {
+                if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_badge"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_firstplace"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_genesis_start"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_timer"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
                 }
             }
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_bomb_c"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                //LAST_EFFECT_SET_COLOR(fighter,1,0,0);
-                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_lay"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_HEAVY, *ATTACK_REGION_MAGIC);
-            }
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                //EFFECT_FOLLOW(fighter, Hash40::new("sys_cross_bomb"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                //LAST_EFFECT_SET_COLOR(fighter,1,0.5,0.5);
-                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_MAGIC, *ATTACK_REGION_MAGIC);
-            }
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_bomb_b"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_leviathan_wave"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_MAGIC);
-            }
-            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_impact"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
-                ATTACK(fighter, 0, 0, Hash40::new("top"), 10.0, 361, 90, 0, 50, 22.3, 0.0, 10.0, 0.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_jack_final"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+            else if fighter.is_motion(Hash40::new("appeal_s_l")) || fighter.is_motion(Hash40::new("appeal_s_r")) {
+                if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_sscope_hold"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_sscope_mzl"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_genesis_hold"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_genesis_get"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
+                }
             }
 
 
@@ -282,15 +255,14 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
     unsafe {
         let lua_state = fighter.lua_state_agent;    
         let boma = smash::app::sv_system::battle_object_module_accessor(lua_state);
-		let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
         
-        metamorphosis_update(fighter,boma,entry);
-        training_cheat(fighter,boma,entry);
-        bat_control(fighter,boma,entry);
+        metamorphosis_update(fighter,boma);
+        training_cheat(fighter,boma);
+        bat_control(fighter,boma);
 
         if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
         {
-            on_rebirth(fighter,entry);
+            on_rebirth(fighter);
         }
         
     }
@@ -301,9 +273,9 @@ fn richter_reset(fighter: &mut L2CFighterCommon) {
     unsafe {
         let lua_state = fighter.lua_state_agent;    
         let boma = smash::app::sv_system::battle_object_module_accessor(lua_state);
-		let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
+		let entry = get_entry(fighter);
         if fighter.kind() == *FIGHTER_KIND_RICHTER {
-            on_rebirth(fighter,entry);
+            on_rebirth(fighter);
         }
     }
 }

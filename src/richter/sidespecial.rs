@@ -54,9 +54,9 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
 
-    let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-    let target = opff::get_dive_target(entry);
-    let defender_boma = get_boma_from_entry_id(opff::get_dive_target(entry));
+    let entry = get_entry(fighter);
+    let target = GetVar::get_int(boma, &mut vars::DIVE_TARGET);
+    let defender_boma = get_boma_from_entry_id(GetVar::get_int(boma, &mut vars::DIVE_TARGET) as u32);
     
     let offset = smash::phx::Vector2f { x: 0.0, y: -8.0 };
     if is_excute(fighter) {
@@ -93,10 +93,9 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
         ATK_HIT_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, Hash40::new("throw"), (*defender_boma).battle_object_id as u64, WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_GROUP), WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO));
 
         if (AttackModule::is_hit_abs(boma)){
-            let entry = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-            opff::meta_start(entry);
+            let entry = get_entry(fighter);
+            vars::meta_start(boma);
         }
-        //opff::meta_start(entry);
         if CatchModule::is_catch(&mut *defender_boma){
             CaptureModule::thrown(&mut *defender_boma);
             CatchModule::set_send_cut_event(defender_boma,true);
@@ -104,7 +103,7 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     }
     wait(lua_state, 1.0);
     {
-        opff::set_dive_target(entry, 0);
+        GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
         AttackModule::clear_all(boma);
         for i in 0..11{
             HIT_NO(fighter, i as u64, *HIT_STATUS_XLU);

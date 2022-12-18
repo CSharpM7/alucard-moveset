@@ -1,4 +1,5 @@
 use super::*;
+mod forwardair;
 mod backair;
 mod downtilt;
 mod jab;
@@ -6,7 +7,9 @@ mod upthrow;
 mod downsmash;
 
 
+#[smashline::installer]
 pub fn install() {
+    forwardair::install();
     backair::install();
     downtilt::install();
     jab::install();

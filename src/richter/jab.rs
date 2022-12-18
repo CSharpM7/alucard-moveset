@@ -1,5 +1,4 @@
 use super::*;
-const LENGTH: f32 = 15.0;
 
 #[acmd_script( agent = "richter", script = "game_attack11" , category = ACMD_GAME )]
 unsafe fn richter_attack_11_game(fighter: &mut L2CAgentBase) {

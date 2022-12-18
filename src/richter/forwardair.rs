@@ -120,7 +120,6 @@ unsafe fn richter_attack_air_f_lw_game(fighter: &mut L2CAgentBase) {
 unsafe fn richter_attack_air_f_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
-    
 }
 
 

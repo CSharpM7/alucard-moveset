@@ -13,8 +13,12 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
     let entry = get_entry(fighter);
 
     frame(lua_state, SPAWN_FRAME+0.1);
-    let projectile = if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN)==SPAWN_TYPE_INFERNO
-    {*FIGHTER_SIMON_GENERATE_ARTICLE_AXE} else {*FIGHTER_SIMON_GENERATE_ARTICLE_CROSS};
+    let mut projectile = *FIGHTER_SIMON_GENERATE_ARTICLE_CROSS;
+    if (GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN)==SPAWN_TYPE_INFERNO)
+    {
+        projectile =*FIGHTER_SIMON_GENERATE_ARTICLE_AXE;
+        GetVar::add_int(boma,&mut vars::META_FRAME,-120);
+    }
     let canspawn = GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) >= SPAWN_TYPE_HELLFIRE;
     
     if is_excute(fighter) && canspawn  {
@@ -41,7 +45,12 @@ unsafe fn richter_special_n_effect(fighter: &mut L2CAgentBase) {
     frame(fighter.lua_state_agent, SPAWN_FRAME-1.0);
     let canspawn = GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) >= SPAWN_TYPE_HELLFIRE;
     if is_excute(fighter) && canspawn {
+        EFFECT_OFF_KIND(fighter, Hash40::new("sys_genesis_start"), false,false);
         LANDING_EFFECT(fighter, Hash40::new("sys_action_smoke_h"), Hash40::new("top"), 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
+        if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_INFERNO
+        {
+            EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
+        }
     }
     
     frame(fighter.lua_state_agent, SPAWN_FRAME+0.1);

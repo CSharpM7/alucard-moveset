@@ -59,10 +59,23 @@ unsafe fn richter_attack_hi3_effect(fighter: &mut L2CAgentBase) {
         EFFECT_ALPHA(fighter, Hash40::new("sys_attack_impact"), Hash40::new("top"), 7, 19, 2, 0, 0, 0, 1.1, 0, 0, 0, 0, 0, 360, false, 0.4);
     }
 }
+#[acmd_script( agent = "richter", script = "sound_attackhi3" , category = ACMD_SOUND )]
+unsafe fn richter_attack_hi3_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    frame(lua_state, 5.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_attackhard_h01"));
+    }
+    frame(lua_state, 6.0);
+    if is_excute(fighter) {
+        PLAY_VC_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"),0.5);
+    }
+}
 
 pub fn install() {
     install_acmd_scripts!(
         richter_attack_hi3_game,
-        richter_attack_hi3_effect
+        richter_attack_hi3_effect,
+        richter_attack_hi3_sound
     );
 }

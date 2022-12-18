@@ -79,7 +79,7 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
     }
     else if GetVar::get_int(boma,&mut vars::META_FRAME) <= 0 && GetVar::get_int(boma,&mut vars::META_EFFECT) != -1 {
         app::FighterUtil::flash_eye_info(boma);
-        
+
         let handle = GetVar::get_int(boma,&mut vars::META_EFFECT) as u32;
         EffectModule::kill_kind(boma,Hash40::new("sys_aura_dark"), false,true);
         EffectModule::kill(boma, handle, false, false);
@@ -102,7 +102,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         );
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
-            if GetVar::is_bool(boma, &mut vars::BAT_EXIT) {
+            if !GetVar::is_bool(boma, &mut vars::BAT_EXIT) {
 
                 GetVar::set_bool(boma, &mut vars::BAT_EXIT,true);
                 GetVar::set_int(boma,&mut vars::BAT_EXIT_FRAME,10);

@@ -48,18 +48,13 @@ unsafe fn richter_attack_air_b_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
     
-    //frame(lua_state, 5.0);
+    frame(lua_state, 3.0);
     if is_excute(fighter) {
         PLAY_SE(fighter, Hash40::new("se_richter_attackair_b01"));
     }
     frame(lua_state, 5.0);
     if is_excute(fighter) {
         PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"));
-    }
-    frame(lua_state, 6.0);
-    if is_excute(fighter) {
-        STOP_SE(fighter, Hash40::new("se_richter_attackair_b01"));
-        PLAY_SE(fighter, Hash40::new("se_richter_attackair_b02"));
     }
 }
 

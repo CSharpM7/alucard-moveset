@@ -30,7 +30,10 @@ unsafe fn richter_attack_11_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "sound_attack11" , category = ACMD_SOUND )]
 unsafe fn richter_attack_11_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-
+    frame(fighter.lua_state_agent, 1.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_swing_s"));
+    }
 }
 #[acmd_script( agent = "richter", script = "effect_attack11" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_11_effect(fighter: &mut L2CAgentBase) {
@@ -70,6 +73,14 @@ unsafe fn richter_attack_12_game(fighter: &mut L2CAgentBase) {
 unsafe fn richter_attack_12_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
+    frame(fighter.lua_state_agent, 3.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_swing_s"));
+    }
+    frame(fighter.lua_state_agent, 45.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_step_right_s"));
+    }
 }
 #[acmd_script( agent = "richter", script = "effect_attack12" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_12_effect(fighter: &mut L2CAgentBase) {
@@ -100,7 +111,7 @@ unsafe fn richter_attack_13_game(fighter: &mut L2CAgentBase) {
 
     frame(lua_state, 6.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 3.5, 30, 50, 0, 75, 4.5, 0.0, 9.0, 16.0, Some(0.0), Some(9.0), Some(8.0), 2.0, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 3.5, 30, 50, 0, 75, 4.5, 0.0, 9.0, 16.0, Some(0.0), Some(9.0), Some(8.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
     }
     wait(lua_state, 2.0);
     if is_excute(fighter) {
@@ -114,13 +125,13 @@ unsafe fn richter_attack_13_sound(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         PLAY_SE(fighter, Hash40::new("se_richter_whip_holding"));
     }
-    frame(lua_state, 10.0);
+    frame(fighter.lua_state_agent, 3.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_attackair_f01"));
+        PLAY_SE(fighter, Hash40::new("se_richter_attack_hold"));
     }
-    frame(lua_state, 15.0);
+    frame(fighter.lua_state_agent, 45.0);
     if is_excute(fighter) {
-        PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"));
+        PLAY_SE(fighter, Hash40::new("se_richter_step_right_s"));
     }
 }
 
@@ -179,58 +190,44 @@ unsafe fn richter_attack_13_expression(fighter: &mut L2CAgentBase) {
 unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
-    let lua_state = fighter.lua_state_agent;
-	acmd!(lua_state, {
-		frame(Frame=1)
-		for(1000000 Iterations){
-            if(is_excute){
-                ATTACK(ID=0, Part=0, Bone=hash40("top"), Damage=0.2, Angle=361, KBG=10, FKB=0, BKB=10, Size=7.3, X=0.0, Y=7.5, Z=10.0, X2=0.0, Y2=7.5, Z2=15.0, Hitlag=0.5, SDI=0.7, Clang_Rebound=ATTACK_SETOFF_KIND_OFF, FacingRestrict=ATTACK_LR_CHECK_F, SetWeight=false, ShieldDamage=0, Trip=0.0, Rehit=0, Reflectable=false, Absorbable=false, Flinchless=false, DisableHitlag=false, Direct_Hitbox=true, Ground_or_Air=COLLISION_SITUATION_MASK_GA, Hitbits=COLLISION_CATEGORY_MASK_ALL, CollisionPart=COLLISION_PART_MASK_ALL, FriendlyFire=false, Effect=hash40("collision_attr_cutup"), SFXLevel=ATTACK_SOUND_LEVEL_S, SFXType=COLLISION_SOUND_ATTR_CUTUP, Type=ATTACK_REGION_SWORD)
-                AttackModule::set_add_reaction_frame(ID=0, Frames=4.0, Unk=false)
-                ATK_SET_SHIELD_SETOFF_MUL(ID=0, ShieldstunMul=8)
+
+    frame(lua_state, 1.0);
+    for i in 1..100000{
+        if is_excute(fighter) {
+            ATTACK(fighter, 0, 0, Hash40::new("top"), 0.2, 361, 10, 0, 10, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(15.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+        }
+        wait(lua_state, 1.0);
+        if is_excute(fighter) {
+            AttackModule::clear_all(boma);
+        }
+        wait(lua_state, 1.0);
+        for j in 1..5{
+            if is_excute(fighter) {
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 0.2, 361, 10, 0, 10, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(15.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
             }
-            wait(Frames=1)
-            if(is_excute){
-                AttackModule::clear_all()
-                WorkModule::on_flag(Flag=FIGHTER_STATUS_ATTACK_FLAG_100_CONTINUE_CHECK)
+            wait(lua_state, 1.0);
+            if is_excute(fighter) {
+                AttackModule::clear_all(boma);
             }
-            wait(Frames=1)
-			for(5 Iterations){
-				if(is_excute){
-					ATTACK(ID=0, Part=0, Bone=hash40("top"), Damage=0.2, Angle=361, KBG=10, FKB=0, BKB=10, Size=7.3, X=0.0, Y=7.5, Z=10.0, X2=0.0, Y2=7.5, Z2=15.0, Hitlag=0.5, SDI=0.7, Clang_Rebound=ATTACK_SETOFF_KIND_OFF, FacingRestrict=ATTACK_LR_CHECK_F, SetWeight=false, ShieldDamage=0, Trip=0.0, Rehit=0, Reflectable=false, Absorbable=false, Flinchless=false, DisableHitlag=false, Direct_Hitbox=true, Ground_or_Air=COLLISION_SITUATION_MASK_GA, Hitbits=COLLISION_CATEGORY_MASK_ALL, CollisionPart=COLLISION_PART_MASK_ALL, FriendlyFire=false, Effect=hash40("collision_attr_cutup"), SFXLevel=ATTACK_SOUND_LEVEL_S, SFXType=COLLISION_SOUND_ATTR_CUTUP, Type=ATTACK_REGION_SWORD)
-					AttackModule::set_add_reaction_frame(ID=0, Frames=4.0, Unk=false)
-					ATK_SET_SHIELD_SETOFF_MUL(ID=0, ShieldstunMul=8)
-				}
-				wait(Frames=1)
-				if(is_excute){
-					AttackModule::clear_all()
-					WorkModule::on_flag(Flag=FIGHTER_STATUS_ATTACK_FLAG_100_CONTINUE_CHECK)
-				}
-				wait(Frames=2)
-			}
-            /*
-			if(is_excute){
-				ATTACK(ID=0, Part=0, Bone=hash40("top"), Damage=0.2, Angle=361, KBG=10, FKB=0, BKB=15, Size=6.0, X=0.0, Y=8.5, Z=8.0, X2=0.0, Y2=8.5, Z2=13.0, Hitlag=0.5, SDI=0.3, Clang_Rebound=ATTACK_SETOFF_KIND_OFF, FacingRestrict=ATTACK_LR_CHECK_F, SetWeight=false, ShieldDamage=0, Trip=0.0, Rehit=0, Reflectable=false, Absorbable=false, Flinchless=false, DisableHitlag=false, Direct_Hitbox=true, Ground_or_Air=COLLISION_SITUATION_MASK_GA, Hitbits=COLLISION_CATEGORY_MASK_ALL, CollisionPart=COLLISION_PART_MASK_ALL, FriendlyFire=false, Effect=hash40("collision_attr_cutup"), SFXLevel=ATTACK_SOUND_LEVEL_S, SFXType=COLLISION_SOUND_ATTR_CUTUP, Type=ATTACK_REGION_SWORD)
-				AttackModule::set_add_reaction_frame(ID=0, Frames=4.0, Unk=false)
-				ATK_SET_SHIELD_SETOFF_MUL(ID=0, ShieldstunMul=8)
-			}
-			wait(Frames=1)
-			if(is_excute){
-				AttackModule::clear_all()
-				WorkModule::on_flag(Flag=FIGHTER_STATUS_ATTACK_FLAG_100_CONTINUE_CHECK)
-			}
-            */
-			wait_loop_clear(0)
-			//wait(Frames=2)
-		}
-	});
+            wait(lua_state, 2.0);
+        }
+    }
 }
+
 #[acmd_script( agent = "richter", script = "sound_attack100" , category = ACMD_SOUND )]
 unsafe fn richter_attack_100_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    
+    //macros::PLAY_SE(fighter, Hash40::new("se_common_sword_swing_s"));
+    frame(lua_state, 2.0);
+    for i in 1..100000{
+        if is_excute(fighter) {
+            PLAY_SE(fighter, Hash40::new("se_richter_attack100_01"));
+        }
+        wait(lua_state, 5.0);
+    }
 }
 
-#[acmd_script( agent = "richter", script = "effect_attack100" , category = ACMD_EFFECT )]
+#[acmd_script( agent = "richter", script = "effect_attack100_1" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_100_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
@@ -250,6 +247,15 @@ unsafe fn richter_attack_100end_game(fighter: &mut L2CAgentBase) {
     wait(lua_state, 2.0);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
+    }
+}
+#[acmd_script( agent = "richter", script = "sound_attack100end" , category = ACMD_SOUND )]
+unsafe fn richter_attack_100end_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    //macros::PLAY_SE(fighter, Hash40::new("se_common_sword_swing_s"));
+    frame(lua_state, 1.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_attack100_02"));
     }
 }
 

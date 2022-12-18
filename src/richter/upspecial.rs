@@ -129,7 +129,7 @@ unsafe fn richter_special_hi_sound(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 5.0);
     if is_excute(fighter) {
-        PLAY_VC(fighter, Hash40::new("vc_richter_special_h01"),0.5);
+        PLAY_VC(fighter, Hash40::new("vc_richter_special_h01"),0.375);
     }
     frame(lua_state, 10.0);
     if is_excute(fighter) {

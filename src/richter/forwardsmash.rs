@@ -137,10 +137,6 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
         LANDING_EFFECT(fighter, Hash40::new("sys_atk_smoke"), Hash40::new("top"), 6, 0, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, false);
         LAST_EFFECT_SET_RATE(fighter, 0.7);
     }
-    frame(lua_state, 12.0);
-    if is_excute(fighter) {
-        EFFECT_FOLLOW(fighter, Hash40::new("richter_whip_straight"), Hash40::new("haver"), 0, 0, 0, 0, 65, 0, 1.3, true);
-    }
 }
 pub fn install() {
     install_acmd_scripts!(

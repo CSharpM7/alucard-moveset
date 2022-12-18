@@ -2,7 +2,7 @@
 use super::*;
 
 #[acmd_script( agent = "richter", scripts = ["game_specials1","game_specialairs1"] , category = ACMD_GAME )]
-unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
+unsafe fn richter_special_s1_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
     
@@ -41,13 +41,42 @@ unsafe fn richter_special_s_game(fighter: &mut L2CAgentBase) {
         //AttackModule::set_vec_target_pos(fighter.module_accessor, 0, Hash40::new("rot"), &offset, 0, false);
         
     }
-    wait(lua_state, 15.0);
+    frame(lua_state, 42.0);
     if is_excute(fighter) {
         WorkModule::off_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_S_FLAG_FALL);
         AttackModule::clear_all(boma);
     }
+    wait(lua_state, 1.0);
+    if is_excute(fighter) {
+        GetVar::add_int(boma, &mut vars::META_ATTEMPTS, 1);
+    }
 }
 
+
+#[acmd_script( agent = "richter", scripts = ["effect_specials1","effect_specialairs1"] , category = ACMD_EFFECT )]
+unsafe fn richter_special_s1_effect(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    frame(lua_state, 43.0);
+    if is_excute(fighter) {
+        EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
+    }
+}
+#[acmd_script( agent = "richter", scripts = ["sound_specials1","sound_specialairs1"] , category = ACMD_SOUND )]
+unsafe fn richter_special_s1_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    frame(lua_state, 5.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_special_s03"));
+    }
+    frame(lua_state, 12.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_special_s03_smash"));
+    }
+    frame(lua_state, 43.0);
+    if is_excute(fighter) {
+        PLAY_VC(fighter, Hash40::new("vc_richter_wakeup"),0.125);
+    }
+}
 
 #[acmd_script( agent = "richter", scripts = ["game_specials2","game_specialairs2"] , category = ACMD_GAME )]
 unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
@@ -132,18 +161,24 @@ unsafe fn richter_special_s2_effect(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", scripts = ["sound_specials1","sound_specialairs1"] , category = ACMD_SOUND )]
-unsafe fn richter_special_s1_sound(fighter: &mut L2CAgentBase) {
-    let lua_state = fighter.lua_state_agent;
-}
 #[acmd_script( agent = "richter", scripts = ["sound_specials2","sound_specialairs2"] , category = ACMD_SOUND )]
 unsafe fn richter_special_s2_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
+    frame(lua_state, 1.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_special_s04"));
+    }
+    frame(lua_state, 30.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_special_s04_smash"));
+    }
 }
 
 pub fn install() {
     install_acmd_scripts!(
-        richter_special_s_game,
+        richter_special_s1_game,
+        richter_special_s1_effect,
+        richter_special_s1_sound,
 
         richter_special_s2_game,
         richter_special_s2_effect,

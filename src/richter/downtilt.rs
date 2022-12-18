@@ -27,7 +27,7 @@ unsafe fn richter_attack_lw3_game(fighter: &mut L2CAgentBase) {
         AttackModule::clear_all(boma);
     }
 }
-#[acmd_script( agent = "richter", script = "effect_attacklw3" , category = ACMD_GAME )]
+#[acmd_script( agent = "richter", script = "effect_attacklw3" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_lw3_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
@@ -37,10 +37,20 @@ unsafe fn richter_attack_lw3_effect(fighter: &mut L2CAgentBase) {
         FOOT_EFFECT(fighter, Hash40::new("sys_turn_smoke"), Hash40::new("top"), -4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
     }
 }
+#[acmd_script( agent = "richter", script = "sound_attacklw3" , category = ACMD_SOUND )]
+unsafe fn richter_attack_lw3_sound(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    
+    frame(lua_state, 5.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_common_sword_swing_m"));
+    }
+}
 
 pub fn install() {
     install_acmd_scripts!(
         richter_attack_lw3_game,
-        richter_attack_lw3_effect
+        richter_attack_lw3_effect,
+        richter_attack_lw3_sound
     );
 }

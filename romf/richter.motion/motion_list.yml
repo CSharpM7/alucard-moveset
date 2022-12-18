@@ -3134,7 +3134,7 @@ list:
       cancel_frame: 50
       no_stop_intp: false
   special_s1_blank:
-    game_script: game_specials1blank
+    game_script: game_specials1
     flags:
       turn: false
       loop: false
@@ -3215,7 +3215,7 @@ list:
       cancel_frame: 50
       no_stop_intp: false
   special_air_s1_blank:
-    game_script: game_specialairs1blank
+    game_script: game_specialairs1
     flags:
       turn: false
       loop: false

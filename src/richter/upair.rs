@@ -64,7 +64,7 @@ unsafe fn richter_attack_air_hi_effect(fighter: &mut L2CAgentBase) {
 unsafe fn richter_attack_air_hi_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     
-    frame(fighter.lua_state_agent, 7.0);
+    frame(fighter.lua_state_agent, 4.0);
         if is_excute(fighter) {
         PLAY_SE(fighter, Hash40::new("se_richter_attackair_h01"));
     }

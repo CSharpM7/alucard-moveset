@@ -211,17 +211,12 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
 
     if currentFrame >= neutralspecial::CHECK_FRAME && GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN)==0 {
         let mut startSpawn = false;
-        if currentFrame >= spawnFrame-3.0 {
+        if currentFrame >= spawnFrame-3.0 && vars::meta_is_active(boma) {
             startSpawn = true;
-            //if vars::meta_is_active(boma){
-            if true{
-                GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,neutralspecial::SPAWN_TYPE_INFERNO);
-                MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,true,false);
-                return 0.into()
-            }
+            GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,neutralspecial::SPAWN_TYPE_INFERNO);
         }
-        if ControlModule::check_button_off(boma, *CONTROL_PAD_BUTTON_SPECIAL) ||
-        (startSpawn == true && GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN) == 0)
+        else if ControlModule::check_button_off(boma, *CONTROL_PAD_BUTTON_SPECIAL) ||
+        (!vars::meta_is_active(boma))
         {
             startSpawn = true;
             let spawnType = if !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS)

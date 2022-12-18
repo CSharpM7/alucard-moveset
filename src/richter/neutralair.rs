@@ -42,12 +42,10 @@ unsafe fn richter_attack_air_n_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "sound_attackairn" , category = ACMD_SOUND )]
 unsafe fn richter_attack_air_n_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    /*
     frame(lua_state, STARTUP-1.0);
     if is_excute(fighter) {
     PLAY_SE(fighter, Hash40::new("se_richter_attackair_n01"));
     }
-    */
     frame(lua_state, STARTUP);
     if is_excute(fighter) {
         PLAY_SEQUENCE(fighter, Hash40::new("seq_richter_rnd_attack"));

@@ -75,7 +75,7 @@ unsafe fn richter_attack_12_sound(fighter: &mut L2CAgentBase) {
 
     frame(fighter.lua_state_agent, 3.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_swing_s"));
+        PLAY_SE(fighter, Hash40::new("se_richter_swing_m"));
     }
     frame(fighter.lua_state_agent, 45.0);
     if is_excute(fighter) {
@@ -127,7 +127,7 @@ unsafe fn richter_attack_13_sound(fighter: &mut L2CAgentBase) {
     }
     frame(fighter.lua_state_agent, 3.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_attack_hold"));
+        PLAY_SE(fighter, Hash40::new("se_common_sword_swing_m"));
     }
     frame(fighter.lua_state_agent, 45.0);
     if is_excute(fighter) {
@@ -199,6 +199,7 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
         wait(lua_state, 1.0);
         if is_excute(fighter) {
             AttackModule::clear_all(boma);
+            WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_100_CONTINUE_CHECK);
         }
         wait(lua_state, 1.0);
         for j in 1..5{
@@ -208,6 +209,7 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
             wait(lua_state, 1.0);
             if is_excute(fighter) {
                 AttackModule::clear_all(boma);
+                WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_ATTACK_FLAG_100_CONTINUE_CHECK);
             }
             wait(lua_state, 2.0);
         }

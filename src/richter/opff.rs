@@ -26,7 +26,14 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         }
         
     }
-    if (!swordAttack)
+    let cancelFrame = FighterMotionModuleImpl::get_cancel_frame(boma,smash::phx::Hash40::new_raw(MotionModule::motion_kind(boma)), false)as f32;
+
+
+    if (fighter.motion_frame() < 2.0){
+        GetVar::set_bool(boma, &mut vars::META_WHIFF,false);
+        GetVar::set_bool(boma, &mut vars::META_HEALED,false);
+    }
+    if (!swordAttack) || (fighter.motion_frame() > cancelFrame-5.0)
     {
         if (GetVar::is_bool(boma, &mut vars::META_WHIFF) && !GetVar::is_bool(boma, &mut vars::META_HEALED))
         {
@@ -34,25 +41,31 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
             GetVar::add_int(boma,&mut vars::META_FRAME,frameloss);
             EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.25, true, 0, 0, 0, 0, 0, false, false);
         }
-        GetVar::set_bool(boma, &mut vars::META_HEALED,false);
+        GetVar::set_bool(boma, &mut vars::META_WHIFF,false);
     }
-    GetVar::set_bool(boma, &mut vars::META_WHIFF,swordAttack);
+    if (fighter.motion_frame() < cancelFrame-5.0){
+        GetVar::set_bool(boma, &mut vars::META_WHIFF,swordAttack);
+        let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
+        if (AttackModule::is_infliction_status(boma, *COLLISION_KIND_MASK_HIT) 
+        //&& in_Hitstop) 
+        ){
+            
+            if (GetVar::is_bool(boma, &mut vars::META_HEALED)) {return;}
+            if (swordAttack)
+            {
+                let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
+                println!("{}",damageDealt);
+                if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
+                GetVar::set_bool(boma, &mut vars::META_HEALED,true);
+                DamageModule::heal(boma,damageDealt/-7.5,0);
+                PLAY_SE(fighter, Hash40::new("se_richter_attackair_b02"));
 
-
-    let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
-    if (AttackModule::is_infliction_status(boma, *COLLISION_KIND_MASK_HIT) 
-    //&& in_Hitstop) 
-    ){
-        if (GetVar::is_bool(boma, &mut vars::META_HEALED)) {return;}
-        if (swordAttack)
-        {
-            let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
-            println!("{}",damageDealt);
-            if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
-            GetVar::set_bool(boma, &mut vars::META_HEALED,true);
-            DamageModule::heal(boma,damageDealt/-7.5,0);
+                EFFECT_FOLLOW(fighter, Hash40::new("sys_badge"), Hash40::new("hip"), 0,0,0,0,0,0, 0.825, true);
+            }
         }
     }
+
+
 }
 
 unsafe fn metamorphosis_update(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
@@ -206,17 +219,15 @@ unsafe fn on_rebirth(fighter: &mut L2CFighterCommon)
     GetVar::get_int(boma,&mut vars::BAT_EXIT_FRAME) = 0;
     */
 }
-
-
 // TRAINING MODE
-// Full Meter Gain/Drain via shield during up/down taunt
 unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
     let mut agent_base = fighter.fighter_base.agent_base;
-    //if is_training_mode() {
-    if true {
+    if is_training_mode() {
+    //if true {
         let status_kind = StatusModule::status_kind(fighter.module_accessor);
         if status_kind == *FIGHTER_STATUS_KIND_APPEAL {
             if fighter.is_motion(Hash40::new("appeal_hi_l")) || fighter.is_motion(Hash40::new("appeal_hi_r")) {
+                PLAY_SE(fighter, Hash40::new("se_richter_whip_hit"));
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
                     EFFECT_FOLLOW(fighter, Hash40::new("sys_badge"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
                 }

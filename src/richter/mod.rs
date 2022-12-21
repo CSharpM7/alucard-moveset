@@ -17,6 +17,7 @@ mod sidespecial;
 mod upspecial;
 mod throws;
 mod taunts;
+mod results;
 mod movement;
 mod opff;
 mod status;
@@ -40,6 +41,7 @@ pub fn install() {
     neutralair::install();
     taunts::install();
     throws::install();
+    results::install();
     movement::install();
     opff::install();
     status::install();

@@ -42,9 +42,10 @@ unsafe fn axe_hoph_effect(weapon: &mut L2CAgentBase) {
 unsafe fn axe_hoph_sound(weapon: &mut L2CAgentBase) {
     let lua_state = weapon.lua_state_agent;
     let maxFrame =  WorkModule::get_param_int(weapon.module_accessor, hash40("param_axe"), hash40("hop_life")) as f32;
-    frame(lua_state, maxFrame-2.0);
-    if is_excute(weapon) {
-        PLAY_SE(weapon, Hash40::new("se_richter_special_s02_smash"));
+    frame(lua_state, 2.0);
+    if is_excute(weapon){
+        STOP_SE(weapon, Hash40::new("se_item_magicball_fire"));
+        PLAY_SE(weapon, Hash40::new("se_richter_special_n02"));
     }
 }
 

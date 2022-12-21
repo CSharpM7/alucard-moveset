@@ -3023,7 +3023,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 67
+      cancel_frame: 85
       no_stop_intp: false
   special_n_blank:
     game_script: game_specialn
@@ -3050,7 +3050,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 67
+      cancel_frame: 85
       no_stop_intp: false
   special_air_n:
     game_script: game_specialairn
@@ -3077,9 +3077,9 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 67
+      cancel_frame: 85
       no_stop_intp: false
-  special_air_n_blank:
+  special_air_n_blank_ee:
     game_script: game_specialairn
     flags:
       turn: false
@@ -3104,7 +3104,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 67
+      cancel_frame: 85
       no_stop_intp: false
   special_s1:
     game_script: game_specials1

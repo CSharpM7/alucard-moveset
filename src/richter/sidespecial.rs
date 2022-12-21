@@ -66,11 +66,12 @@ unsafe fn richter_special_s1_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     frame(lua_state, 5.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_special_s03"));
+        PLAY_STEP(fighter, Hash40::new("se_richter_step_crawing_left_b"));
     }
     frame(lua_state, 12.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_special_s03_smash"));
+        //STOP_SE(fighter, Hash40::new("se_richter_special_s01"));
+        PLAY_STEP(fighter, Hash40::new("se_richter_step_crawing_left_f"));
     }
     frame(lua_state, 43.0);
     if is_excute(fighter) {
@@ -94,16 +95,19 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
             HIT_NO(fighter, i as u64, *HIT_STATUS_XLU);
         }
         
-        ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 10.0, 60, 50, 0, 90, 1.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_sting_flash"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_MAGIC);
+        ATTACK_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, 0, 10.0, 60, 0, 50, 90, 1.0, 1.0, *ATTACK_LR_CHECK_F, 0.0, true, Hash40::new("collision_attr_sting_flash"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_MAGIC);
 
     }
+    frame(lua_state, 1.0);
+    FT_MOTION_RATE(fighter,1.5);
+    //Could move this to status?
     for i in 1..27{
         wait(lua_state, 1.0);
         if is_excute(fighter) {
             //ATK_HIT_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, Hash40::new("throw"), (*defender_boma).battle_object_id as u64, WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_GROUP), WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO));
             let mut pos = Vector3f::zero();
             let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("throw")}, &mut pos);        
-            let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z}; //Set by the attacker
+            let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z};
 
             GroundModule::set_attach_ground(defender_boma, false);
             KineticModule::change_kinetic(&mut *defender_boma, *FIGHTER_KINETIC_TYPE_CAPTURE);
@@ -116,6 +120,7 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
         }
     }
     frame(lua_state, 30.0);
+    FT_MOTION_RATE(fighter,1.0);
     if is_excute(fighter) {
         (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_WAIT, false);
         
@@ -150,8 +155,8 @@ unsafe fn richter_special_s2_effect(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         //EFFECT_FOLLOW(fighter, Hash40::new("sys_sscope_bullet"), Hash40::new("throw"), 0,0,0,0,0,0, 4.0, true);
         //LAST_EFFECT_SET_COLOR(fighter,1,0.1,0.5);
-        EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("throw"), 0,0,0,0,0,0, 0.625, true);
-        LAST_EFFECT_SET_RATE(fighter,4.5);
+        EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("throw"), 0,0,0,0,0,0, 0.625, true); 
+        LAST_EFFECT_SET_RATE(fighter,3.0);//4.5 for 1 motion rate
         LAST_EFFECT_SET_COLOR(fighter,1,0,4);
     }
     frame(lua_state, 30.0);
@@ -166,11 +171,12 @@ unsafe fn richter_special_s2_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     frame(lua_state, 1.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_special_s04"));
+        PLAY_SE(fighter, Hash40::new("se_item_killer_attack"));
     }
     frame(lua_state, 30.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_special_s04_smash"));
+        STOP_SE(fighter, Hash40::new("se_item_killer_attack"));
+        PLAY_STEP(fighter, Hash40::new("se_richter_step_crawing_right_f"));
     }
 }
 

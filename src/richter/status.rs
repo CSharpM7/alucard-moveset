@@ -209,25 +209,26 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
     let currentFrame = MotionModule::frame(fighter.module_accessor);
     let spawnFrame = neutralspecial::SPAWN_FRAME;
 
-    if currentFrame >= neutralspecial::CHECK_FRAME && GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN)==0 {
-        let mut startSpawn = false;
-        if currentFrame >= spawnFrame-3.0 && vars::meta_is_active(boma) {
-            startSpawn = true;
+    if currentFrame >= neutralspecial::CHECK_FRAME && currentFrame<spawnFrame {
+        println!("{}",ArticleModule::is_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_CROSS));
+        if currentFrame >= spawnFrame-3.0 {
             GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,neutralspecial::SPAWN_TYPE_INFERNO);
-        }
-        else if ControlModule::check_button_off(boma, *CONTROL_PAD_BUTTON_SPECIAL) ||
-        (!vars::meta_is_active(boma))
-        {
-            startSpawn = true;
-            let spawnType = if !app::lua_bind::WorkModule::is_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS)
-            {neutralspecial::SPAWN_TYPE_HELLFIRE} else {-1};
-            GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,spawnType);
-        }
-
-        if startSpawn {
-            MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,true,false);
             return 0.into()
         }
+        else if ControlModule::check_button_off(boma, *CONTROL_PAD_BUTTON_SPECIAL)
+        || !(vars::meta_is_active(boma)) 
+        {
+            EFFECT_OFF_KIND(fighter, Hash40::new("sys_genesis_start"),true,false);
+            let spawnType = if !ArticleModule::is_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_CROSS)
+            {neutralspecial::SPAWN_TYPE_HELLFIRE} else {-1};
+            GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,spawnType);
+            MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,false,false);
+            return 0.into()
+        }
+    }
+    else if currentFrame < neutralspecial::CHECK_FRAME
+    {
+        GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,0);
     }
 
     return 0.into()

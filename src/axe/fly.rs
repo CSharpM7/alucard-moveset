@@ -28,7 +28,7 @@ unsafe fn axe_fly_effect(weapon: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter_axe", script = "sound_fly" , category = ACMD_SOUND )]
 unsafe fn axe_fly_sound(weapon: &mut L2CAgentBase) {
     if is_excute(weapon) {
-        PLAY_STATUS(weapon, Hash40::new("se_richter_special_s02"));
+        PLAY_STATUS(weapon, Hash40::new("se_item_magicball_fire"));
     }
 }
 

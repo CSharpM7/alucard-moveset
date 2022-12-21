@@ -31,12 +31,16 @@ unsafe fn cross_fly_effect(weapon: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter_cross", script = "sound_fly" , category = ACMD_SOUND )]
 unsafe fn cross_fly_sound(weapon: &mut L2CAgentBase) {
     if is_excute(weapon) {
-        PLAY_STATUS(weapon, Hash40::new("se_richter_special_s01"));
+        PLAY_SE_REMAIN(weapon, Hash40::new("se_richter_special_s02"));
     }
 }
 
 #[acmd_script( agent = "richter_cross", script = "game_turn" , category = ACMD_GAME )]
 unsafe fn cross_turn_game(weapon: &mut L2CAgentBase) {
+    let boma = get_owner_boma(weapon);
+    if is_excute(weapon) {
+        WorkModule::off_flag(boma, *FIGHTER_SIMON_INSTANCE_WORK_ID_FLAG_CROSS);
+    }
 }
 #[acmd_script( agent = "richter_cross", script = "effect_turn" , category = ACMD_EFFECT )]
 unsafe fn cross_turn_effect(weapon: &mut L2CAgentBase) {
@@ -50,6 +54,7 @@ unsafe fn cross_turn_effect(weapon: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter_cross", script = "sound_turn" , category = ACMD_SOUND )]
 unsafe fn cross_turn_sound(weapon: &mut L2CAgentBase) {
     if is_excute(weapon) {
+        STOP_SE(weapon, Hash40::new("se_richter_special_s02"));
         PLAY_SE_REMAIN(weapon, Hash40::new("se_richter_special_s02_smash"));
     }
 }

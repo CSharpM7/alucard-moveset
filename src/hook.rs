@@ -2,7 +2,7 @@ use super::*;
 use skyline::{install_hook};
 use {
     smash::{
-        app::{lua_bind::*, FighterManager, *},
+        app::{lua_bind::*, FighterManager, *}
     }
 };
 
@@ -19,55 +19,46 @@ pub unsafe fn notify_log_event_collision_hit_replace(fighter_manager: *mut smash
     let defender_boma = sv_battle_object::module_accessor(defender_id); //and this is the defender. easily named and easy to keep straight
     let attacker_kind = sv_battle_object::kind(attacker_id); //character of the attacker
 	let defender_kind = sv_battle_object::kind(defender_id); //you'll never guess what this one is
-    if (defender_kind != *FIGHTER_KIND_KOOPAG) {
-        //this next line checks whether the attacker is zelda, and if the flag we defined is on
-        //if (attacker_kind == *FIGHTER_KIND_ZELDA && WorkModule::is_flag(attacker_boma, FIGHTER_ZELDA_INSTANCE_WORK_ID_FLAG_SEARCH_HIT)) {
-        //if (attacker_kind == *FIGHTER_KIND_ZELDA && WorkModule::is_flag(attacker_boma, FIGHTER_ZELDA_INSTANCE_WORK_ID_FLAG_SEARCH_HIT)) {
+    if (defender_kind != *FIGHTER_KIND_KOOPAG)
+    && (utility::get_category(&mut *defender_boma) == *BATTLE_OBJECT_CATEGORY_FIGHTER) {
+        let attacker_entry = get_entry_from_boma(attacker_boma);
+        let defender_entry = get_entry_from_boma(defender_boma) as i32;
         if (attacker_kind == *FIGHTER_KIND_RICHTER && (*attacker_boma).is_status(*FIGHTER_STATUS_KIND_SPECIAL_S)) {
-            //this makes sure it's a fighter that's being hit. you could experiment a bit with it cause I doubt it covers assist trophies but prolly best to leave this alone
-            if (utility::get_category(&mut *defender_boma) == *BATTLE_OBJECT_CATEGORY_FIGHTER) {
-                //in here, put the action you want to happen, whether it's a hitbox or an effect or have_item or whatever
-                //just make sure to use attacker_boma if it freaks out, here's my example (gives zelda a banana)
-                //ItemModule::have_item(attacker_boma, smash::app::ItemKind(*ITEM_KIND_BANANA), 0, 0, false, false);
-                let attacker_entry = get_entry_from_boma(attacker_boma);
+            if GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0 {
+                GetVar::set_int(attacker_boma, &mut vars::DIVE_TARGET,defender_entry);
 
-                if GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0{
-                    let defender_entry = get_entry_from_boma(defender_boma) as i32;
-                    GetVar::set_int(attacker_boma, &mut vars::DIVE_TARGET,defender_entry);
+                //CatchModule::set_catch(&mut *defender_boma, 0);
 
-                    //CatchModule::set_catch(&mut *defender_boma, 0);
-
-                    if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FALL, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_JUMP) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_YOSHI, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_SWALLOWED, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_PULLED_FISHINGROD, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_JACK_WIRE, false);
-                    }
-                    else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY, false);
-                    }
-                    else
-                    {
-                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
-                    }
-                    //(*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
-                    (*attacker_boma).change_status_req(*FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, false);
-                    WorkModule::on_flag(defender_boma, *FIGHTER_STATUS_THROWN_WORK_FLAG_DISABLE_PASSIVE) ;
-                    //WorkModule::set_customize_no(module_accessor, arg2, arg3)
-                    //CaptureModule::capture(&mut *defender_boma, attacker_entry as c_uint,0,false,0);
+                if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_ATTACK) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FALL, false);
                 }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_SPECIAL) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE, false);
+                }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_JUMP) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_YOSHI, false);
+                }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_SWALLOWED, false);
+                }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_PULLED_FISHINGROD, false);
+                }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_JACK_WIRE, false);
+                }
+                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY, false);
+                }
+                else
+                {
+                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
+                }
+                //(*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
+                (*attacker_boma).change_status_req(*FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, false);
+                WorkModule::on_flag(defender_boma, *FIGHTER_STATUS_THROWN_WORK_FLAG_DISABLE_PASSIVE) ;
+                //WorkModule::set_customize_no(module_accessor, arg2, arg3)
+                //CaptureModule::capture(&mut *defender_boma, attacker_entry as c_uint,0,false,0);
             }
         }
     }

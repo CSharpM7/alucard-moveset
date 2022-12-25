@@ -8,20 +8,23 @@ unsafe fn richter_entry_game(fighter: &mut L2CAgentBase) {
     
     frame(lua_state, 1.0);
     if is_excute(fighter) {
-        ArticleModule::generate_article(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN,false,0);
-        ArticleModule::set_visibility_whole(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
-        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, Hash40::new("appeal_lw_r"), false, 0.0);
+        ArticleModule::generate_article(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN,false,0);
+        ArticleModule::set_visibility_whole(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, Hash40::new("appeal_lw_r"), false, 0.0);
     }
     for i in 2..100{
         if is_excute(fighter) {
             let pos = smash::phx::Vector3f { x: PostureModule::pos_x(boma), y: PostureModule::pos_y(boma), z: 0.0 };
-            ArticleModule::set_pos(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, pos);
+            ArticleModule::set_pos(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, pos);
             wait(lua_state, 1.0);
+            WorkModule::set_float(boma, pos.x, *FIGHTER_SIMON_STATUS_WORK_ID_FLOAT_FINAL_COFFIN_POS_X);
+            WorkModule::set_float(boma, pos.y, *FIGHTER_SIMON_STATUS_WORK_ID_FLOAT_FINAL_COFFIN_POS_Y);
+            WorkModule::set_float(boma, pos.z, *FIGHTER_SIMON_STATUS_WORK_ID_FLOAT_FINAL_COFFIN_POS_Z);
         }
     }
     frame(lua_state, 120.0);
     if is_excute(fighter) {
-        ArticleModule::remove_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_COFFIN, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+        ArticleModule::remove_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
     }
 }
 

@@ -10,9 +10,10 @@ unsafe fn richter_attack_11_game(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 5.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 3.0, 361, 10, 0, 10, 3.2, 0.0, 11.0, 5.5, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);
-        ATTACK(fighter, 1, 0, Hash40::new("top"), 3.0, 180, 10, 0, 30, 3.2, 0.0, 11.0, 10.0, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);
-        AttackModule::set_add_reaction_frame(boma, /*ID*/ 1, /*Frames*/ 1.0, /*Unk*/ false);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 3.0, 361, 10, 0, 10, 3.2, 0.0, 11.0, 6.5, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);
+        ATTACK(fighter, 1, 0, Hash40::new("top"), 3.0, 180, 10, 0, 10, 3.2, 0.0, 11.0, 11.0, None, None, None, 1.5, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);
+        AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 0, /*Frames*/ 5.0, /*Unk*/ false);
+        AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 1, /*Frames*/ 5.0, /*Unk*/ false);
 
         MotionModule::set_rate(boma, 1.0);
     }
@@ -32,7 +33,8 @@ unsafe fn richter_attack_11_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     frame(fighter.lua_state_agent, 1.0);
     if is_excute(fighter) {
-        PLAY_SE(fighter, Hash40::new("se_richter_swing_s"));
+        //PLAY_SE(fighter, Hash40::new("se_richter_swing_s"));
+        PLAY_SE(fighter, Hash40::new("se_richter_attackair_n01"));
     }
 }
 #[acmd_script( agent = "richter", script = "effect_attack11" , category = ACMD_EFFECT )]
@@ -53,11 +55,15 @@ unsafe fn richter_attack_11_effect(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", script = "game_attack12" , category = ACMD_GAME )]
 unsafe fn richter_attack_12_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-    let boma = fighter.module_accessor;frame(lua_state, 5.0);
+    let boma = fighter.module_accessor;
+    frame(lua_state, 5.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 2.0, 361, 25, 0, 35, 3.0, 0.0, 9.5, 3.0, None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
-        ATTACK(fighter, 1, 0, Hash40::new("top"), 2.0, 361, 25, 0, 35, 3.0, 0.0, 9.5, 7.0, None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
-        ATTACK(fighter, 2, 0, Hash40::new("top"), 2.0, 361, 20, 0, 25, 3.5, 0.0, 9.5, 11.0, None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 2.0, 361, 20, 0, 25, 3.0, 0.0, 9.5, 3.0, None, None, None, 1.6, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
+        ATTACK(fighter, 1, 0, Hash40::new("top"), 2.0, 361, 20, 0, 25, 3.0, 0.0, 9.5, 7.0, None, None, None, 1.6, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
+        ATTACK(fighter, 2, 0, Hash40::new("top"), 2.0, 361, 20, 0, 25, 3.5, 0.0, 9.5, 11.0, None, None, None, 1.6, 1.0, *ATTACK_SETOFF_KIND_ON, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_KICK);
+        AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 0, /*Frames*/ 7.0, /*Unk*/ false);
+        AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 1, /*Frames*/ 7.0, /*Unk*/ false);
+        AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 2, /*Frames*/ 7.0, /*Unk*/ false);
     }
     wait(lua_state, 2.0);
     if is_excute(fighter) {
@@ -194,7 +200,7 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 1.0);
     for i in 1..100000{
         if is_excute(fighter) {
-            ATTACK(fighter, 0, 0, Hash40::new("top"), 0.2, 361, 10, 0, 10, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(15.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+            ATTACK(fighter, 0, 0, Hash40::new("top"), 0.75, 361, 10, 0, 5, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(16.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
         }
         wait(lua_state, 1.0);
         if is_excute(fighter) {
@@ -204,7 +210,8 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
         wait(lua_state, 1.0);
         for j in 1..5{
             if is_excute(fighter) {
-                ATTACK(fighter, 0, 0, Hash40::new("top"), 0.2, 361, 10, 0, 10, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(15.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+                ATTACK(fighter, 0, 0, Hash40::new("top"), 0.75, 361, 10, 0, 5, 7.3, 0.0, 7.5, 10.0, Some(0.0), Some(7.5), Some(16.0), 0.5, 0.7, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+                AttackModule::set_add_reaction_frame(fighter.module_accessor, /*ID*/ 0, /*Frames*/ 7.0, /*Unk*/ false);
             }
             wait(lua_state, 1.0);
             if is_excute(fighter) {
@@ -220,7 +227,7 @@ unsafe fn richter_attack_100_game(fighter: &mut L2CAgentBase) {
 unsafe fn richter_attack_100_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     //macros::PLAY_SE(fighter, Hash40::new("se_common_sword_swing_s"));
-    frame(lua_state, 2.0);
+    frame(lua_state, 1.0);
     for i in 1..100000{
         if is_excute(fighter) {
             PLAY_SE(fighter, Hash40::new("se_richter_attack100_01"));
@@ -229,10 +236,33 @@ unsafe fn richter_attack_100_sound(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "richter", script = "effect_attack100_1" , category = ACMD_EFFECT )]
+#[acmd_script( agent = "richter", script = "effect_attack100" , category = ACMD_EFFECT )]
 unsafe fn richter_attack_100_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
-
+    frame(lua_state, 1.0);
+    for i in 1..100000{
+        if is_excute(fighter) {
+            EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+            LAST_EFFECT_SET_RATE(fighter,2.5);
+        } else {break;}
+        wait(lua_state, 1.5);
+        if is_excute(fighter) {
+            EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 8, 12, 5, 0, -35, 0.7, true);
+            LAST_EFFECT_SET_RATE(fighter,2.5);
+        } else {break;}
+        wait(lua_state, 1.5);
+        if is_excute(fighter) {
+            EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 8, 6, 0, 0, 30, 0.825, true);
+            LAST_EFFECT_SET_RATE(fighter,2.5);
+        }
+        else {break;}
+        wait(lua_state, 1.5);
+        if is_excute(fighter) {
+            EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 8, 12, 0, 0, 25, 0.7, true);
+            LAST_EFFECT_SET_RATE(fighter,2.5);
+        } else {break;}
+        wait(lua_state, 1.5);
+    }
 }
 
 
@@ -242,9 +272,9 @@ unsafe fn richter_attack_100end_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;frame(lua_state, 5.0);
 
-    wait(lua_state, 3.0);
+    frame(lua_state, 5.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 3.5, 54, 162, 0, 60, 7.5, 0.0, 8.0, 16.0, Some(0.0), Some(8.0), Some(20.0), 2.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 4.5, 50, 120, 0, 60, 7.5, 0.0, 8.0, 14.0, Some(0.0), Some(8.0), Some(18.5), 2.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
     }
     wait(lua_state, 2.0);
     if is_excute(fighter) {
@@ -260,6 +290,21 @@ unsafe fn richter_attack_100end_sound(fighter: &mut L2CAgentBase) {
         PLAY_SE(fighter, Hash40::new("se_richter_attack100_02"));
     }
 }
+
+#[acmd_script( agent = "richter", script = "effect_attack100end" , category = ACMD_EFFECT )]
+unsafe fn richter_attack_100end_effect(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    frame(fighter.lua_state_agent, 2.0);
+    if macros::is_excute(fighter) {
+        macros::LANDING_EFFECT(fighter, Hash40::new("sys_atk_smoke"), Hash40::new("top"), 8, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0, false);
+        macros::LAST_EFFECT_SET_RATE(fighter, 0.8);
+    }
+    wait(lua_state, 4.0);
+    if macros::is_excute(fighter) {
+        macros::EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 11, 11, 0, 0, 0, 0.75, true);
+    }
+}
+
 
 pub fn install() {
     install_acmd_scripts!(
@@ -278,8 +323,9 @@ pub fn install() {
 
         richter_attack_100_game,
         //richter_attack_100_sound,
-        //richter_attack_100_effect,
+        richter_attack_100_effect,
 
-        richter_attack_100end_game
+        richter_attack_100end_game,
+        richter_attack_100end_effect
     );
 }

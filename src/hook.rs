@@ -27,34 +27,7 @@ pub unsafe fn notify_log_event_collision_hit_replace(fighter_manager: *mut smash
             if GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0 {
                 GetVar::set_int(attacker_boma, &mut vars::DIVE_TARGET,defender_entry);
 
-                //CatchModule::set_catch(&mut *defender_boma, 0);
-
-                if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FALL, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_YOSHI, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_SWALLOWED, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_PULLED_FISHINGROD, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_JACK_WIRE, false);
-                }
-                else if ControlModule::check_button_on(&mut *attacker_boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY, false);
-                }
-                else
-                {
-                    (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
-                }
-                //(*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
+                (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
                 (*attacker_boma).change_status_req(*FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, false);
                 WorkModule::on_flag(defender_boma, *FIGHTER_STATUS_THROWN_WORK_FLAG_DISABLE_PASSIVE) ;
                 //WorkModule::set_customize_no(module_accessor, arg2, arg3)

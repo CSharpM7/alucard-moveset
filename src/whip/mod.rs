@@ -30,7 +30,7 @@ pub unsafe fn whip_trail(weapon: &mut L2CAgentBase) {
     let color = if (vars::meta_is_active(boma)) {Vector3f{x: 1.0,y:0.5,z:0.5}} else {Vector3f{x: 0.0,y:0.0,z:1.0}};
     let effect = if (vars::meta_is_active(boma)) {Hash40::new("tex_item_killsword3")} else {Hash40::new("tex_item_killsword2")};
 
-    AFTER_IMAGE4_ON_arg29(weapon,effect, effect, 5, Hash40::new("whip"), 0.0, 0.0, 0.0, Hash40::new("whip"), 0.0, (vars::LENGTH+2.0)*daggerFactor, 0.0, true, Hash40::new("null"), Hash40::new("whip"), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, *EFFECT_AXIS_X, 0, *TRAIL_BLEND_ALPHA, 101, *TRAIL_CULL_NONE, 1.4, 0.1);
+    AFTER_IMAGE4_ON_arg29(weapon,effect, effect, 5, Hash40::new("have"), 0.0, 0.0, 0.0, Hash40::new("have"), 0.0, (vars::LENGTH+2.0)*daggerFactor, 0.0, true, Hash40::new("null"), Hash40::new("have"), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, *EFFECT_AXIS_X, 0, *TRAIL_BLEND_ALPHA, 101, *TRAIL_CULL_NONE, 1.4, 0.1);
 
     LAST_PARTICLE_SET_COLOR(weapon, color.x,color.y,color.z);
 }

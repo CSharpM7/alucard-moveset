@@ -36,18 +36,42 @@ pub unsafe fn richter_special_hi_main(fighter: &mut L2CFighterCommon) -> L2CValu
 }
 
 unsafe extern "C" fn richter_special_hi_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let boma = fighter.module_accessor;
+
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 0, 0, 0, 0, 1.5, true);
         LAST_EFFECT_SET_COLOR(fighter,1,0,1);
         return 0.into();
     }
-    if MotionModule::is_end(fighter.module_accessor) == true 
-    || WorkModule::is_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_SUPER_JUMP_PUNCH_FLAG_CHANGE_KINE_CONTROL) {
+
+    let currentFrame = fighter.motion_frame();
+    if MotionModule::is_end(fighter.module_accessor)
+    || currentFrame > upspecial::FRAME_END {
         fighter.change_status(FIGHTER_STATUS_KIND_FALL_SPECIAL.into(), false.into());
         return 1.into();
     }
+    if ArticleModule::is_exist(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE)
+    {
+        //snap_article(fighter.module_accessor,*FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE,Hash40::new("trans"),Hash40::new("bat_trans"));
+        
+        let mut pos = Vector3f::zero();
+        let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("trans")}, &mut pos);        
+        let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z};
+        let article_boma = get_article_boma(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE);
+        //ArticleModule::set_pos(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, newPos);
+        //GroundModule::set_attach_ground(article_boma, false);
+        //PostureModule::set_pos(article_boma, &newPos);
+        ModelModule::set_joint_translate(article_boma, Hash40::new("bat_trans"), &newPos, true,false);
+        
+        let degree = GetVar::get_float(fighter.module_accessor, &mut vars::BAT_DEGREE);
+        let lr = if (PostureModule::lr(fighter.module_accessor) == PostureModule::lr(article_boma)) {0.0} else {180.0};
+        PostureModule:: set_rot(
+            article_boma,
+            &Vector3f{x: -degree, y: lr, z: 0.0},
+            0
+        ); 
+    }
     
-    let currentFrame = fighter.motion_frame();
     if WorkModule::is_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE) {        
         if GroundModule::can_entry_cliff(fighter.module_accessor) == 1
         && ControlModule::get_stick_y(fighter.module_accessor) > -0.5 {
@@ -67,6 +91,30 @@ unsafe extern "C" fn richter_special_hi_main_loop(fighter: &mut L2CFighterCommon
     }
     
     return 0.into()
+}
+
+
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_HI, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_special_hi_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    
+    return 0.into()
+}
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_HI, condition = LUA_SCRIPT_STATUS_FUNC_EXIT_STATUS)]
+unsafe extern "C" fn richter_special_hi_exit(fighter: &mut L2CFighterCommon) -> L2CValue {
+    ArticleModule::remove_exist(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+    
+    WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_SUPER_JUMP_PUNCH_FLAG_CHANGE_KINE_CONTROL);
+    PostureModule:: set_rot(
+        fighter.module_accessor,
+        &Vector3f{x: 0.0, y: 0.0, z: 0.0},
+        0
+    ); 
+    return 0.into()
+}
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_CLIFF_CATCH, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_cliff_catch_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    ArticleModule::remove_exist(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+    return original!(fighter);
 }
 
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
@@ -210,7 +258,7 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
     let spawnFrame = neutralspecial::SPAWN_FRAME;
 
     if currentFrame >= neutralspecial::CHECK_FRAME && currentFrame<spawnFrame {
-        println!("{}",ArticleModule::is_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_CROSS));
+        println!("{}",ArticleModule::is_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_CROSS));
         if currentFrame >= spawnFrame-3.0 {
             GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,neutralspecial::SPAWN_TYPE_INFERNO);
             return 0.into()
@@ -219,7 +267,7 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
         || !(vars::meta_is_active(boma)) 
         {
             EFFECT_OFF_KIND(fighter, Hash40::new("sys_genesis_start"),true,false);
-            let spawnType = if !ArticleModule::is_exist(boma, *FIGHTER_SIMON_GENERATE_ARTICLE_CROSS)
+            let spawnType = if !ArticleModule::is_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_CROSS)
             {neutralspecial::SPAWN_TYPE_HELLFIRE} else {-1};
             GetVar::set_int(boma, &mut vars::SPECIAL_N_SPAWN,spawnType);
             MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,false,false);
@@ -239,10 +287,13 @@ pub fn install() {
         richter_special_n_pre,
         richter_special_n_exec,
         richter_special_hi_main,
+        richter_special_hi_exec,
+        richter_special_hi_exit,
         richter_special_s_pre,
         richter_special_s_exec,
         richter_special_s2_pre,
         richter_special_s2_exec,
-        richter_special_s2_exit
+        richter_special_s2_exit,
+        richter_cliff_catch_exec
     );
 }

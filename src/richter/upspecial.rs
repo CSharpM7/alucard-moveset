@@ -2,8 +2,8 @@
 use super::*;
 
 const MOTION_RATE: f32 = 0.875;
-const FRAME_ATTACK: f32 = 39.0;
-const FRAME_END: f32 = 65.0;
+const FRAME_ATTACK: f32 = 42.0;
+pub const FRAME_END: f32 = 75.0;
 const ANGLE_NEGATIVE_FACTOR: f32 = 100.0;
 const ANGLE_MIN: f32 = 35.0;
 const ANGLE_MAX: f32 = 60.0;
@@ -17,6 +17,9 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     
     frame(lua_state, 2.0);
     if is_excute(fighter) {
+        ArticleModule::generate_article(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE,false,0);
+        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, false,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_MARTH_STATUS_SPECIAL_HI_FLAG_TRANS_MOVE);
         notify_event_msc_cmd!(fighter, Hash40::new_raw(0x2127e37c07), GROUND_CLIFF_CHECK_KIND_ALWAYS_BOTH_SIDES);
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_SUPER_JUMP_PUNCH_FLAG_REVERSE_LR);
@@ -31,6 +34,8 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 13.0);
     FT_MOTION_RATE(fighter,MOTION_RATE);
     if is_excute(fighter) {
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, Hash40::new("fly"), true, 0.0);
+
         ATTACK(fighter, 0, 0, Hash40::new("hip"), 1.1, 367, 45, 0, 30, 7.0, 0.0, 0.0, 0.0, None, None, None, 0.4, 0.6, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 5, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_NONE);
     }
 
@@ -40,6 +45,9 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
         AttackModule::clear_all(fighter.module_accessor);
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE);
         notify_event_msc_cmd!(fighter, Hash40::new_raw(0x2127e37c07), GROUND_CLIFF_CHECK_KIND_ALWAYS_BOTH_SIDES_NEAR);
+        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, Hash40::new("fly"), true, 0.0);
+        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, 2.0);
     }
     wait(lua_state, 1.0);
     let mut angle = 361.0;
@@ -80,7 +88,6 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     
     frame(lua_state, FRAME_END);
     if is_excute(fighter) {
-        WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_SUPER_JUMP_PUNCH_FLAG_CHANGE_KINE_CONTROL);
 
         PostureModule:: set_rot(
             fighter.module_accessor,
@@ -90,7 +97,6 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
 
         AttackModule::clear_all(fighter.module_accessor);
     }
-    FT_MOTION_RATE(fighter,0.01);
 }
 
 #[acmd_script( agent = "richter", scripts = ["effect_specialhi","effect_specialairhi"] , category = ACMD_EFFECT )]

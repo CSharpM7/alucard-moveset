@@ -33,8 +33,8 @@ unsafe fn richter_tauntlw_r_game(fighter: &mut L2CAgentBase) {
             let article_boma = get_article_boma(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN);
             ArticleModule::set_pos(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, newPos);
             ModelModule::set_joint_translate(article_boma, Hash40::new("root"), &newPos, true,false);
-            wait(lua_state, 1.0);
         }
+        wait(lua_state, 1.0);
     }
     frame(lua_state, 120.0);
     if is_excute(fighter) {

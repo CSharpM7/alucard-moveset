@@ -116,9 +116,7 @@ unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut Battle
 
 
 unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
-    
     if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {
-        
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
             if !GetVar::is_bool(boma, &mut vars::BAT_EXIT) {
@@ -212,6 +210,70 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
     }
 }
 
+unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
+    
+    let maxFrame = 30.0;
+    let currentFrame = fighter.motion_frame().min(maxFrame);
+    let rate = 2.0;
+    let modulo = fighter.motion_frame() % rate;
+    if (modulo>=1.0 && currentFrame<maxFrame) {return;}
+    
+    let canEffect = (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4_HOLD)
+    || (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4) && (currentFrame < 12.0)));
+    if (!canEffect) { return; }
+
+    let effect = Hash40::new("sys_pasaran_spark");
+    let effecthi = Hash40::new("sys_fireflower_shot");
+    let effectlw = Hash40::new("sys_hit_ice_s");
+
+
+    EFFECT_OFF_KIND(fighter,effecthi,false,false);
+    EFFECT_OFF_KIND(fighter,effect,false,false);
+    EFFECT_OFF_KIND(fighter,effectlw,false,false);
+
+    if (canEffect) {
+        let mut currentEffect = effect;
+        let mut size = 0.5;
+        let mut color = Vector3f{x: 1.0, y: 1.0, z: 1.0};
+        let mut rotx=0.0;
+        
+        let mut stick_y: f32 = ControlModule::get_stick_y(boma);
+        if (fighter.is_motion(Hash40::new("attack_s4_hi"))) {stick_y = 1.0;}
+        else if (fighter.is_motion(Hash40::new("attack_s4_s"))) {stick_y = 0.0;}
+        else if (fighter.is_motion(Hash40::new("attack_s4_lw"))) {stick_y = -1.0;}
+
+        if (stick_y < -0.33)
+        {
+            currentEffect = effectlw;
+            size = 0.2;
+            color.x=0.5;
+        }
+        else if (stick_y > 0.33)
+        {
+            currentEffect = effecthi;
+            size = 0.425;
+            rotx=-90.0;
+        }
+        else 
+        {
+            currentEffect = effect;
+            color.z=0.0;
+            size = 0.3;
+        }
+
+        if (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4_HOLD) || (currentFrame < 9.0))
+        {
+            //let effecty = 3.0+(vars::LENGTH*((currentFrame/maxFrame)));
+            //EFFECT_FOLLOW(fighter, currentEffect, Hash40::new("haver"), 2.0,effecty,0,0,0,0, size, true);
+            for y in 0..3{
+                EFFECT_FOLLOW(fighter, currentEffect, Hash40::new("haver"), 0, ((y as f32)*6.0)+2.0, 0, rotx, 0, 0, size,true);
+                LAST_EFFECT_SET_RATE(fighter,0.625);
+                LAST_EFFECT_SET_COLOR(fighter,color.x, color.y,color.z);
+            }
+        }
+    }
+}
+
 
 unsafe fn on_rebirth(fighter: &mut L2CFighterCommon)
 {
@@ -236,30 +298,30 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
             if fighter.is_motion(Hash40::new("appeal_hi_l")) || fighter.is_motion(Hash40::new("appeal_hi_r")) {
                 PLAY_SE(fighter, Hash40::new("se_richter_whip_hit"));
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_speedline"), Hash40::new("top"), 0,0,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_fire"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_impact"), Hash40::new("top"), 0,0,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_fireflower_bullet"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_line"), Hash40::new("top"), 0,0,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_fire_fly"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_line_b"), Hash40::new("top"), 0,0,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_fire"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
             }
             else if fighter.is_motion(Hash40::new("appeal_s_l")) || fighter.is_motion(Hash40::new("appeal_s_r")) {
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_arc_d"), Hash40::new("top"), 0, 11, 4, 0, 0, -40, 0.75, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_shot"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_attack_arc_d"), Hash40::new("top"), 0, 11, 4, 50, 0, 0, 0.75, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_fireflower_shot"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("richter_attack100_end"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_steam"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("richter_whip_trace"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_flame"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
                 }
             }
 
@@ -277,6 +339,7 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
         metamorphosis_update(fighter,boma);
         training_cheat(fighter,boma);
         bat_control(fighter,boma);
+        fsmash_charge(fighter,boma);
 
         if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
         {

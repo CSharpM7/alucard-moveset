@@ -15,7 +15,6 @@ unsafe fn richter_special_s1_game(fighter: &mut L2CAgentBase) {
             0.5
         );
         let speed_y = KineticModule::get_sum_speed_y(boma, 1);
-        println!("{}",speed_y);
         if (speed_y < 0.0)
         {
         sv_kinetic_energy!(

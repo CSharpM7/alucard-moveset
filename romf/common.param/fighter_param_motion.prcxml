@@ -97,7 +97,7 @@
       <float hash="escape_b_hit_normal_frame">7</float>
 
       <float hash="escape_b_cancel_frame">33</float>
-      <bool hash="flip">true</bool>
+      <bool hash="flip">false</bool>
     </struct>
     <hash40 index="90">dummy</hash40>
     <hash40 index="91">dummy</hash40>

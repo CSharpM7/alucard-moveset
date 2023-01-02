@@ -38,7 +38,7 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
     if (!fighter.is_motion(Hash40::new("attack_100_start")) && !fighter.is_motion(Hash40::new("attack_100")))
     && (!swordAttack ||(fighter.motion_frame() > cancelFrame-5.0))
     {
-        if (GetVar::is_bool(boma, &mut vars::META_WHIFF) && !GetVar::is_bool(boma, &mut vars::META_HEALED))
+        if (GetVar::get_bool(boma, &mut vars::META_WHIFF) && !GetVar::get_bool(boma, &mut vars::META_HEALED))
         {
             let mut frameloss = META_PUNISH;
             GetVar::add_int(boma,&mut vars::META_FRAME,frameloss);
@@ -54,7 +54,7 @@ unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut Ba
         if (AttackModule::is_infliction(boma, *COLLISION_KIND_MASK_HIT) 
         //&& in_Hitstop) 
         ){
-            if (GetVar::is_bool(boma, &mut vars::META_HEALED)) {return;}
+            if (GetVar::get_bool(boma, &mut vars::META_HEALED)) {return;}
             if (swordAttack)
             {
                 let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
@@ -86,13 +86,16 @@ unsafe fn metamorphosis_update(fighter: &mut L2CFighterCommon, boma: &mut Battle
 }
 
 unsafe fn metamorphosis_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
+    if (fighter.is_status(*FIGHTER_SIMON_STATUS_KIND_FINAL_END)) {return;}
     if GetVar::get_int(boma,&mut vars::META_FRAME) > 0 && GetVar::get_int(boma,&mut vars::META_EFFECT) == -1 {
         app::FighterUtil::flash_eye_info(boma);
 
         let handle = EffectModule::req_follow(boma, Hash40::new("sys_aura_dark"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 4.0, true, 0, 0, 0, 0, 0, false, false) as u32;
         GetVar::set_int(boma,&mut vars::META_EFFECT,handle as i32);
 		EffectModule::set_rgb(boma,handle, 1.0, 0.0, 0.0);
-        
+
+        if GetVar::get_int(boma,&mut vars::META_FRAME) > vars::META_MAX {return;}
+
         EFFECT_FOLLOW(fighter, Hash40::new("richter_final_coffin_vacuum"), Hash40::new("hip"), 0,0,0,0,0,0, 0.625, true);
         LAST_EFFECT_SET_RATE(fighter,1.75);
         
@@ -119,7 +122,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
     if !(fighter.is_status(*FIGHTER_STATUS_KIND_SPECIAL_HI)) {
         if (fighter.is_prev_status(*FIGHTER_STATUS_KIND_SPECIAL_HI))
         {
-            if !GetVar::is_bool(boma, &mut vars::BAT_EXIT) {
+            if !GetVar::get_bool(boma, &mut vars::BAT_EXIT) {
 
                 GetVar::set_bool(boma, &mut vars::BAT_EXIT,true);
                 GetVar::set_int(boma,&mut vars::BAT_EXIT_FRAME,10);
@@ -216,7 +219,7 @@ unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectM
     let currentFrame = fighter.motion_frame().min(maxFrame);
     let rate = 2.0;
     let modulo = fighter.motion_frame() % rate;
-    if (modulo>=1.0 && currentFrame<maxFrame) {return;}
+    if (modulo>=1.0 && currentFrame<maxFrame && currentFrame>6.0) {return;}
     
     let canEffect = (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4_HOLD)
     || (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4) && (currentFrame < 12.0)));
@@ -224,7 +227,7 @@ unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectM
 
     let effect = Hash40::new("sys_pasaran_spark");
     let effecthi = Hash40::new("sys_fireflower_shot");
-    let effectlw = Hash40::new("sys_hit_ice_s");
+    let effectlw = Hash40::new("sys_erace_smoke");
 
 
     EFFECT_OFF_KIND(fighter,effecthi,false,false);
@@ -245,8 +248,9 @@ unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectM
         if (stick_y < -0.33)
         {
             currentEffect = effectlw;
-            size = 0.2;
-            color.x=0.5;
+            size = 0.5;
+            color.x=0.375;
+            color.y=1.0;
         }
         else if (stick_y > 0.33)
         {
@@ -274,20 +278,60 @@ unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectM
     }
 }
 
+unsafe fn sidespecial_refresh(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor)
+{
+    if (!fighter.is_situation(*SITUATION_KIND_AIR))
+    {
+        GetVar::set_bool(boma, &mut vars::SPECIAL_S_AERIAL, true);
+    }
+    else if StopModule::is_damage(boma)
+    {
+        GetVar::set_bool(boma, &mut vars::SPECIAL_S_AERIAL, true);
+    }
+}
+
+
+unsafe fn final_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
+    let status = StatusModule::status_kind(fighter.module_accessor);
+    let mut finalAttack = [
+        //*FIGHTER_STATUS_KIND_FINAL,
+        //*FIGHTER_SIMON_STATUS_KIND_FINAL_READY,
+        *FIGHTER_SIMON_STATUS_KIND_FINAL_END
+    ].contains(&status);
+    if finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) == -1 {
+        if fighter.motion_frame() > 0.0{
+            let handle = EffectModule::req_follow(boma, Hash40::new("sys_blackball_attack"), Hash40::new("top"), &Vector3f{x:0.0,y:18.0,z:0.0}, &Vector3f::zero(), 0.0, true, 0, 0, 0, 0, 0, false, false) as u32;
+            EffectModule::set_rgb(boma,handle,0.25,0.0,0.0);
+            EffectModule::set_rate(boma,handle,0.6);
+            GetVar::set_int(boma,&mut vars::FINAL_EFFECT,handle as i32);
+        }
+    }
+    else if finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) != -1 {
+        let handle = GetVar::get_int(boma,&mut vars::FINAL_EFFECT) as u32;
+        let currentScale = 0.75+fighter.motion_frame().min(120.0)/25.0;
+        let scale = Vector3f{x:currentScale,y:currentScale,z:1.0};
+        EffectModule::set_scale(boma, handle, &scale);
+        GetVar::set_int(boma,&mut vars::META_EFFECT, -1);
+    }
+    else if !finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) != -1 {
+        let handle = GetVar::get_int(boma,&mut vars::FINAL_EFFECT) as u32;
+        EffectModule::kill(boma, handle, false, false);
+        GetVar::set_int(boma,&mut vars::FINAL_EFFECT, -1);
+    }
+}
+unsafe fn final_heal(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
+    if (!fighter.is_status(*FIGHTER_SIMON_STATUS_KIND_FINAL_END)) {return;}
+    if (!AttackModule::is_infliction(boma, *COLLISION_KIND_MASK_HIT)) {return;}
+
+    let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
+    DamageModule::heal(boma,damageDealt/-7.5,0);
+}
 
 unsafe fn on_rebirth(fighter: &mut L2CFighterCommon)
 {
     vars::reset(fighter.module_accessor);
-    /* 
-    GetVar::get_int(boma,&mut vars::META_FRAME)=0;
-    GetVar::is_bool(boma, &mut vars::META_WHIFF)=false;
-    GetVar::is_bool(boma, &mut vars::META_HEALED)=false;
-    GetVar::get_int(boma,&mut vars::META_EFFECT) = -1;
-
-    GetVar::is_bool(boma, &mut vars::BAT_EXIT)=false;
-    GetVar::get_int(boma,&mut vars::BAT_EXIT_FRAME) = 0;
-    */
 }
+
 // TRAINING MODE
 unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
     let mut agent_base = fighter.fighter_base.agent_base;
@@ -298,30 +342,47 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
             if fighter.is_motion(Hash40::new("appeal_hi_l")) || fighter.is_motion(Hash40::new("appeal_hi_r")) {
                 PLAY_SE(fighter, Hash40::new("se_richter_whip_hit"));
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_fire"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    //let screen = EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test1"),false,false,false) as u32;
+                    //EffectModule::set_rgb(boma,screen,1.0,0.0,0.0);
+                    //LAST_EFFECT_SET_COLOR(fighter,1,0,0);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_warpstar_break"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_fireflower_bullet"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_togezoshell_bomb"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_fire_fly"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_status_all_up"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_fire"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_specialflag_light"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
             }
             else if fighter.is_motion(Hash40::new("appeal_s_l")) || fighter.is_motion(Hash40::new("appeal_s_r")) {
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_shot"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_special_all_up"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_fireflower_shot"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smashbomb_exp"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_curry_steam"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smash_ball_damage"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_flame"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smash_ball_damage_flash"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                }
+            }
+            else if fighter.is_motion(Hash40::new("appeal_lw_l")) || fighter.is_motion(Hash40::new("appeal_lw_r")) {
+                if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
+                    EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test1"),false,false,false);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
+                    EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test2"),false,false,false);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
+                    EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test3"),false,false,false);
+                }
+                else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                    EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test4"),false,false,false);
                 }
             }
 
@@ -340,6 +401,8 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
         training_cheat(fighter,boma);
         bat_control(fighter,boma);
         fsmash_charge(fighter,boma);
+        sidespecial_refresh(fighter,boma);
+        final_effects(fighter,boma);
 
         if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
         {

@@ -23,15 +23,37 @@ pub unsafe fn notify_log_event_collision_hit_replace(fighter_manager: *mut smash
     && (utility::get_category(&mut *defender_boma) == *BATTLE_OBJECT_CATEGORY_FIGHTER) {
         let attacker_entry = get_entry_from_boma(attacker_boma);
         let defender_entry = get_entry_from_boma(defender_boma) as i32;
-        if (attacker_kind == *FIGHTER_KIND_RICHTER && (*attacker_boma).is_status(*FIGHTER_STATUS_KIND_SPECIAL_S)) {
-            if GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0 {
+        if (attacker_kind == *FIGHTER_KIND_RICHTER) {
+            if (*attacker_boma).is_status(*FIGHTER_STATUS_KIND_SPECIAL_S) 
+            && GetVar::get_int(attacker_boma,&mut vars::DIVE_TARGET) == 0 {
                 GetVar::set_int(attacker_boma, &mut vars::DIVE_TARGET,defender_entry);
 
                 (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_BLACKHOLE, false);
+                MotionModule::change_motion_kind(defender_boma, Hash40::new("damage_n3"));
+                HitModule::set_status_all(defender_boma,HitStatus(*HIT_STATUS_XLU),0);
                 (*attacker_boma).change_status_req(*FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, false);
                 WorkModule::on_flag(defender_boma, *FIGHTER_STATUS_THROWN_WORK_FLAG_DISABLE_PASSIVE) ;
                 //WorkModule::set_customize_no(module_accessor, arg2, arg3)
                 //CaptureModule::capture(&mut *defender_boma, attacker_entry as c_uint,0,false,0);
+            }
+            //Soul steal can hit at most ~12 times
+            //1P: 4.5(*.375)
+            //3P: 13.5
+            //7P: 27
+            //Last hit heals a set 25%
+            else if (*attacker_boma).is_status(*FIGHTER_SIMON_STATUS_KIND_FINAL_END) {
+                if AttackModule::get_power(attacker_boma, 0, false, 1.0, false) >= 10.0{
+                    EffectModule::req_follow(defender_boma, Hash40::new("sys_item_arrival"),Hash40::new("rot"), &Vector3f::zero(), &Vector3f::zero(), 1.25, true, 0, 0, 0, 0, 0, false, false) as u64;
+                    EffectModule::set_rate_last(defender_boma,0.5);
+
+                    if DamageModule::damage(defender_boma,0) > 100.0 {
+                    && 
+                        (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DEAD, true);
+                    }
+                }
+                else{
+                    DamageModule::heal(attacker_boma,-0.375,0);
+                }
             }
         }
     }

@@ -97,7 +97,7 @@
 
       <float hash="walk_accel_mul">0.3</float>
       <float hash="walk_accel_add">0.1</float>
-      <float hash="walk_speed_max">0.96</float>
+      <float hash="walk_speed_max">0.8</float>
       <float hash="run_speed_max">1.7</float>
       <float hash="dash_speed">1.9</float>
 
@@ -107,8 +107,8 @@
       <float hash="jump_aerial_speed_x_mul">0.8</float>
 
       <float hash="jump_initial_y">17.0</float>
-      <float hash="jump_y">34.0</float>
-      <float hash="mini_jump_y">16.0</float>
+      <float hash="jump_y">31.0</float>
+      <float hash="mini_jump_y">14.0</float>
       <float hash="jump_aerial_y">34.0</float>
 
       <float hash="air_accel_x_mul">0.05</float>

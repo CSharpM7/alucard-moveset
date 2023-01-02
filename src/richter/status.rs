@@ -117,14 +117,37 @@ unsafe extern "C" fn richter_cliff_catch_exec(fighter: &mut L2CFighterCommon) ->
     return original!(fighter);
 }
 
-#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
+pub const CHECK_SPECIAL_S_UNIQ:            i32 = 0x39;
+unsafe extern "C" fn richter_special_s_preU(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if (!GetVar::get_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL))
+    {
+        return 0.into();
+    }
+    println!("?!?");
+    GetVar::set_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL, false);
     let entry = get_entry(fighter);
     let boma = fighter.module_accessor;
-    GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
+    GetVar::set_int(fighter.module_accessor, &mut vars::DIVE_TARGET, 0);
 
 
-    return original!(fighter);
+    return 1.into();
+}
+
+#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
+
+    if (!GetVar::get_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL))
+    {
+        return 0.into();
+    }
+    println!("?!?");
+    GetVar::set_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL, false);
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
+    GetVar::set_int(fighter.module_accessor, &mut vars::DIVE_TARGET, 0);
+
+
+    return 1.into();
 }
 
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
@@ -136,19 +159,7 @@ unsafe extern "C" fn richter_special_s_exec(fighter: &mut L2CFighterCommon) -> L
         fighter,
         FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
         0.5
-    );
-    /*
-    let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
-    let has_hit = AttackModule::is_infliction_status(fighter.module_accessor, *COLLISION_KIND_MASK_HIT)
-    || in_Hitstop;
-    if (has_hit)
-    {
-        fighter.change_status(FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2.into(), true.into());
-        return false.into();
-    }
-    */
-
-    
+    );    
     return false.into();
 }
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
@@ -282,6 +293,39 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
     return 0.into()
 }
 
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_FINAL_READY, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+unsafe extern "C" fn richter_final_ready_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+    fighter.change_status(FIGHTER_SIMON_STATUS_KIND_FINAL_END.into(), false.into());
+    return true.into();
+}
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_FINAL_READY, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_final_ready_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let currentFrame = MotionModule::frame(fighter.module_accessor);
+    if MotionModule::is_end(fighter.module_accessor) 
+    || currentFrame > 31.0 {
+        AttackModule::clear_all(fighter.module_accessor);
+        fighter.change_status(FIGHTER_SIMON_STATUS_KIND_FINAL_END.into(), false.into());
+        return true.into();
+    }
+    return false.into();
+}
+
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_FINAL_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
+unsafe extern "C" fn richter_final_end_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+    KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
+    return false.into();
+}
+#[fighter_init]
+fn agent_init(fighter: &mut L2CFighterCommon) {
+    unsafe {
+        let fighter_kind = utility::get_kind(&mut *fighter.module_accessor);
+        if fighter_kind != *FIGHTER_KIND_RICHTER {
+            return;
+        }
+        fighter.global_table[CHECK_SPECIAL_S_UNIQ].assign(&L2CValue::Ptr(richter_special_s_preU as *const () as _));
+    }
+}
+
 pub fn install() {
     install_status_scripts!(
         richter_special_n_pre,
@@ -289,11 +333,19 @@ pub fn install() {
         richter_special_hi_main,
         richter_special_hi_exec,
         richter_special_hi_exit,
-        richter_special_s_pre,
+        //richter_special_s_pre,
         richter_special_s_exec,
         richter_special_s2_pre,
         richter_special_s2_exec,
         richter_special_s2_exit,
-        richter_cliff_catch_exec
+        richter_cliff_catch_exec,
+        richter_final_end_pre,
+        //richter_final_ready_pre
+        richter_final_ready_exec
+        //richter_final_exec
+    );
+    
+    install_agent_init_callback!(
+        agent_init
     );
 }

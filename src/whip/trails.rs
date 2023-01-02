@@ -5,11 +5,11 @@ unsafe fn whip_attack_dash_effect(weapon: &mut L2CAgentBase) {
     let lua_state = weapon.lua_state_agent;
     let boma = weapon.module_accessor;
     
-    frame(lua_state, 10.0);
+    frame(lua_state, 9.0);
     if is_excute(weapon) {
         whip_trail(weapon);
     }
-    frame(lua_state, 18.0);
+    frame(lua_state, 13.0);
     if is_excute(weapon) {
         AFTER_IMAGE_OFF(weapon, 5);
     }

@@ -8,6 +8,7 @@ pub mod richter;
 pub mod whip;
 pub mod axe;
 pub mod cross;
+pub mod coffin;
 pub mod vars;
 pub use vars::*;
 pub mod hook;
@@ -51,7 +52,7 @@ use sharpsmashlinesuite::{
     ext::*
 };
 use smashline::*;
-
+use std::convert::TryInto;
 
 #[skyline::main(name = "smashline_alucard")]
 pub fn main() {
@@ -61,6 +62,7 @@ pub fn main() {
     whip::install();
     axe::install();
     cross::install();
+    coffin::install();
     hook::install();
     #[cfg(feature = "updater")]
     update::install();

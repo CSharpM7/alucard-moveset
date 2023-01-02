@@ -3471,7 +3471,7 @@ list:
       unk_100: false
       unk_200: false
       unk_400: false
-    blend_frames: 0
+    blend_frames: 2
     animations:
       - name: d04finalend.nuanmb
         unk: 0
@@ -3482,7 +3482,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 73
+      cancel_frame: 163
       no_stop_intp: false
   final_air_start:
     game_script: game_finalairstart
@@ -3525,7 +3525,7 @@ list:
       unk_100: false
       unk_200: false
       unk_400: false
-    blend_frames: 0
+    blend_frames: 2
     animations:
       - name: d04finalairend.nuanmb
         unk: 0
@@ -3536,7 +3536,7 @@ list:
     extra:
       xlu_start: 0
       xlu_end: 0
-      cancel_frame: 63
+      cancel_frame: 163
       no_stop_intp: false
   visual_scene_01:
     game_script: game_visualscene01

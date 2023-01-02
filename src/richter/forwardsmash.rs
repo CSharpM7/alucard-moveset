@@ -1,6 +1,5 @@
-use std::convert::TryInto;
-
 use super::*;
+
 const ORIGIN_X: f32 = 11.5;
 const ORIGIN_Y: f32 = 7.5;
 const ANGLE_OFFSET: f32 = 8.5;
@@ -27,9 +26,9 @@ unsafe fn richter_attack_s4_hi_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE_EX+2.0, 361, KBG, 0, BKB, 5.5, 0.0, ORIGIN_Y+ANGLE_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/3.0), None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE_EX, 361, KBG, 0, BKB, 5.25, 0.0, ORIGIN_Y+ANGLE_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/3.0), None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_SWORD);
 
-        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE_EX, 361, KBG, 0, BKB, 2.3, 0.0, ORIGIN_Y+(ANGLE_OFFSET/3.0), ORIGIN_X, Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE_EX-2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y+(ANGLE_OFFSET/3.0), ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_SWORD);
 
         ATTACK(fighter, 2, 0, Hash40::new("top"), DAMAGE_EX/5.0, 361, KBG-4, 0, BKB, 4.5, 0.0, ORIGIN_Y+(ANGLE_OFFSET/3.0), ORIGIN_X-5.0, None, None, None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);      
         
@@ -61,18 +60,18 @@ unsafe fn richter_attack_s4_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE, 361, KBG, 0, 40, 4.0, 0.0, ORIGIN_Y, vars::LENGTH+ORIGIN_X, None, None, None, 0.5, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_paralyze"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
-        AttackModule::set_paralyze_frame(boma, 0, -30, true);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE, 361, KBG, 0, 40, vars::WIDTH+1.0, 0.0, ORIGIN_Y, vars::LENGTH+ORIGIN_X, None, None, None, 0.5, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_paralyze"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
 
-        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE-2.0, 361, KBG-10, 0, BKB, 2.3, 0.0, ORIGIN_Y, ORIGIN_X, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_elec"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE, 361, KBG, 0, BKB+5, vars::WIDTH, 0.0, ORIGIN_Y, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X), 1.0, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_elec"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
 
         ATTACK(fighter, 2, 0, Hash40::new("top"), DAMAGE_EX/5.0, 361, KBG-10, 0, BKB, 4.5, 0.0, ORIGIN_Y, ORIGIN_X-5.0, None, None, None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);      
     }
     wait(lua_state, 4.0);
     if is_excute(fighter) {
         AttackModule::clear(boma,0,false);
+        AttackModule::clear(boma,1,false);
 
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE/1.5, 361, KBG, 0, BKB-30, 2.3, 0.0, ORIGIN_Y, ORIGIN_X, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_elec"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE-2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_elec"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_ELEC, *ATTACK_REGION_SWORD);
     }
     wait(lua_state, 4.0);
     if is_excute(fighter) {
@@ -97,14 +96,14 @@ unsafe fn richter_attack_s4_lw_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 12.0);
     if is_excute(fighter) {
         
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+1.0, 80, KBG-50, 0, BKB, 3.0, 0.0, ORIGIN_Y-ANGLE_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/6.0), None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_ice"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FREEZE, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE, 80, KBG-10, 0, 40, vars::WIDTH+0.375, 0.0, ORIGIN_Y-ANGLE_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/6.0), None, None, None, 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_ice"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 
-        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE, 80, KBG-50, 0, BKB, 2.3, 0.0, ORIGIN_Y-(ANGLE_OFFSET/3.0), ORIGIN_X, Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_ice"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FREEZE, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE-2.0, 60, KBG-10, 0, 40, vars::WIDTH, 0.0, ORIGIN_Y-(ANGLE_OFFSET/3.0), ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 1.2, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_ice"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 
         ATTACK(fighter, 2, 0, Hash40::new("top"), DAMAGE_EX/5.0, 361, KBG-4, 0, BKB, 4.5, 0.0, ORIGIN_Y-(ANGLE_OFFSET/3.0), ORIGIN_X-5.0, None, None, None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_PUNCH, *ATTACK_REGION_PUNCH);     
 
-        AttackModule::set_ice_frame_mul(fighter.module_accessor, 0, 0.625, false);
-        AttackModule::set_ice_frame_mul(fighter.module_accessor, 1, 0.625, false);
+        AttackModule::set_ice_frame_mul(fighter.module_accessor, 0, 0.5, false);
+        AttackModule::set_ice_frame_mul(fighter.module_accessor, 1, 0.25, false);
     }
     wait(lua_state, 3.0);
     if is_excute(fighter) {
@@ -151,7 +150,7 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
     let FIRE = "attack_s4_hi";
     let ELECTRIC = "attack_s4_s";
     let ICE = "attack_s4_lw";
-    let mut color = Vector3f{x: 0.0, y: 0.0, z: 0.0};
+    let mut color = Vector3f{x: 1.0, y: 1.0, z: 1.0};
     
     if is_excute(fighter) {
         EFFECT(fighter, Hash40::new("sys_smash_flash"), Hash40::new("haver"), -2, 10, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
@@ -161,19 +160,23 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         
         if (fighter.is_motion(Hash40::new(ELECTRIC))) {
-            color.x = 1.0;
-            color.y = 1.0;
+            color.z = 0.0;
         }
         else if (fighter.is_motion(Hash40::new(FIRE))) {
-            color.x = 1.0;
             color.y = 0.5;
+            color.z = 0.0;
         }
         else if (fighter.is_motion(Hash40::new(ICE))) {
+            color.x = 0.0;
             color.y = 0.5;
-            color.z = 1.0;
         }
-
-        FLASH(fighter, color.x, color.y,color.z, 0.7);
+        /* 
+        fighter.clear_lua_stack();
+        lua_args!(fighter, color.x, color.y,color.z, 0.1);
+        sv_animcmd::FLASH_NO_STOP(fighter.lua_state_agent);
+        fighter.clear_lua_stack();
+        */
+        FLASH_FRM(fighter,10,color.x, color.y,color.z, 0.7);
     }
     frame(lua_state, 10.0);
     if is_excute(fighter) {
@@ -203,12 +206,12 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 20.0);
     if is_excute(fighter) {
-        COL_NORMAL(fighter);
     }
     frame(lua_state, 23.0);
     if is_excute(fighter) {
         EFFECT_OFF_KIND(fighter, Hash40::new("sys_pasaran_spark"),false,false);
-        EFFECT_OFF_KIND(fighter, Hash40::new("sys_flame"),false,false);
+        EFFECT_OFF_KIND(fighter, Hash40::new("sys_fireflower_shot"),false,false);
+        COL_NORMAL(fighter);
     }
 }
 pub fn install() {

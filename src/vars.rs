@@ -1,6 +1,7 @@
 use super::*;
 
 pub const LENGTH: f32 = 15.0;
+pub const WIDTH: f32 = 3.0;
 
 pub static mut META_HEALED:[bool;8] = [false; 8];
 pub static mut META_WHIFF:[bool;8] = [false; 8];
@@ -11,6 +12,8 @@ pub const META_MAX: i32 = 1500;
 pub const META_PUNISH: i32 = 60;
 
 pub static mut SPECIAL_N_SPAWN:[i32;8] = [0; 8];
+pub static mut SPECIAL_S_AERIAL:[bool;8] = [true; 8];
+pub static mut FINAL_EFFECT:[i32;8] = [-1; 8];
 
 pub static mut BAT_INPUT_X:[f32;8] = [0.0; 8];
 pub static mut BAT_INPUT_Y:[f32;8] = [0.0; 8];
@@ -30,6 +33,9 @@ pub unsafe fn reset(boma: *mut BattleObjectModuleAccessor){
 
     BAT_EXIT[entry]=false;
     BAT_EXIT_FRAME[entry] = 0;
+    
+    SPECIAL_S_AERIAL[entry]=true;
+    FINAL_EFFECT[entry] = -1;
 }
 
 pub unsafe fn meta_start(boma: *mut BattleObjectModuleAccessor) {

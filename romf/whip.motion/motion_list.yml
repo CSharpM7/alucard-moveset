@@ -813,28 +813,6 @@ list:
       - sound_landingairb
       - effect_landingairb
     extra: ~
-  throw_hi:
-    game_script: game_throwhi
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: e01throwhi.nuanmb
-        unk: 0
-    scripts:
-      - sound_throwhi
-      - effect_throwhi
-    extra: ~
   air_catch:
     game_script: game_aircatch
     flags:

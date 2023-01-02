@@ -20,13 +20,13 @@ unsafe fn richter_attack_air_f_hi_game(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 10.0);
     FT_MOTION_RATE(fighter, 1.0);
-    frame(lua_state, 14.0);
+    frame(lua_state, 15.0);
     if is_excute(fighter) {
         SEARCH(fighter, 0, 0, Hash40::new("top"), vars::WIDTH, 0.0, ORIGIN_Y+ANGLE_OFFSET-2.5, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET-2.5), Some(vars::LENGTH+ORIGIN_X), *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
     }
-    frame(lua_state, 15.0);
+    frame(lua_state, 16.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0), Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET-1.5), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/1.5)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0), Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET-0.75), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/1.5)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 
         ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y+ORIGIN_Y_OFFSET, ORIGIN_X, Some(0.0), Some(ORIGIN_Y+ANGLE_OFFSET+ORIGIN_Y_OFFSET), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 
@@ -59,7 +59,7 @@ unsafe fn richter_attack_air_f_game(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         SEARCH(fighter, 0, 0, Hash40::new("top"), vars::WIDTH, 0.0, ORIGIN_Y, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X), *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
     }
-    frame(lua_state, 15.0);
+    frame(lua_state, 16.0);
     if is_excute(fighter) {
         ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y, vars::LENGTH+ORIGIN_X, Some(0.0), Some(ORIGIN_Y), Some(vars::LENGTH+ORIGIN_X-3.0), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 
@@ -93,11 +93,11 @@ unsafe fn richter_attack_air_f_lw_game(fighter: &mut L2CAgentBase) {
 
     frame(lua_state, 14.0);
     if is_excute(fighter) {
-        SEARCH(fighter, 0, 0, Hash40::new("top"), vars::WIDTH, 0.0, ORIGIN_Y-ANGLE_OFFSET+2.0, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET-2.0), Some(vars::LENGTH+ORIGIN_X), *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
+        SEARCH(fighter, 0, 0, Hash40::new("top"), vars::WIDTH, 0.0, ORIGIN_Y-ANGLE_OFFSET-2.0, ORIGIN_X-2.0, Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET-2.0), Some(vars::LENGTH+ORIGIN_X), *COLLISION_KIND_MASK_HIT, *HIT_STATUS_MASK_NORMAL, 1, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_IG, *COLLISION_PART_MASK_ALL, false);
     }
-    frame(lua_state, 15.0);
+    frame(lua_state, 16.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET-2.0, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0), Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET+1.5), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/1.5)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), DAMAGE+2.0, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET-2.0, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0), Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET+0.5), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/1.5)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
         
         ATTACK(fighter, 1, 0, Hash40::new("top"), DAMAGE, 361, KBG, 0, BKB, vars::WIDTH, 0.0, ORIGIN_Y-ORIGIN_Y_OFFSET-2.0, ORIGIN_X, Some(0.0), Some(ORIGIN_Y-ANGLE_OFFSET-ORIGIN_Y_OFFSET-2.0), Some(vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0)), 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
         

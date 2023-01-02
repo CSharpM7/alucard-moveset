@@ -48,15 +48,15 @@ unsafe fn richter_attack_hi3_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW_FLIP_ALPHA(fighter, Hash40::new("sys_attack_speedline"), Hash40::new("sys_attack_speedline"), Hash40::new("top"), 0, 14.5, 4, 0, 90, 0, 0.35, true, *EF_FLIP_YZ, 0.6);
         LAST_EFFECT_SET_RATE(fighter, 1.5);
     }
-    frame(lua_state, 7.0);
+    frame(lua_state, 8.0);
     if is_excute(fighter) {
-        EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_purple"), Hash40::new("arml"), 2.3, 0.0, -1.0, 0, 0, 0, 1.75, true);
+        EFFECT_FOLLOW(fighter, Hash40::new("sys_damage_purple"), Hash40::new("arml"), 3.3, 0.0, -1.0, 0, 0, 0, 1.75, true);
         LAST_EFFECT_SET_ALPHA(fighter,0.4);
         LAST_EFFECT_SET_COLOR(fighter,0.25,0.25,1);
     }
     frame(lua_state, 9.0);
     if is_excute(fighter) {
-        EFFECT_ALPHA(fighter, Hash40::new("sys_attack_impact"), Hash40::new("top"), 7, 19, 2, 0, 0, 0, 1.1, 0, 0, 0, 0, 0, 360, false, 0.4);
+        EFFECT_ALPHA(fighter, Hash40::new("sys_attack_impact"), Hash40::new("top"), 6, 23, 2, 0, 0, 0, 1.1, 0, 0, 0, 0, 0, 360, false, 0.4);
     }
 }
 #[acmd_script( agent = "richter", script = "sound_attackhi3" , category = ACMD_SOUND )]

@@ -12,6 +12,7 @@ pub mod coffin;
 pub mod vars;
 pub use vars::*;
 pub mod hook;
+pub mod params;
 
 #[cfg(feature = "updater")]
 use skyline_web::*;
@@ -64,6 +65,7 @@ pub fn main() {
     cross::install();
     coffin::install();
     hook::install();
+    params::install();
     #[cfg(feature = "updater")]
     update::install();
 }

@@ -17,9 +17,8 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     
     frame(lua_state, 2.0);
     if is_excute(fighter) {
-        ArticleModule::generate_article(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE,false,0);
-        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, false,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
-
+        ArticleModule::generate_article(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN,false,0);
+        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, false,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_MARTH_STATUS_SPECIAL_HI_FLAG_TRANS_MOVE);
         notify_event_msc_cmd!(fighter, Hash40::new_raw(0x2127e37c07), GROUND_CLIFF_CHECK_KIND_ALWAYS_BOTH_SIDES);
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_STATUS_SUPER_JUMP_PUNCH_FLAG_REVERSE_LR);
@@ -29,14 +28,14 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
         FT_MOTION_RATE(fighter,0.5);
         frame(lua_state, 6.0);
         FT_MOTION_RATE(fighter,1.0);
-    }
-
+    }    
     frame(lua_state, 13.0);
     FT_MOTION_RATE(fighter,MOTION_RATE);
     if is_excute(fighter) {
-        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, Hash40::new("fly"), true, 0.0);
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, Hash40::new("fly"), true, 0.0);
 
         ATTACK(fighter, 0, 0, Hash40::new("hip"), 1.1, 367, 45, 0, 30, 7.0, 0.0, 0.0, 0.0, None, None, None, 0.4, 0.6, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, 0, 0.0, 5, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_NONE);
+        AttackModule::set_no_finish_camera(boma, 0, true, true);
     }
 
     frame(lua_state, FRAME_ATTACK-1.0);
@@ -45,9 +44,9 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
         AttackModule::clear_all(fighter.module_accessor);
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE);
         notify_event_msc_cmd!(fighter, Hash40::new_raw(0x2127e37c07), GROUND_CLIFF_CHECK_KIND_ALWAYS_BOTH_SIDES_NEAR);
-        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
-        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, Hash40::new("fly"), true, 0.0);
-        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE, 2.0);
+        ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+        ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, Hash40::new("fly"), true, 0.0);
+        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, 2.0);
     }
     wait(lua_state, 1.0);
     let mut angle = 361.0;
@@ -83,7 +82,7 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
     }
     wait(lua_state, 6.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 12.0, angle as u64, 70, 0, 75, 3.5, 0.0, 0.0, 2.0, None,None,None, 1.0, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_KICK,*ATTACK_REGION_BODY);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 12.0, angle as u64, 70, 0, 75, 3.5, 0.0, 0.0, 2.0, None,None,None, 0.8, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_KICK,*ATTACK_REGION_BODY);
     }
     
     frame(lua_state, FRAME_END);

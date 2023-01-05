@@ -1,6 +1,6 @@
 use super::*;
 
-#[acmd_script( agent = "richter", scripts = ["effect_appeallwr","effect_entryr","effect_entryl"] , category = ACMD_EFFECT)]
+#[acmd_script( agent = "richter", scripts = ["effect_appeallwr"] , category = ACMD_EFFECT)]
 unsafe fn richter_tauntlw_r_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
@@ -31,8 +31,10 @@ unsafe fn richter_tauntlw_r_game(fighter: &mut L2CAgentBase) {
             let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("trans")}, &mut pos);        
             let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z};
             let article_boma = get_article_boma(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN);
-            ArticleModule::set_pos(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, newPos);
-            ModelModule::set_joint_translate(article_boma, Hash40::new("root"), &newPos, true,false);
+            PostureModule::set_pos(article_boma,  &newPos);
+            //ArticleModule::set_pos(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, newPos);
+            //ModelModule::set_joint_translate(article_boma, Hash40::new("root"), &newPos, true,false);
+            //ArticleModule::change_status(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN,*WEAPON_SIMON_COFFIN_STATUS_KIND_NORMAL, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
         }
         wait(lua_state, 1.0);
     }

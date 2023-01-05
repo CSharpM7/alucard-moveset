@@ -18,7 +18,7 @@ unsafe fn cross_fly_effect(weapon: &mut L2CAgentBase) {
             let ys = vec![-5, 0, 5]; 
             for y in ys.into_iter()
             {
-                EFFECT_FOLLOW_NO_STOP(weapon, Hash40::new("sys_damage_fire_fly"), Hash40::new("top"), 0, y, 0, 0, -90, 0, 0.3, true);
+                EFFECT_FOLLOW_NO_STOP(weapon, Hash40::new("sys_damage_fire_fly"), Hash40::new("top"), -5, y, 0, 0, -90, 0, 0.3, true);
             }
         }
         else

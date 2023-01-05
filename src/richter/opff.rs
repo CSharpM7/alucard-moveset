@@ -319,13 +319,6 @@ unsafe fn final_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectMo
         GetVar::set_int(boma,&mut vars::FINAL_EFFECT, -1);
     }
 }
-unsafe fn final_heal(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModuleAccessor){
-    if (!fighter.is_status(*FIGHTER_SIMON_STATUS_KIND_FINAL_END)) {return;}
-    if (!AttackModule::is_infliction(boma, *COLLISION_KIND_MASK_HIT)) {return;}
-
-    let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
-    DamageModule::heal(boma,damageDealt/-7.5,0);
-}
 
 unsafe fn on_rebirth(fighter: &mut L2CFighterCommon)
 {
@@ -391,6 +384,70 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
     }
 }
 
+// TRAINING MODE
+unsafe fn debug(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
+    if !ArticleModule::is_exist(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE) {return;}
+    let mut agent_base = fighter.fighter_base.agent_base;
+    if is_training_mode() {
+    //if true {
+        //ArticleModule::change_status(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE,*WEAPON_SIMON_CROSS_STATUS_KIND_TURN, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
+
+        let status_kind = StatusModule::status_kind(fighter.module_accessor);
+        if status_kind == *FIGHTER_STATUS_KIND_SPECIAL_HI {
+            let article_boma = get_article_boma(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_STAKE);
+            if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
+                let link = LinkModule::get_node_object_id(article_boma, *LINK_NO_CONSTRAINT);
+                let id = boma.battle_object_id;
+                LinkModule::off_model_constraint_flag(article_boma, 0);
+                println!("(attack) link: {0}, self: {1}",link,id);
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
+                /*
+                println!("(guard) parentLR: {0},parentColor: {1},parentPos: {2},target: {3},nodePos: {4}",
+                LinkModule::get_parent_lr(article_boma,0),
+                LinkModule::get_parent_main_color(article_boma,0),
+                LinkModule::get_parent_pos(article_boma,0),
+                LinkModule::get_model_constraint_target_joint(article_boma),
+                LinkModule::get_model_constraint_target_node_position(article_boma),
+                );
+                */
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
+                println!("(guard) joint: {0},jointPos: {1},node: {2},target: {3},nodePos: {4}",
+                LinkModule::get_model_constraint_joint(article_boma),
+                LinkModule::get_model_constraint_joint_global_position(article_boma,Hash40::new("trans")),
+                LinkModule::get_model_constraint_no(article_boma),
+                LinkModule::get_model_constraint_target_joint(article_boma),
+                LinkModule::get_model_constraint_target_node_position(article_boma),
+                );
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
+                println!("(guard) isMutual: {0}",
+                LinkModule::is_model_constraint_mutual(article_boma),
+                );
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_HI) {
+                let link = LinkModule::get_node_object_id(article_boma, *LINK_NO_CONSTRAINT);
+                let id = boma.battle_object_id;
+                println!("(hi) link: {0}, self: {1}",link.to_string(),id.to_string());
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_S_R) {
+                let link = LinkModule::get_model_constraint_no(article_boma);
+                let id = boma.battle_object_id;
+                println!("(r) link: {0}, self: {1}",link.to_string(),id.to_string());
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_S_L) {
+                let link = LinkModule::unlink_node(article_boma,*LINK_NO_CONSTRAINT);
+            }
+            else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_APPEAL_LW) {
+                let link = LinkModule::unlink_all(article_boma);
+            }
+        }      
+    }
+}
+
+
+
 #[fighter_frame( agent = FIGHTER_KIND_RICHTER )]
 fn richter_update(fighter: &mut L2CFighterCommon) {
     unsafe {
@@ -402,7 +459,9 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
         bat_control(fighter,boma);
         fsmash_charge(fighter,boma);
         sidespecial_refresh(fighter,boma);
-        final_effects(fighter,boma);
+        final_effects(fighter,boma);  
+
+        debug(fighter,boma);      
 
         if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
         {

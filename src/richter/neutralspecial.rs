@@ -26,6 +26,15 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) && canspawn  {
         ArticleModule::generate_article(boma, projectile,false,0);
         ArticleModule::shoot(boma, projectile, ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST), false);
+        let article_boma = get_article_boma(boma, projectile);
+
+        let lr = PostureModule::lr(boma);
+        let yOffset = if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_HELLFIRE {10.0} else {2.0};
+        let mut pos = Vector3f::zero();
+        let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("trans")}, &mut pos);        
+        let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x - (8.0*lr), y: PostureModule::pos_y(boma) + pos.y + yOffset, z: PostureModule::pos_z(boma) + pos.z};
+        PostureModule::set_pos(article_boma, &newPos);
+        //ModelModule::set_joint_translate(article_boma, Hash40::new("root"), &newPos, true,false);
     }
 }
 
@@ -38,7 +47,9 @@ unsafe fn richter_special_n_effect(fighter: &mut L2CAgentBase) {
     frame(fighter.lua_state_agent, CHECK_FRAME+2.0);
     if is_excute(fighter) {
         if vars::meta_is_active(boma)
-        && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL){
+        && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL)
+        && !ArticleModule::is_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_AXE)
+        {
             EFFECT_FOLLOW(fighter, Hash40::new("sys_sscope_hold"), Hash40::new("top"), 5, 9.5, -5, 0, 0, 0, 0.6, true);
         }
     }
@@ -51,20 +62,20 @@ unsafe fn richter_special_n_effect(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         if canspawn {
             //sys_smash_flash_s
-            EFFECT_FOLLOW(fighter, Hash40::new("sys_firstplace"), Hash40::new("top"), 5, 7.5, -5, 0, 0, 0, 0.4, true);
+            EFFECT_FOLLOW(fighter, Hash40::new("sys_firstplace"), Hash40::new("top"), 0, 7.5, -5, 0, 0, 0, 0.4, true);
         }
     }
     frame(fighter.lua_state_agent, SPAWN_FRAME+SPAWN_OFFSET);
     if is_excute(fighter) {
         if canspawn {
-            LANDING_EFFECT(fighter, Hash40::new("sys_action_smoke_h"), Hash40::new("top"), 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
+            LANDING_EFFECT(fighter, Hash40::new("sys_action_smoke_h"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
             if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_INFERNO
             {
                 EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
             }
         }
         else{
-            EFFECT_FOLLOW(fighter, Hash40::new("richter_bottle_blank"), Hash40::new("top"), 0, 8, 8, 0, 0, 0, 1, true);
+            EFFECT_FOLLOW(fighter, Hash40::new("richter_bottle_blank"), Hash40::new("top"), 5, 8, -8, 0, 0, 0, 1, true);
         }
     }
 }
@@ -74,24 +85,38 @@ unsafe fn richter_special_n_sound(fighter: &mut L2CAgentBase) {
     let boma = fighter.module_accessor;
     let entry = get_entry(fighter);
 
-    frame(fighter.lua_state_agent, CHECK_FRAME+1.0);
+    frame(fighter.lua_state_agent, 12.0);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_dash_turn"));
+    }
+
+    frame(fighter.lua_state_agent, CHECK_FRAME+2.0);
     if is_excute(fighter) {
         if vars::meta_is_active(boma)
-        && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL){
-        PLAY_SE(fighter, Hash40::new("se_richter_special_s01"));
+        && ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL)
+        && !ArticleModule::is_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_AXE)
+        {
+            PLAY_SE(fighter, Hash40::new("se_richter_special_s01"));
         }
     }
 
     frame(fighter.lua_state_agent, SPAWN_FRAME);
     let canspawn = GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) >= SPAWN_TYPE_HELLFIRE;
+    println!("{}",GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN));
     if is_excute(fighter) && canspawn {
+        STOP_SE(fighter, Hash40::new("se_richter_special_s01"));
         let sound = if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_INFERNO {Hash40::new("vc_richter_ottotto")} else {Hash40::new("vc_richter_special_n01")};
         PLAY_VC(fighter, sound,1.0);
     }
     frame(fighter.lua_state_agent, SPAWN_FRAME+SPAWN_OFFSET);
-    if is_excute(fighter) && canspawn {
-        STOP_SE(fighter, Hash40::new("se_richter_special_s01"));
-        PLAY_SE(fighter, Hash40::new("se_richter_special_n01"));
+    if is_excute(fighter){
+        if canspawn {
+            PLAY_SE(fighter, Hash40::new("se_richter_special_n01"));
+        }
+        else
+        {
+            PLAY_SE(fighter, Hash40::new("se_common_step_cloud"));
+        }
     }
 }
 

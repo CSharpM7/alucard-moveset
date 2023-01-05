@@ -290,7 +290,6 @@ unsafe extern "C" fn richter_special_n_exec(fighter: &mut L2CFighterCommon) -> L
 
         if (GetVar::get_int(boma, &mut vars::SPECIAL_N_SPAWN) != 0)
         {
-            println!("STOP");
             STOP_SE(fighter, Hash40::new("se_richter_special_s01"));
             EFFECT_OFF_KIND(fighter, Hash40::new("sys_sscope_hold"),true,false);
             MotionModule::set_frame_sync_anim_cmd(boma, spawnFrame-1.0, true,false,false);

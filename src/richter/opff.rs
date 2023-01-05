@@ -300,7 +300,7 @@ unsafe fn final_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectMo
     ].contains(&status);
     if finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) == -1 {
         if fighter.motion_frame() > 0.0{
-            let handle = EffectModule::req_follow(boma, Hash40::new("sys_blackball_attack"), Hash40::new("top"), &Vector3f{x:0.0,y:18.0,z:0.0}, &Vector3f::zero(), 0.0, true, 0, 0, 0, 0, 0, false, false) as u32;
+            let handle = EffectModule::req_follow(boma, Hash40::new("sys_timer"), Hash40::new("top"), &Vector3f{x:0.0,y:27.0,z:0.0}, &Vector3f::zero(), 0.0, true, 0, 0, 0, 0, 0, false, false) as u32;
             EffectModule::set_rgb(boma,handle,0.25,0.0,0.0);
             EffectModule::set_rate(boma,handle,0.6);
             GetVar::set_int(boma,&mut vars::FINAL_EFFECT,handle as i32);
@@ -308,7 +308,7 @@ unsafe fn final_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectMo
     }
     else if finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) != -1 {
         let handle = GetVar::get_int(boma,&mut vars::FINAL_EFFECT) as u32;
-        let currentScale = 0.75+fighter.motion_frame().min(120.0)/25.0;
+        let currentScale = 0.5+fighter.motion_frame().min(120.0)/20.0;
         let scale = Vector3f{x:currentScale,y:currentScale,z:1.0};
         EffectModule::set_scale(boma, handle, &scale);
         GetVar::set_int(boma,&mut vars::META_EFFECT, -1);
@@ -338,30 +338,30 @@ unsafe fn training_cheat(fighter: &mut L2CFighterCommon, boma: &mut BattleObject
                     //let screen = EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test1"),false,false,false) as u32;
                     //EffectModule::set_rgb(boma,screen,1.0,0.0,0.0);
                     //LAST_EFFECT_SET_COLOR(fighter,1,0,0);
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_warpstar_break"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_exp"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_togezoshell_bomb"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_hold"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_status_all_up"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_ray"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_specialflag_light"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_ray_del"), Hash40::new("rot"), 0, 0, 0, 0, 0, 0, 1.0, true);
                 }
             }
             else if fighter.is_motion(Hash40::new("appeal_s_l")) || fighter.is_motion(Hash40::new("appeal_s_r")) {
                 if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_ATTACK) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_special_all_up"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_ray_long_del"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smashbomb_exp"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_shot"), Hash40::new("top"), 0,11,0,0,0,0, 0.625, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smash_ball_damage"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_ray_long"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
                 }
                 else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_GUARD) {
-                    EFFECT_FOLLOW(fighter, Hash40::new("sys_smash_ball_damage_flash"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
+                    EFFECT_FOLLOW(fighter, Hash40::new("sys_staff_ray"), Hash40::new("top"), 0, 8, 6, 5, 0, -40, 0.825, true);
                 }
             }
             else if fighter.is_motion(Hash40::new("appeal_lw_l")) || fighter.is_motion(Hash40::new("appeal_lw_r")) {

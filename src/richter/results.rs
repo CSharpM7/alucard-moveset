@@ -1,4 +1,6 @@
 use super::*;
+const ENTRY_FRAME: f32 = 44.0;
+
 
 #[acmd_script( agent = "richter", scripts = ["game_entryr","game_entryl"] , category = ACMD_GAME)]
 unsafe fn richter_entry_game(fighter: &mut L2CAgentBase) {
@@ -9,8 +11,9 @@ unsafe fn richter_entry_game(fighter: &mut L2CAgentBase) {
         ArticleModule::generate_article(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN,false,0);
         ArticleModule::set_visibility_whole(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
         ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, Hash40::new("fly"), false, 0.0);
+        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, 2.0);
     }
-    frame(lua_state, 64.0);
+    frame(lua_state, ENTRY_FRAME);
     if is_excute(fighter) {
         ArticleModule::remove_exist(boma, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, ArticleOperationTarget(*ARTICLE_OPE_TARGET_ALL));
     }
@@ -19,9 +22,10 @@ unsafe fn richter_entry_game(fighter: &mut L2CAgentBase) {
 unsafe fn richter_entry_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
 
-    frame(lua_state, 63.0);
+    frame(lua_state, ENTRY_FRAME-1.0);
     if is_excute(fighter) {
-        EFFECT(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 2, 0, 0, 0, 1.5, 0,0,0,0,0,0,true);
+        EFFECT(fighter, Hash40::new("sys_damage_curse"), Hash40::new("top"), -5, 7.5, 2, 0, 0, 0, 1.25, 0,0,0,0,0,0,true);
+        LAST_EFFECT_SET_COLOR(fighter,1,0,1);
     }
 }
 #[acmd_script( agent = "richter", scripts = ["sound_entryr","sound_entryl"] , category = ACMD_SOUND)]
@@ -31,6 +35,10 @@ unsafe fn richter_entry_sound(fighter: &mut L2CAgentBase) {
     frame(lua_state, 1.0);
     if is_excute(fighter) {
         PLAY_SE(fighter, Hash40::new("se_richter_special_h01"));
+    }
+    frame(lua_state, ENTRY_FRAME);
+    if is_excute(fighter) {
+        PLAY_SE(fighter, Hash40::new("se_richter_attackair_l02"));
     }
 }
 

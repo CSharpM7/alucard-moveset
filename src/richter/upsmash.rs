@@ -57,7 +57,9 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, FRAME_ATTACK);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
-        ATTACK(fighter, 0, 0, Hash40::new("throw"), 15.0, 86, 95, 0, 45, 3.5, 0.0, FAMILIAR_LENGTH/1.5, 0.0, Some(0.0), Some(FAMILIAR_LENGTH+1.0), Some(0.0), 1.3, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
+        ATTACK(fighter, 0, 0, Hash40::new("throw"), 15.0, 86, 95, 0, 45, 3.25, 0.0, FAMILIAR_LENGTH/1.5, 0.0, Some(0.0), Some(FAMILIAR_LENGTH+1.0), Some(0.0), 1.3, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_sting"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP,*ATTACK_REGION_SWORD);
+        
+        shield!(fighter, *MA_MSC_CMD_REFLECTOR, *COLLISION_KIND_REFLECTOR, 0, hash40("throw"), 2.5, 0, 2.5, 0, 0, FAMILIAR_LENGTH-0.5, 0, 1.2, 0.0, 999, false, 0.0, *FIGHTER_REFLECTOR_GROUP_HOMERUNBAT);
     }
     wait(lua_state, 6.0);
     if is_excute(fighter) {
@@ -66,6 +68,11 @@ unsafe fn richter_attack_hi4_game(fighter: &mut L2CAgentBase) {
     wait(lua_state, 7.0);
     if is_excute(fighter) {
         AttackModule::clear_all(boma);
+    }
+    wait(lua_state, 8.0);
+    if is_excute(fighter) {
+        AttackModule::clear_all(boma);
+        shield!(fighter, *MA_MSC_CMD_SHIELD_OFF, *COLLISION_KIND_REFLECTOR, 0, FIGHTER_REFLECTOR_GROUP_HOMERUNBAT);
     }
 }
 

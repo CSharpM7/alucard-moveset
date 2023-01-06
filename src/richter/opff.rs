@@ -265,7 +265,7 @@ unsafe fn fsmash_charge(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectM
             size = 0.3;
         }
 
-        if (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4_HOLD) || (currentFrame < 9.0))
+        if (fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_S4_HOLD) || (currentFrame < 11.0))
         {
             //let effecty = 3.0+(vars::LENGTH*((currentFrame/maxFrame)));
             //EFFECT_FOLLOW(fighter, currentEffect, Hash40::new("haver"), 2.0,effecty,0,0,0,0, size, true);
@@ -300,9 +300,9 @@ unsafe fn final_effects(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectMo
     ].contains(&status);
     if finalAttack && GetVar::get_int(boma,&mut vars::FINAL_EFFECT) == -1 {
         if fighter.motion_frame() > 0.0{
-            let handle = EffectModule::req_follow(boma, Hash40::new("sys_timer"), Hash40::new("top"), &Vector3f{x:0.0,y:27.0,z:0.0}, &Vector3f::zero(), 0.0, true, 0, 0, 0, 0, 0, false, false) as u32;
+            let handle = EffectModule::req_follow(boma, Hash40::new("sys_blackball_set"), Hash40::new("top"), &Vector3f{x:0.0,y:27.0,z:0.0}, &Vector3f::zero(), 0.0, true, 0, 0, 0, 0, 0, false, false) as u32;
             EffectModule::set_rgb(boma,handle,0.25,0.0,0.0);
-            EffectModule::set_rate(boma,handle,0.6);
+            EffectModule::set_rate(boma,handle,0.4);
             GetVar::set_int(boma,&mut vars::FINAL_EFFECT,handle as i32);
         }
     }

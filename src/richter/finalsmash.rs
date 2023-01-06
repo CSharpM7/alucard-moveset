@@ -38,7 +38,7 @@ unsafe fn richter_final_start_game(fighter: &mut L2CAgentBase) {
     }
     frame(fighter.lua_state_agent, 30.0);
     if is_excute(fighter) {
-        ATTACK(fighter, 0, 0, Hash40::new("top"), 0.0, 80, 100, 80, 0, 30.0, 0.0, 27.0, 0.0, None, None, None, 0.0, 0.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, f32::NAN, 0.0, 0, false, false, true, true,false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_none"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_NONE);
+        ATTACK(fighter, 0, 0, Hash40::new("top"), 0.0, 80, 100, 80, 0, 45.0, 0.0, 27.0, 0.0, None, None, None, 0.0, 0.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, f32::NAN, 0.0, 0, false, false, true, true,false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_FIGHTER, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_none"), *ATTACK_SOUND_LEVEL_S, *COLLISION_SOUND_ATTR_NONE, *ATTACK_REGION_NONE);
         AttackModule::set_no_dead_all(fighter.module_accessor, true, false);
     }
     wait(fighter.lua_state_agent, 15.0);
@@ -130,6 +130,14 @@ unsafe fn richter_final_end_effect(fighter: &mut L2CAgentBase) {
         EFFECT_FOLLOW(fighter, Hash40::new("sys_blackball_set"), Hash40::new("top"), 0, 27, 0, 0, 0, 0, 2.5, true);
         LAST_EFFECT_SET_COLOR(fighter,1,0,0);
         LAST_EFFECT_SET_RATE(fighter,1.25);
+    }
+    frame(fighter.lua_state_agent, 60.0);
+    if is_excute(fighter) {
+        //EffectModule::remove_screen(fighter.module_accessor,Hash40::new("bg_richter_final"),-1);
+        EffectModule::req_screen(fighter.module_accessor,Hash40::new("bg_test2"),false,false,false);
+        EFFECT_FOLLOW(fighter, Hash40::new("sys_blackball_set"), Hash40::new("top"), 0, 27, 0, 0, 0, 0, 6.5, true);
+        LAST_EFFECT_SET_COLOR(fighter,1,0,0);
+        LAST_EFFECT_SET_RATE(fighter,1.75);
     }
     frame(fighter.lua_state_agent, 129.0);
     if is_excute(fighter) {

@@ -158,25 +158,22 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
         
     frame(lua_state, 7.0);
     if is_excute(fighter) {
-        
+        COL_NORMAL(fighter);
+    }
+    frame(lua_state,  8.0);
+    if is_excute(fighter) {
         if (fighter.is_motion(Hash40::new(ELECTRIC))) {
             color.z = 0.0;
         }
         else if (fighter.is_motion(Hash40::new(FIRE))) {
-            color.y = 0.5;
+            color.y = 0.25;
             color.z = 0.0;
         }
         else if (fighter.is_motion(Hash40::new(ICE))) {
             color.x = 0.0;
             color.y = 0.5;
         }
-        /* 
-        fighter.clear_lua_stack();
-        lua_args!(fighter, color.x, color.y,color.z, 0.1);
-        sv_animcmd::FLASH_NO_STOP(fighter.lua_state_agent);
-        fighter.clear_lua_stack();
-        */
-        FLASH_FRM(fighter,10,color.x, color.y,color.z, 0.7);
+        FLASH(fighter,color.x, color.y,color.z,0.3);
     }
     frame(lua_state, 10.0);
     if is_excute(fighter) {
@@ -187,6 +184,7 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
             EFFECT(fighter, Hash40::new("sys_thunder_flash"), Hash40::new("top"), 0, ORIGIN_Y, vars::LENGTH+ORIGIN_X+5.0, 0, 0, 0, 0.75, 0,0,0,0,0,0,true);
             LAST_EFFECT_SET_RATE(fighter, 1.375);
         }
+        FLASH(fighter,color.x, color.y,color.z,0.3);
     }
     frame(lua_state, 12.0);
     if is_excute(fighter) {
@@ -202,16 +200,16 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
         else if (fighter.is_motion(Hash40::new(ICE))) {
             EFFECT(fighter, Hash40::new("sys_hit_ice"), Hash40::new("top"), 0, ORIGIN_Y-ANGLE_OFFSET, vars::LENGTH+ORIGIN_X-(ANGLE_OFFSET/5.0), 0, 0, 0, 0.5, 0,0,0,0,0,0,true);
         }
-        FLASH(fighter, color.x, color.y,color.z, 0.7);
+        FLASH(fighter,color.x, color.y,color.z,0.3);
     }
-    frame(lua_state, 20.0);
+    frame(lua_state, 15.0);
     if is_excute(fighter) {
+        COL_NORMAL(fighter);
     }
     frame(lua_state, 23.0);
     if is_excute(fighter) {
         EFFECT_OFF_KIND(fighter, Hash40::new("sys_pasaran_spark"),false,false);
         EFFECT_OFF_KIND(fighter, Hash40::new("sys_fireflower_shot"),false,false);
-        COL_NORMAL(fighter);
     }
 }
 pub fn install() {

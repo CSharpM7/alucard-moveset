@@ -33,7 +33,7 @@ unsafe fn whip_attack_lw3_effect(weapon: &mut L2CAgentBase) {
     let lua_state = weapon.lua_state_agent;
     let boma = weapon.module_accessor;
     
-    frame(lua_state, 6.0);
+    frame(lua_state, 4.0);
     if is_excute(weapon) {
         whip_trail(weapon);
     }

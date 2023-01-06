@@ -17,6 +17,14 @@ skyline_smash = { git = "https://github.com/blu-dev/skyline-smash.git", features
 smash_script = { git = "https://github.com/blu-dev/smash-script.git", branch = "development" }
 smashline = { git = "https://github.com/blu-dev/smashline.git", branch = "development" }
 skyline-web = { git = "https://github.com/skyline-rs/skyline-web", optional = true }
+gh-updater = { git = "https://github.com/blu-dev/gh-updater", default-features = false, features = ["native-tls"], optional = true }
+semver = { version = "1", features = ["serde"], optional = true }
+camino = "1"
+skyline-config = { git = "https://github.com/skyline-rs/skyline-config", optional = true }
+arcropolis-api = { git = "https://github.com/Raytwo/arcropolis_api", optional = true }
+
+[patch.crates-io]
+native-tls = { git = "https://github.com/skyline-rs/rust-native-tls", rev = "f202fca"  }
 
 [profile.dev]
 panic = "abort"
@@ -28,5 +36,5 @@ lto = true
 codegen-units = 1
 
 [features]
-updater = ["skyline-web"]
+updater = ["skyline-web","gh-updater","semver","arcropolis-api","skyline-config"]
 dev = []

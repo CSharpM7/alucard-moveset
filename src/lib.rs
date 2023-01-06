@@ -68,4 +68,15 @@ pub fn main() {
     params::install();
     #[cfg(feature = "updater")]
     update::install();
+    /* 
+    #[cfg(feature = "updater")]
+    {
+        std::thread::Builder::new()
+            .stack_size(0x40_0000)
+            .spawn(|| {
+                update::check_for_updates();
+            })
+            .unwrap()
+            .join();
+    }*/
 }

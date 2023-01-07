@@ -23,17 +23,6 @@ pub mod updater{
         ChangeToBeta,
         Regular,
     }
-    /*
-    impl fmt::Display for VersionDifference {
-        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-            match self {
-                Self::ChangeToStable(ver) => write!(f, "An uninstalled stable version of ARCropolis ({})", ver),
-                Self::ChangeToBeta(ver) => write!(f, "A new beta version of ARCropolis ({})", ver),
-                Self::Regular(ver) => write!(f, "A new update for ARCropolis ({})", ver),
-            }
-        }
-    }
-    */
     fn compare_tags(current: &str, target: &str) -> Result<Option<VersionDifference>, semver::Error> {
         let current = Version::parse(current)?;
         let target = Version::parse(target)?;
@@ -53,9 +42,9 @@ pub mod updater{
 
         let current = env!("CARGO_PKG_VERSION");
 
-        let release = ReleaseFinderConfig::new("alucard-moveset")
+        let release = ReleaseFinderConfig::new("alucard-release")
             .with_author("CSharpM7")
-            .with_repository("alucard-moveset")
+            .with_repository("alucard-release")
             .with_prereleases(true)
             .find_release();
         
@@ -147,24 +136,7 @@ pub mod config {
     pub fn get_config() -> StorageHolder<SdCardStorage> {
         StorageHolder::new(SdCardStorage::new(config()))
     }
-
-    pub fn enable_skip_launcher(config: &mut StorageHolder<SdCardStorage>, enable: bool) {
-        config.set_flag("skip_launcher", enable).expect("Unable to enable skipping the launcher!")
-    }
-
-    pub fn is_enable_skip_launcher(config: &StorageHolder<SdCardStorage>) -> bool {
-        config.get_flag("skip_launcher")
-    }
-
-    pub fn enable_nightlies(config: &mut StorageHolder<SdCardStorage>, enable: bool) {
-        config.set_flag("enable_nightly", enable).expect("Unable to enable nightlies!")
-    }
-
-    pub fn is_enable_nightly_builds(config: &StorageHolder<SdCardStorage>) -> bool {
-        config.get_flag("enable_nightly")
-    }
 }
-
 
 pub fn config() -> Utf8PathBuf {
     Utf8PathBuf::from("sd:/ultimate/alucard")

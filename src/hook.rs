@@ -78,6 +78,28 @@ static OFFSET_SEARCH_CODE: &[u8] = &[
     0xfb, 0x03, 0x00, 0xaa  //.text:0000007100675A44                 MOV             X27, X0
 ];
 
+
+extern "C" {
+    fn change_version_string(arg: u64, string: *const c_char);
+}
+
+#[skyline::hook(replace = change_version_string)]
+fn change_version_string_hook(arg: u64, string: *const c_char) {
+    let original_str = unsafe { skyline::from_c_str(string) };
+    if original_str.contains("Ver.") {
+
+        let new_str = format!(
+            "{}\nAlucard Ver. {}\0",
+            original_str,
+            env!("CARGO_PKG_VERSION")
+        );
+
+        call_original!(arg, skyline::c_str(&new_str))
+    } else {
+        call_original!(arg, string)
+    }
+}
+
 pub fn install() {
 	unsafe {
         let text_ptr = getRegionAddress(Region::Text) as *const u8;
@@ -87,5 +109,9 @@ pub fn install() {
             NOTIFY_LOG_EVENT_COLLISION_HIT_OFFSET = offset;
         }
     }
-	skyline::install_hook!(notify_log_event_collision_hit_replace);
+	//skyline::install_hook!();
+    skyline::install_hooks!(
+        notify_log_event_collision_hit_replace,
+        change_version_string_hook
+    );
 }

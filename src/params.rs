@@ -100,7 +100,7 @@ param_hash: u64) -> f32 {
 const MAX_FILE_SIZE: usize = 0xFFFF;
 // in main
 pub fn install() {
-    smash::params::add_hook(params_main).unwrap();
-	skyline::install_hook!(int_param_accessor_hook);
-	skyline::install_hook!(float_param_accessor_hook);
+    //smash::params::add_hook(params_main).unwrap();
+	//skyline::install_hook!(int_param_accessor_hook);
+	//skyline::install_hook!(float_param_accessor_hook);
 }

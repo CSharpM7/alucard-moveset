@@ -45,7 +45,8 @@ unsafe extern "C" fn richter_special_hi_main_loop(fighter: &mut L2CFighterCommon
     }
 
     let lastFrame = upspecial::FRAME_END + (if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {30.0} else {0.0});
-    if fighter.motion_frame() > lastFrame {
+    if fighter.motion_frame() >= lastFrame 
+    || MotionModule::is_end(fighter.module_accessor) {
         fighter.change_status(FIGHTER_STATUS_KIND_FALL_SPECIAL.into(), false.into());
         return 1.into();
     }

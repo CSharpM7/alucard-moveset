@@ -153,6 +153,10 @@ unsafe fn richter_special_hi_effect(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         COL_NORMAL(fighter);
     }
+    frame(lua_state, FRAME_END-1.0);
+    if is_excute(fighter) {
+        COL_NORMAL(fighter);
+    }
 }
 
 #[acmd_script( agent = "richter", scripts = ["sound_specialhi","sound_specialairhi"] , category = ACMD_SOUND )]

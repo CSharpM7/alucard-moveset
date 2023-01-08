@@ -48,8 +48,6 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
         WorkModule::on_flag(fighter.module_accessor, /*Flag*/ *FIGHTER_SIMON_STATUS_SPECIAL_HI_FLAG_MOVE);
         notify_event_msc_cmd!(fighter, Hash40::new_raw(0x2127e37c07), GROUND_CLIFF_CHECK_KIND_ALWAYS_BOTH_SIDES_NEAR);
         ArticleModule::set_visibility_whole(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, true,ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST));
-        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, 
-            if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {0.5} else {2.0});
         ArticleModule::change_motion(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, 
             if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {Hash40::new("fly_dark")} else {Hash40::new("fly")},
         true, 0.0);
@@ -68,6 +66,8 @@ unsafe fn richter_special_hi_game(fighter: &mut L2CAgentBase) {
             &Vector3f{x: -degree, y: 0.0, z: 0.0},
             0
         ); 
+        ArticleModule::set_rate(fighter.module_accessor, *FIGHTER_RICHTER_GENERATE_ARTICLE_COFFIN, 
+            if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {1.75} else {1.0});
         
         ATTACK(fighter, 0, 0, Hash40::new("top"), 15.0, angle as u64, 70, 0, 75, 6.0, 0.0, 0.0, 0.0, None,None,None, 1.3, 1.0, *ATTACK_SETOFF_KIND_THRU, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK,*ATTACK_REGION_BODY);
 

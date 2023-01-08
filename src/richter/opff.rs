@@ -149,7 +149,7 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         }
         PostureModule::update_rot_y_lr(boma);
         let lr = PostureModule::lr(boma);
-        let motion_factor = if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {3.0} else {2.625};
+        let motion_factor = if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {3.125} else {2.625};
         let speedy_mult = if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {0.75} else {0.875};
 
         SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor*speedy_mult,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);

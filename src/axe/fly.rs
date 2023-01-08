@@ -16,6 +16,9 @@ unsafe fn axe_fly_effect(weapon: &mut L2CAgentBase) {
         if is_excute(weapon) {
             //sys_flame
             EFFECT_FOLLOW_NO_STOP(weapon, Hash40::new("sys_damage_fire_fly"), Hash40::new("top"), 0, 6, 0, 0, -90, 0, 1, true);
+            if x==8{
+                FLASH(weapon,1.0, 0.875,0.75,0.3);
+            }
         }
         else
         {

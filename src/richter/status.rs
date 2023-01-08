@@ -44,9 +44,8 @@ unsafe extern "C" fn richter_special_hi_main_loop(fighter: &mut L2CFighterCommon
         return 0.into();
     }
 
-    let currentFrame = fighter.motion_frame();
-    if MotionModule::is_end(fighter.module_accessor)
-    || currentFrame > upspecial::FRAME_END {
+    let lastFrame = upspecial::FRAME_END + (if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {30.0} else {0.0});
+    if fighter.motion_frame() > lastFrame {
         fighter.change_status(FIGHTER_STATUS_KIND_FALL_SPECIAL.into(), false.into());
         return 1.into();
     }
@@ -123,24 +122,6 @@ unsafe extern "C" fn richter_special_s_preU(fighter: &mut L2CFighterCommon) -> L
     {
         return 0.into();
     }
-    println!("?!?");
-    GetVar::set_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL, false);
-    let entry = get_entry(fighter);
-    let boma = fighter.module_accessor;
-    GetVar::set_int(fighter.module_accessor, &mut vars::DIVE_TARGET, 0);
-
-
-    return 1.into();
-}
-
-#[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-pub unsafe fn richter_special_s_pre(fighter: &mut L2CFighterCommon) -> L2CValue{
-
-    if (!GetVar::get_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL))
-    {
-        return 0.into();
-    }
-    println!("?!?");
     GetVar::set_bool(fighter.module_accessor, &mut vars::SPECIAL_S_AERIAL, false);
     let entry = get_entry(fighter);
     let boma = fighter.module_accessor;
@@ -164,10 +145,11 @@ unsafe extern "C" fn richter_special_s_exec(fighter: &mut L2CFighterCommon) -> L
 }
 #[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
 unsafe fn richter_special_s2_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+     
     StatusModule::init_settings(
         fighter.module_accessor,
         app::SituationKind(*SITUATION_KIND_NONE),
-        *FIGHTER_KINETIC_TYPE_UNIQ,
+        *FIGHTER_KINETIC_TYPE_AIR_STOP,
         *GROUND_CORRECT_KIND_KEEP as u32,
         app::GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_NONE),
         false,
@@ -189,48 +171,89 @@ unsafe fn richter_special_s2_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
         *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_S as u32,
         0,
     );
-    L2CValue::I32(0)
-}
-#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
-unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let entry = get_entry(fighter);
-    let boma = fighter.module_accessor;
-
     KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
     sv_kinetic_energy!(
         clear_speed,
         fighter,
         FIGHTER_KINETIC_ENERGY_ID_STOP
-      );
-      sv_kinetic_energy!(
+    );
+    sv_kinetic_energy!(
         clear_speed,
         fighter,
         FIGHTER_KINETIC_ENERGY_ID_GRAVITY
-      );
-      sv_kinetic_energy!(
+    );
+    sv_kinetic_energy!(
         set_accel,
         fighter,
         FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
         0.0
-      );
-    let mut defenderTest = get_fighter_common_from_entry_id(GetVar::get_int(boma, &mut vars::DIVE_TARGET) as u32);
-    if (defenderTest.is_none()){
-        fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
-        return 0.into();
+    );
+    
+    L2CValue::I32(0)
+
+}
+
+
+#[status_script(agent = "richter", status = FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
+unsafe extern "C" fn richter_special_s2_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let entry = get_entry(fighter);
+    let boma = fighter.module_accessor;
+    /*
+    KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_AIR_STOP);
+    sv_kinetic_energy!(
+        clear_speed,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_STOP
+    );
+    sv_kinetic_energy!(
+        clear_speed,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_GRAVITY
+    );
+    sv_kinetic_energy!(
+        set_accel,
+        fighter,
+        FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+        0.0
+    );
+    */
+    if (GetVar::get_int(fighter.module_accessor, &mut vars::SPECIAL_S_TYPE) == vars::SPECIAL_S_NORMAL)
+    && GetVar::get_int(boma, &mut vars::DIVE_TARGET) > 0
+    {
+        let mut defenderTest = get_fighter_common_from_entry_id(GetVar::get_int(boma, &mut vars::DIVE_TARGET) as u32);
+        if (defenderTest.is_none()){
+            fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
+            return 0.into();
+        }
+        let defender = defenderTest.unwrap();
+        if (defender.is_status(*FIGHTER_STATUS_KIND_DEAD)){
+            fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
+            return 0.into();
+        }
+
+
+        let mut pos = Vector3f::zero();
+        let offset = ModelModule::joint_global_offset_from_top(fighter.module_accessor, Hash40{hash: hash40("throw")}, &mut pos);        
+        let newPos = Vector3f{x: PostureModule::pos_x(fighter.module_accessor) + pos.x, y: PostureModule::pos_y(fighter.module_accessor) + pos.y + 0.0, z: PostureModule::pos_z(fighter.module_accessor) + pos.z};
+        PostureModule::set_pos(defender.module_accessor,  &newPos);
+
+        let lr = if (PostureModule::lr(fighter.module_accessor) <0.0) {0.0} else {180.0};
+        let rot = Vector3f{x: 76.0, y: 0.0, z: lr};
+        PostureModule::set_rot(
+            defender.module_accessor,
+            &rot,
+            0
+        );
+        EffectModule::kill_all(defender.module_accessor,0,false,false);
+        /* 
+            if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_HI) {
+                fighter.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
+            }
+            if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_LW) {
+                defender.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
+            }
+        */
     }
-    let defender = defenderTest.unwrap();
-    if (defender.is_status(*FIGHTER_STATUS_KIND_DEAD)){
-        fighter.change_status(FIGHTER_STATUS_KIND_CATCH_CUT.into(), false.into());
-        return 0.into();
-    }
-/* 
-    if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_HI) {
-        fighter.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
-    }
-    if ControlModule::check_button_on(fighter.module_accessor, *CONTROL_PAD_BUTTON_APPEAL_LW) {
-        defender.change_status(FIGHTER_STATUS_KIND_DEAD.into(), false.into());
-    }
-*/
     return 0.into()
 }
 
@@ -245,8 +268,16 @@ unsafe extern "C" fn richter_special_s2_exit(fighter: &mut L2CFighterCommon) -> 
         if (!defender.is_none()){
             (defender.unwrap()).change_status(FIGHTER_STATUS_KIND_CAPTURE_CUT.into(), false.into());
         }
+        else{
+            PostureModule::set_rot(
+                (defender.unwrap()).module_accessor,
+                &Vector3f::zero(),
+                0
+            );
+        }
         GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
     }
+    GetVar::set_int(boma, &mut vars::SPECIAL_S_TYPE,0);
 
     return 0.into()
 }
@@ -328,16 +359,6 @@ unsafe extern "C" fn richter_final_end_pre(fighter: &mut L2CFighterCommon) -> L2
 }
 
 
-#[fighter_init]
-fn agent_init(fighter: &mut L2CFighterCommon) {
-    unsafe {
-        let fighter_kind = utility::get_kind(&mut *fighter.module_accessor);
-        if fighter_kind != *FIGHTER_KIND_RICHTER {
-            return;
-        }
-        fighter.global_table[CHECK_SPECIAL_S_UNIQ].assign(&L2CValue::Ptr(richter_special_s_preU as *const () as _));
-    }
-}
 
 #[status_script(agent = "richter", status = FIGHTER_STATUS_KIND_ENTRY, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS)]
 unsafe extern "C" fn richter_entry_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
@@ -362,6 +383,17 @@ unsafe extern "C" fn richter_entry_exec(fighter: &mut L2CFighterCommon) -> L2CVa
         }
     }
     return false.into();
+}
+
+#[fighter_init]
+fn agent_init(fighter: &mut L2CFighterCommon) {
+    unsafe {
+        let fighter_kind = utility::get_kind(&mut *fighter.module_accessor);
+        if fighter_kind != *FIGHTER_KIND_RICHTER {
+            return;
+        }
+        fighter.global_table[CHECK_SPECIAL_S_UNIQ].assign(&L2CValue::Ptr(richter_special_s_preU as *const () as _));
+    }
 }
 
 pub fn install() {

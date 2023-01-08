@@ -2,76 +2,19 @@ use super::*;
 
 
 unsafe fn metamorphosis_check_heal(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAccessor){
-    let status = StatusModule::status_kind(fighter.module_accessor);
-    let mut swordAttack = [
-        *FIGHTER_STATUS_KIND_ATTACK_S3,
-        *FIGHTER_STATUS_KIND_ATTACK_S4,
-        *FIGHTER_STATUS_KIND_ATTACK_LW3,
-        *FIGHTER_STATUS_KIND_ATTACK_100,
-        *FIGHTER_STATUS_KIND_ATTACK_DASH
-    ].contains(&status);
-    if (!swordAttack)
-    {
-        let motion = MotionModule::motion_kind(boma);
-        if (status == *FIGHTER_STATUS_KIND_ATTACK_AIR)
-        {
-            swordAttack = fighter.is_motion(Hash40::new("attack_air_b"))
-            || fighter.is_motion(Hash40::new("attack_air_f"))
-            || fighter.is_motion(Hash40::new("attack_air_f_hi"))
-            || fighter.is_motion(Hash40::new("attack_air_f_lw"));
-        }
-        else
-        {
-            swordAttack = fighter.is_motion(Hash40::new("attack_13")) || 
-            fighter.is_motion(Hash40::new("attack_100")) ||
-            fighter.is_motion(Hash40::new("attack_100_end"));
-        }
-        
-    }
+    let mut swordAttack = meta_swordattack(boma);
     let mut cancelFrame = FighterMotionModuleImpl::get_cancel_frame(boma,smash::phx::Hash40::new_raw(MotionModule::motion_kind(boma)), false) as f32;
-
+ 
     if (fighter.motion_frame() < 2.0){
         GetVar::set_bool(boma, &mut vars::META_HEALED,false);
         if (!fighter.is_motion(Hash40::new("attack_100")))
             {GetVar::set_bool(boma, &mut vars::META_WHIFF,false);}
     }
-    if (!fighter.is_motion(Hash40::new("attack_100_start")) && !fighter.is_motion(Hash40::new("attack_100")))
-    && (!swordAttack ||(fighter.motion_frame() > cancelFrame-5.0))
-    {
-        if (GetVar::get_bool(boma, &mut vars::META_WHIFF) && !GetVar::get_bool(boma, &mut vars::META_HEALED))
-        {
-            let mut frameloss = META_PUNISH;
-            GetVar::add_int(boma,&mut vars::META_FRAME,frameloss);
-            EffectModule::req_follow(boma, Hash40::new("sys_hit_curse"), Hash40::new("hip"), &Vector3f::zero(), &Vector3f::zero(), 1.25, true, 0, 0, 0, 0, 0, false, false);
-        }
-        GetVar::set_bool(boma, &mut vars::META_WHIFF,false);
-    }
+
     if (fighter.motion_frame() < cancelFrame-5.0 
-    || status==*FIGHTER_STATUS_KIND_ATTACK_100
+    || fighter.is_status(*FIGHTER_STATUS_KIND_ATTACK_100)
     ){
         GetVar::set_bool(boma, &mut vars::META_WHIFF,swordAttack);
-        let in_Hitstop = SlowModule::frame(fighter.module_accessor, *FIGHTER_SLOW_KIND_HIT) > 0 ;
-        if (AttackModule::is_infliction(boma, *COLLISION_KIND_MASK_HIT) 
-        //&& in_Hitstop) 
-        ){
-            if (GetVar::get_bool(boma, &mut vars::META_HEALED)) {return;}
-            if (swordAttack)
-            {
-                let mut damageDealt = AttackModule::get_power(boma, 0, false, 1.0, false);
-                println!("{}",damageDealt);
-                if (damageDealt<=3.0 && status != *FIGHTER_STATUS_KIND_ATTACK_100) {return; }
-                GetVar::set_bool(boma, &mut vars::META_HEALED,true);
-                DamageModule::heal(boma,damageDealt/-7.5,0);
-                PLAY_SE(fighter, Hash40::new("se_richter_attackair_b02"));
-
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_badge"), Hash40::new("hip"), 0,0,0,0,0,0, 1.00, true);
-                LAST_EFFECT_SET_RATE(fighter,2.5);
-            }
-        }
-        else if fighter.is_motion(Hash40::new("attack_100"))
-        {
-            EFFECT_OFF_KIND(fighter,Hash40::new("sys_badge"),true,false);
-        }
     }
 
 
@@ -206,8 +149,8 @@ unsafe fn bat_control(fighter: &mut L2CFighterCommon,boma: &mut BattleObjectModu
         }
         PostureModule::update_rot_y_lr(boma);
         let lr = PostureModule::lr(boma);
-        let motion_factor = 2.75;
-        let speedy_mult = 0.875;
+        let motion_factor = if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {3.0} else {2.625};
+        let speedy_mult = if GetVar::get_int(boma, &mut vars::SPECIAL_HI_TYPE) == vars::SPECIAL_S_DARK {0.75} else {0.875};
 
         SET_SPEED_EX(fighter,stick_x*lr*motion_factor,stick_y*motion_factor*speedy_mult,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     }
@@ -402,15 +345,6 @@ unsafe fn debug(fighter: &mut L2CFighterCommon, boma: &mut BattleObjectModuleAcc
                 println!("(attack) link: {0}, self: {1}",link,id);
             }
             else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_SPECIAL) {
-                /*
-                println!("(guard) parentLR: {0},parentColor: {1},parentPos: {2},target: {3},nodePos: {4}",
-                LinkModule::get_parent_lr(article_boma,0),
-                LinkModule::get_parent_main_color(article_boma,0),
-                LinkModule::get_parent_pos(article_boma,0),
-                LinkModule::get_model_constraint_target_joint(article_boma),
-                LinkModule::get_model_constraint_target_node_position(article_boma),
-                );
-                */
             }
             else if ControlModule::check_button_on(boma, *CONTROL_PAD_BUTTON_JUMP) {
                 println!("(guard) joint: {0},jointPos: {1},node: {2},target: {3},nodePos: {4}",
@@ -462,10 +396,19 @@ fn richter_update(fighter: &mut L2CFighterCommon) {
         final_effects(fighter,boma);  
 
         debug(fighter,boma);      
-
-        if (fighter.is_status(*FIGHTER_STATUS_KIND_REBIRTH))
+        
+        let status = StatusModule::status_kind(fighter.module_accessor);
+        if (status == (*FIGHTER_STATUS_KIND_REBIRTH))
         {
             on_rebirth(fighter);
+        }
+        if !([
+            *FIGHTER_STATUS_KIND_SPECIAL_S,
+            *FIGHTER_SIMON_STATUS_KIND_SPECIAL_S2
+        ].contains(&status)
+        )
+        {
+            GetVar::set_int(boma, &mut vars::SPECIAL_S_TYPE,0);
         }
         
     }

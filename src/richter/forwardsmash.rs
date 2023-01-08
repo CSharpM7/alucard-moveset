@@ -173,7 +173,7 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
             color.x = 0.0;
             color.y = 0.5;
         }
-        FLASH(fighter,color.x, color.y,color.z,0.3);
+        FLASH(fighter,color.x, color.y,color.z,0.7);
     }
     frame(lua_state, 10.0);
     if is_excute(fighter) {
@@ -184,7 +184,6 @@ unsafe fn richter_attack_s4_effect(fighter: &mut L2CAgentBase) {
             EFFECT(fighter, Hash40::new("sys_thunder_flash"), Hash40::new("top"), 0, ORIGIN_Y, vars::LENGTH+ORIGIN_X+5.0, 0, 0, 0, 0.75, 0,0,0,0,0,0,true);
             LAST_EFFECT_SET_RATE(fighter, 1.375);
         }
-        FLASH(fighter,color.x, color.y,color.z,0.3);
     }
     frame(lua_state, 12.0);
     if is_excute(fighter) {

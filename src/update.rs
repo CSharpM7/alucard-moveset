@@ -42,9 +42,9 @@ pub mod updater{
 
         let current = env!("CARGO_PKG_VERSION");
 
-        let release = ReleaseFinderConfig::new("alucard-release")
+        let release = ReleaseFinderConfig::new("Alucard")
             .with_author("CSharpM7")
-            .with_repository("alucard-release")
+            .with_repository("Alucard")
             .with_prereleases(true)
             .find_release();
         

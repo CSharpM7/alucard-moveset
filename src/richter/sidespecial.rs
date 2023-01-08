@@ -23,6 +23,9 @@ unsafe fn richter_special_s1_game(fighter: &mut L2CAgentBase) {
             FIGHTER_KINETIC_ENERGY_ID_GRAVITY
         );
         }
+        GetVar::set_int(boma, &mut vars::SPECIAL_S_TYPE, 
+            (if vars::meta_is_active(boma) {vars::SPECIAL_S_DARK} else {vars::SPECIAL_S_NORMAL})
+        );
     }
     frame(lua_state, 17.0);
     if is_excute(fighter) {
@@ -47,7 +50,10 @@ unsafe fn richter_special_s1_game(fighter: &mut L2CAgentBase) {
     }
     wait(lua_state, 1.0);
     if is_excute(fighter) {
-        GetVar::add_int(boma, &mut vars::META_ATTEMPTS, 1);
+        if (!vars::meta_is_active(boma))
+        {
+            GetVar::add_int(boma, &mut vars::META_ATTEMPTS, 1);
+        }
     }
 }
 
@@ -55,14 +61,21 @@ unsafe fn richter_special_s1_game(fighter: &mut L2CAgentBase) {
 #[acmd_script( agent = "richter", scripts = ["effect_specials1","effect_specialairs1"] , category = ACMD_EFFECT )]
 unsafe fn richter_special_s1_effect(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
+    let boma = fighter.module_accessor;
+
     frame(lua_state, 43.0);
     if is_excute(fighter) {
-        EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
+        if (!vars::meta_is_active(boma))
+        {
+            EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
+        }
     }
 }
 #[acmd_script( agent = "richter", scripts = ["sound_specials1","sound_specialairs1"] , category = ACMD_SOUND )]
 unsafe fn richter_special_s1_sound(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
+    let boma = fighter.module_accessor;
+
     frame(lua_state, 5.0);
     if is_excute(fighter) {
         PLAY_STEP(fighter, Hash40::new("se_richter_step_crawing_left_b"));
@@ -74,7 +87,10 @@ unsafe fn richter_special_s1_sound(fighter: &mut L2CAgentBase) {
     }
     frame(lua_state, 43.0);
     if is_excute(fighter) {
-        PLAY_VC(fighter, Hash40::new("vc_richter_wakeup"),0.125);
+        if (!vars::meta_is_active(boma))
+        {
+            PLAY_VC(fighter, Hash40::new("vc_richter_wakeup"),0.125);
+        }
     }
 }
 
@@ -100,10 +116,24 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
     frame(lua_state, 1.0);
     FT_MOTION_RATE(fighter,1.5);
     //Could move this to status?
+    /* 
     for i in 1..27{
         wait(lua_state, 1.0);
         if is_excute(fighter) {
-            //ATK_HIT_ABS(fighter, *FIGHTER_ATTACK_ABSOLUTE_KIND_THROW, Hash40::new("throw"), (*defender_boma).battle_object_id as u64, WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_GROUP), WorkModule::get_int64(boma,*FIGHTER_STATUS_THROW_WORK_INT_TARGET_HIT_NO));
+            HitModule::set_whole(defender_boma, smash::app::HitStatus(*HIT_STATUS_XLU), 0);
+            if StatusModule::status_kind(defender_boma) == *FIGHTER_STATUS_KIND_SWIM_DROWN_OUT
+            {
+                let lr = if (PostureModule::lr(boma) <0.0) {0.0} else {180.0};
+                //let rot = Vector3f{x: 80.0, y: 0.0, z: lr};
+                let rot = Vector3f{x: 0.0, y: lr, z: 0.0};
+                /*PostureModule::set_rot(
+                    defender_boma,
+                    &rot,
+                    0
+                );*/
+                ModelModule::set_joint_rotate(defender_boma, Hash40::new("hip"),&rot, MotionNodeRotateCompose{_address: *MOTION_NODE_ROTATE_COMPOSE_AFTER as u8}, MotionNodeRotateOrder{_address: *MOTION_NODE_ROTATE_ORDER_XYZ as u8});
+                EffectModule::kill_all(defender_boma,0,false,false);
+            }
             let mut pos = Vector3f::zero();
             let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("throw")}, &mut pos);        
             let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x, y: PostureModule::pos_y(boma) + pos.y + 0.0, z: PostureModule::pos_z(boma) + pos.z};
@@ -118,6 +148,7 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
             (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_CAPTURE_CUT, false);
         }
     }
+    */
     frame(lua_state, 30.0);
     FT_MOTION_RATE(fighter,1.0);
     if is_excute(fighter) {
@@ -133,11 +164,20 @@ unsafe fn richter_special_s2_game(fighter: &mut L2CAgentBase) {
             CaptureModule::thrown(&mut *defender_boma);
             CatchModule::set_send_cut_event(defender_boma,true);
         }
+        else
+        {
+            (*defender_boma).change_status_req(*FIGHTER_STATUS_KIND_DAMAGE_FLY, true);
+        }
     }
     wait(lua_state, 1.0);
     {
-        GetVar::set_int(boma, &mut vars::DIVE_TARGET, 0);
+        GetVar::set_int(boma, &mut vars::DIVE_TARGET,0);
         AttackModule::clear_all(boma);
+        PostureModule::set_rot(
+            defender_boma,
+            &Vector3f::zero(),
+            0
+        );
         for i in 0..11{
             HIT_NO(fighter, i as u64, *HIT_STATUS_XLU);
         }

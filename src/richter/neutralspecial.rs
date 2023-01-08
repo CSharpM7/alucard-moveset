@@ -19,7 +19,8 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
     if (GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN)==SPAWN_TYPE_INFERNO)
     {
         projectile = *FIGHTER_RICHTER_GENERATE_ARTICLE_AXE;
-        GetVar::add_int(boma,&mut vars::META_FRAME,-120);
+        //GetVar::add_int(boma,&mut vars::META_FRAME,-120);
+        vars::meta_loss(boma, -120);
     }
     let canspawn = GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) >= SPAWN_TYPE_HELLFIRE;
     
@@ -29,10 +30,11 @@ unsafe fn richter_special_n_game(fighter: &mut L2CAgentBase) {
         let article_boma = get_article_boma(boma, projectile);
 
         let lr = PostureModule::lr(boma);
+        let xOffset = if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_HELLFIRE {14.0} else {8.0};
         let yOffset = if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_HELLFIRE {10.0} else {2.0};
         let mut pos = Vector3f::zero();
         let offset = ModelModule::joint_global_offset_from_top(boma, Hash40{hash: hash40("trans")}, &mut pos);        
-        let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x - (8.0*lr), y: PostureModule::pos_y(boma) + pos.y + yOffset, z: PostureModule::pos_z(boma) + pos.z};
+        let newPos = Vector3f{x: PostureModule::pos_x(boma) + pos.x - (xOffset*lr), y: PostureModule::pos_y(boma) + pos.y + yOffset, z: PostureModule::pos_z(boma) + pos.z};
         PostureModule::set_pos(article_boma, &newPos);
         //ModelModule::set_joint_translate(article_boma, Hash40::new("root"), &newPos, true,false);
     }
@@ -69,10 +71,6 @@ unsafe fn richter_special_n_effect(fighter: &mut L2CAgentBase) {
     if is_excute(fighter) {
         if canspawn {
             LANDING_EFFECT(fighter, Hash40::new("sys_action_smoke_h"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
-            if GetVar::get_int(boma,&mut vars::SPECIAL_N_SPAWN) == SPAWN_TYPE_INFERNO
-            {
-                EFFECT_FOLLOW(fighter, Hash40::new("sys_hit_curse"), Hash40::new("hip"), 0,0,0,0,0,0, 1.25, false);
-            }
         }
         else{
             EFFECT_FOLLOW(fighter, Hash40::new("richter_bottle_blank"), Hash40::new("top"), 5, 8, -8, 0, 0, 0, 1, true);

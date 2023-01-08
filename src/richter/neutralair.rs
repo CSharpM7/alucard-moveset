@@ -11,8 +11,9 @@ unsafe fn richter_attack_air_n_game(fighter: &mut L2CAgentBase) {
     let lua_state = fighter.lua_state_agent;
     let boma = fighter.module_accessor;
     
+    frame(lua_state, 1.0);
+    FT_MOTION_RATE(fighter, 0.7);
     frame(lua_state, 3.0);
-    FT_MOTION_RATE(fighter, 0.625);
     if is_excute(fighter) {
         WorkModule::on_flag(boma, /*Flag*/ *FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING);
     }

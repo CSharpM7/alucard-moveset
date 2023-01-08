@@ -111,28 +111,6 @@ list:
       - sound_visualscene03
       - effect_visualscene03
     extra: ~
-  appeal_lw_r:
-    game_script: game_appeallwr
-    flags:
-      turn: false
-      loop: false
-      move: false
-      fix_trans: false
-      fix_rot: false
-      fix_scale: false
-      unk_40: false
-      unk_80: false
-      unk_100: false
-      unk_200: false
-      unk_400: false
-    blend_frames: 0
-    animations:
-      - name: j01appeallwr.nuanmb
-        unk: 0
-    scripts:
-      - sound_appeallwr
-      - effect_appeallwr
-    extra: ~
   fly:
     game_script: game_fly
     flags:
@@ -149,7 +127,29 @@ list:
       unk_400: false
     blend_frames: 0
     animations:
-      - name: batrush.nuanmb
+      - name: d04finalstart.nuanmb
+        unk: 0
+    scripts:
+      - sound_fly
+      - effect_fly
+    extra: ~
+  fly_dark:
+    game_script: game_fly
+    flags:
+      turn: false
+      loop: true
+      move: false
+      fix_trans: false
+      fix_rot: false
+      fix_scale: false
+      unk_40: false
+      unk_80: false
+      unk_100: false
+      unk_200: false
+      unk_400: false
+    blend_frames: 0
+    animations:
+      - name: d04visualscene01.nuanmb
         unk: 0
     scripts:
       - sound_fly
